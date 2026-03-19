@@ -1,3 +1,7 @@
+*.log
 *.env
-
+.phpactor.json
+.phpunit.result.cache
+/node_modules
+/vendor
 architecture.md
