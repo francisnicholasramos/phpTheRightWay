@@ -13,7 +13,7 @@ try {
     $dbuser = $_ENV['DB_USERNAME'] ?: '';
     $dbpass = $_ENV['DB_PASSWORD'] ?: '';
 
-    $connect = new PDO("pgsql:host=$dbhost;dbname=$dbname charset=utf8", 
+    $connect = new PDO("pgsql:host=$dbhost;dbname=$dbname", 
         $dbuser, 
         $dbpass
     );
