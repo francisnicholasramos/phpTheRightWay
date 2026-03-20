@@ -24,6 +24,7 @@ SQL;
 
 try {
     $pdo->exec($sql);
+    echo "Migration completed successfully.\n";
 } catch (PDOException $e) {
     die("[error] Migration failed: " . $e->getMessage() . "\n");
 }
