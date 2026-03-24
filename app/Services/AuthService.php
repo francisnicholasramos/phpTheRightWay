@@ -10,6 +10,11 @@ class AuthService {
 
     public static function attempt(string $email, string $password): bool {
         $userModel = new User();
+
+        if (empty($email) || empty($password)) {
+            return null;
+        }
+
         $user = $userModel->findByEmail($email);
 
         if (!$user) {
