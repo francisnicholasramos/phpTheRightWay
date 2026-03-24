@@ -15,6 +15,18 @@ class Request {
         return $_POST[key] ?? $default;
     }
 
+    public function input(string $key, mixed $default=null): mixed {
+        return $_POST[key] ?? $_GET[$key] ?? $default;
+    }
+
+    public function has(string $key): bool {
+        return isset($_POST[$key]) || isset($_GET[$key]);
+    }
+
+    public function all(): array {
+        return array_merge($_GET, $_POST);
+    }
+
     public function method(): string {
         return $_SERVER['REQUEST_METHOD'];
     }
