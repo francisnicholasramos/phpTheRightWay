@@ -8,6 +8,29 @@ use Core\Session;
 class AuthService {
     private static ?User $user=null;
 
+    public static function check(): bool {
+        $session = new Session();
+        return $session->has('user_id');
+    }
+
+    public static function user(): ?User {
+        if (self::$user !== null) {
+            return self::$user; // Class::method()
+        }
+
+        $session = new Session();
+        $userId = $session->get('user_id');
+
+        if (!$userId) {
+            return null;
+        }
+
+        $userModel = new User();
+        self::$user = $userModel->findById($userId);
+
+        return self::$user;
+    }
+
     public static function attempt(string $email, string $password): bool {
         $userModel = new User();
 
