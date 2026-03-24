@@ -13,6 +13,8 @@
             <label>Password</label>
             <input type="password" name="password" />
         </div>
+
+        <button type="submit">Login</button>
     </form>
 </main>
 

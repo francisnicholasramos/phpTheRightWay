@@ -6,4 +6,5 @@
         <title>FbMash</title>
         <link href="" rel="stylesheet">
     </head>
+    <body>
 
