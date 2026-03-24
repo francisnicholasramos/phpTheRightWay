@@ -31,4 +31,10 @@ class AuthService {
 
         return true;
     }
+
+    public static function logout(): void {
+        $session = new Session();
+        $session->destroy();
+        self::$user = null;
+    }
 }
