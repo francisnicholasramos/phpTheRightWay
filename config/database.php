@@ -8,15 +8,21 @@ $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 try {
-    $dbhost = $_ENV['DB_HOST'] ?: '';
-    $dbname = $_ENV['DB_DATABASE'] ?: '';
-    $dbuser = $_ENV['DB_USERNAME'] ?: '';
-    $dbpass = $_ENV['DB_PASSWORD'] ?: '';
+    $dbhost = $_ENV['DB_HOST'] ?? '';
+    $dbname = $_ENV['DB_DATABASE'] ?? '';
+    $dbuser = $_ENV['DB_USERNAME'] ?? '';
+    $dbpass = $_ENV['DB_PASSWORD'] ?? '';
+    $ssl    = $_ENV['SSLMODE'] ?? null;
 
-    $connect = new PDO("pgsql:host=$dbhost;dbname=$dbname", 
-        $dbuser, 
-        $dbpass
-    );
+    $dsn = "pgsql:host=$dbhost;dbname=$dbname";
+
+    if (!empty($ssl)) {
+        $dsn .= ";sslmode=$ssl";
+    }
+
+    $connect = new PDO($dsn, $dbuser, $dbpass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ]);
 
     return $connect;
 
