@@ -6,6 +6,12 @@ $pdo->exec('CREATE EXTENSION IF NOT EXISTS "pgcrypto";');
 
 
 $sql = <<<SQL
+    DO $$ BEGIN
+        CREATE TYPE "visibility_type" AS ENUM ('public', 'friends', 'private');
+    EXCEPTION 
+        WHEN duplicate_object THEN NULL;
+    END $$;
+
     CREATE TABLE IF NOT EXISTS "users" (
         "id"         TEXT        NOT NULL DEFAULT gen_random_uuid(),
         "username"   TEXT        NOT NULL,
@@ -21,7 +27,6 @@ $sql = <<<SQL
         CONSTRAINT "users_email_key"     UNIQUE ("email")
     );
 
-    CREATE TYPE "visibility_type" AS ENUM ('public', 'friends', 'private');
     CREATE TABLE IF NOT EXISTS "posts" (
         "id"        TEXT        NOT NULL DEFAULT gen_random_uuid(),
         "content"   TEXT        NOT NULL,
