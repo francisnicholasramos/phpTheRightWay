@@ -16,7 +16,7 @@ class Router {
     public static function post(string $path, array $handler): Route {
         $route = new Route('POST', $path, $handler);
         self::$routes["POST {$path}"] = $route;
-        return route;
+        return $route;
     }
 
     public function dispatch(string $method, string $path): void {

@@ -8,15 +8,15 @@ class Request {
     }
 
     public function get(string $key, mixed $default=null): mixed {
-        return $_GET[key] ?? $default;
+        return $_GET[$key] ?? $default;
     }
 
     public function post(string $key, mixed $default=null): mixed {
-        return $_POST[key] ?? $default;
+        return $_POST[$key] ?? $default;
     }
 
     public function input(string $key, mixed $default=null): mixed {
-        return $_POST[key] ?? $_GET[$key] ?? $default;
+        return $_POST[$key] ?? $_GET[$key] ?? $default;
     }
 
     public function has(string $key): bool {
