@@ -31,6 +31,26 @@ class AuthService {
         return self::$user;
     }
 
+    public static function signup(
+        string $email, 
+        string $username, 
+        string $password
+    ): bool {
+        $userModel = new User();
+
+        if ($userModel->findByEmail($email)) {
+            return false;
+        }
+
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+
+        return $userModel->createUser([
+            'email' => $email,
+            'username' => $username,
+            'password' => $passwordHash
+        ]);
+    }
+
     public static function attempt(string $email, string $password): bool {
         $userModel = new User();
 
@@ -44,12 +64,12 @@ class AuthService {
             return false;
         }
 
-        if (!password_verify($password, $user['password_hash'])) {
+        if (!password_verify($password, $user->password)) {
             return false;
         }
 
         $session = new Session();
-        $session->set('user_id', $user['id']);
+        $session->set('user_id', $user->id);
         self::$user = $user;
 
         return true;

@@ -27,6 +27,16 @@ class User extends Model {
         return $user;
     }
 
+    /** 
+    * @param array $data
+    * */
+    public function createUser(array $data): bool {
+        $stmt = $this->pdo->prepare(
+            "insert into {$this->table} (email, username, password) 
+             values (:email, :username, :password)");
+        return $stmt->execute($data);
+    }
+
     public function findById(string $id): ?self {
         $stmt = $this->pdo->prepare(
             "select * from {$this->table} where id = :id"
