@@ -1,9 +1,9 @@
 <?php $title = "Login"; ?>
 
-<?php require_once __DIR__ . '/Header.php'; ?>
+<?php require_once __DIR__ . '/../layouts/Header.php'; ?>
 
 <main>
-    <form>
+    <form action="/login" method="POST">
         <h2>Login</h2>
         <div>
             <label>Email</label>
@@ -18,4 +18,4 @@
     </form>
 </main>
 
-<?php require_once __DIR__ . '/Footer.php'; ?>
+<?php require_once __DIR__ . '/../layouts/Footer.php'; ?>
