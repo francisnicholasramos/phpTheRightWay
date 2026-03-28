@@ -15,13 +15,14 @@ class Post extends Model {
      * @param array $row
      */
     private function hydrate(array $row): self {
-        $this->id            = $row['id'];
-        $this->user_id       = $row['user_id'];
-        $this->content       = $row['content'];
-        $this->created_at    = $row['created_at'];
-        $this->visibility    = $row['visibility'];
+        $post                = new self();
+        $post->id            = $row['id'];
+        $post->user_id       = $row['user_id'];
+        $post->content       = $row['content'];
+        $post->created_at    = $row['created_at'];
+        $post->visibility    = $row['visibility'];
 
-        return $this;
+        return $post;
     }
 
     /** 
@@ -36,5 +37,16 @@ class Post extends Model {
             $posts[] = $this->hydrate($row);
         }
         return $posts;
+    }
+
+    /** 
+     * @param array{user_id: string, content: string, visibility: string} $data
+     * @return bool
+     */
+    public function createPost(array $data): bool {
+        $stmt = $this->pdo->prepare("insert into {$this->table}
+            (user_id, content, visibility)
+            values (:user_id, :content, :visibility)");
+        return $stmt->execute($data);
     }
 }
