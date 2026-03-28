@@ -4,8 +4,11 @@ require __DIR__. '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
+// load only in local environment
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->load();
+}
 
 try {
     $dbhost = $_ENV['DB_HOST'] ?? '';
