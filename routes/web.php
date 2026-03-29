@@ -3,6 +3,7 @@
 use App\Controllers\AuthController;
 use App\Controllers\FeedController;
 use App\Controllers\PostController;
+use App\Controllers\LikeController;
 use Core\Router;
 
 Router::get('/login', [AuthController::class, 'loginPage']);
@@ -13,3 +14,4 @@ Router::post('/login', [AuthController::class, 'loginHandler']);
 Router::post('/logout', [AuthController::class, 'logout']);
 Router::post('/signup', [AuthController::class, 'signUpHandler']);
 Router::post('/createPost', [PostController::class, 'createPostHandler']);
+Router::post('/like', [LikeController::class, 'likeHandler'])->middleware('Authenticate');
