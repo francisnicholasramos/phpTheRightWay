@@ -10,6 +10,7 @@ class Post extends Model {
     public readonly string $content;
     public readonly string $created_at;
     public readonly string $visibility;
+    public readonly string $likes_count;
 
     /**
      * @param array $row
@@ -21,6 +22,7 @@ class Post extends Model {
         $post->content       = $row['content'];
         $post->created_at    = $row['created_at'];
         $post->visibility    = $row['visibility'];
+        $post->likes_count   = ($row['likes_count'] ?? '');
 
         return $post;
     }
@@ -29,7 +31,18 @@ class Post extends Model {
      * @return Post[]
      * */
     public function getAllPosts(): array {
-        $stmt = $this->pdo->query("select * from {$this->table}"); 
+        $stmt = $this->pdo->query("
+            select 
+                posts.id, 
+                posts.user_id, 
+                posts.content, 
+                posts.created_at, 
+                posts.visibility,
+                count(likes.id) as likes_count
+            from {$this->table}
+            left join likes
+            on posts.id = likes.post_id 
+            group by posts.id");  // count likes per post (each post has its own count)
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         $posts = [];
