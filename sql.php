@@ -39,6 +39,8 @@ $sql = <<<SQL
         CONSTRAINT "posts_pkey"         PRIMARY KEY ("id")
     );
 
+    CREATE INDEX IF NOT EXISTS "posts_user_id_idx" ON "posts"("user_id");
+
     CREATE TABLE IF NOT EXISTS "comments" (
         "id"        TEXT        NOT NULL DEFAULT gen_random_uuid(),
         "content"   TEXT        NOT NULL,
@@ -51,6 +53,11 @@ $sql = <<<SQL
         CONSTRAINT "comments_pkey"         PRIMARY KEY ("id")
     );
 
+    CREATE INDEX IF NOT EXISTS "comments_user_id_idx" ON "comments"("user_id");
+    CREATE INDEX IF NOT EXISTS "comments_post_id_idx" ON "comments"("post_id");
+
+    ALTER TABLE "comments" ADD CONSTRAINT "comments_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
     CREATE TABLE IF NOT EXISTS "likes" (
         "id"        TEXT        NOT NULL DEFAULT gen_random_uuid(),
         "user_id"   TEXT        NOT NULL,
@@ -61,6 +68,11 @@ $sql = <<<SQL
 
         CONSTRAINT "likes_pkey"    PRIMARY KEY ("id")
     );
+    
+    CREATE INDEX IF NOT EXISTS "likes_user_id_idx" ON "likes"("user_id");
+    CREATE INDEX IF NOT EXISTS "likes_post_id_idx" ON "likes"("post_id");
+    CREATE UNIQUE INDEX IF NOT EXISTS "likes_user_id_post_id_key" ON "likes"("user_id", "post_id");
+
 SQL;
 
 try {
