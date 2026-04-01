@@ -22,10 +22,10 @@ class LikeController {
             return;
         }
 
-        $postId = $request->post('post_id');
+        $entity_id = $request->post('post_id');
         $userId = AuthService::user()->id;
 
-        $result = $this->likeService->like($postId, $userId);
+        $result = $this->likeService->like($entity_id, 'post', $userId);
 
         (new Response())->json($result);
     }
