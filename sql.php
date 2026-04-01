@@ -12,6 +12,12 @@ $sql = <<<SQL
         WHEN duplicate_object THEN NULL;
     END $$;
 
+    DO $$ BEGIN
+        CREATE TYPE "like_entity_type" AS ENUM ('post', 'comment');
+    EXCEPTION 
+        WHEN duplicate_object THEN NULL;
+    END $$;
+
     CREATE TABLE IF NOT EXISTS "users" (
         "id"         UUID        NOT NULL DEFAULT gen_random_uuid(),
         "username"   TEXT        NOT NULL,
@@ -62,16 +68,16 @@ $sql = <<<SQL
     CREATE INDEX IF NOT EXISTS "comments_parent_id_idx" ON "comments"("parent_id");
 
     CREATE TABLE IF NOT EXISTS "likes" (
-        "user_id"   UUID        NOT NULL,
-        "post_id"   UUID        NOT NULL,
+        "user_id"     UUID        NOT NULL,
+        "entity_id"   UUID        NOT NULL,
+        "entity_type"  like_entity_type  NOT NULL,
 
         FOREIGN KEY ("user_id")    REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY ("post_id")    REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE,
         
-        CONSTRAINT "likes_pkey" PRIMARY KEY ("user_id", "post_id")
+        CONSTRAINT "likes_pkey" PRIMARY KEY ("user_id", "entity_id", "entity_type")
     );
     
-    CREATE INDEX IF NOT EXISTS "likes_post_id_idx" ON "likes"("post_id");
+    CREATE INDEX IF NOT EXISTS "likes_entity_id_type_idx" ON "likes"("entity_id", "entity_type");
 
 SQL;
 
