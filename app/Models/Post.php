@@ -38,11 +38,11 @@ class Post extends Model {
                 posts.content, 
                 posts.created_at, 
                 posts.visibility,
-                count(likes.id) as likes_count
+                count(likes.user_id) as likes_count
             from {$this->table}
-            left join likes
-            on posts.id = likes.post_id 
-            group by posts.id");  // count likes per post (each post has its own count)
+            LEFT JOIN likes
+            ON posts.id = likes.entity_id AND likes.entity_type = 'post'
+            group by posts.id");  
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         $posts = [];
