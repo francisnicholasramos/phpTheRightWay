@@ -11,7 +11,7 @@ class Response {
     * @param array $data
     */
     public function json(array $data): void {
-        header('Content-Type: applicaton/json');
+        header('Content-Type: application/json');
         echo json_encode($data);
         exit;
     }
