@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Likes;
+use App\WebSocket\Chat;
 
 class LikeService {
     private Likes $likesModel;
@@ -18,6 +19,12 @@ class LikeService {
         $isLiked = $this->likesModel->toggleLike($entity_id, $entity_type, $user_id);
 
         $count = $this->likesModel->getLikesCount($entity_id, $entity_type);
+
+        Chat::broadcast([
+            'type' => 'like_update',
+            'post_id' => $entity_id,
+            'count' => $count
+        ]);
 
         return [
             'liked' => !$isLiked,
