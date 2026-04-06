@@ -39,8 +39,5 @@
 │   ├── app.php             # App name, env, debug flag
 │   └── database.php        # DB credentials (loaded from .env)
 │
-├── storage/
-│   └── logs/               # Error logs
-│
 ├── .env                    
 └── composer.json           # Autoloading (PSR-4)
