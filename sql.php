@@ -18,6 +18,12 @@ $sql = <<<SQL
         WHEN duplicate_object THEN NULL;
     END $$;
 
+    DO $$ BEGIN
+        CREATE TYPE "notification_type" AS ENUM ('like', 'comment', 'friend_request', 'poke');
+    EXCEPTION 
+        WHEN duplicate_object THEN NULL;
+    END $$;
+
     CREATE TABLE IF NOT EXISTS "users" (
         "id"         UUID        NOT NULL DEFAULT gen_random_uuid(),
         "username"   TEXT        NOT NULL,
@@ -78,6 +84,24 @@ $sql = <<<SQL
     );
     
     CREATE INDEX IF NOT EXISTS "likes_entity_id_type_idx" ON "likes"("entity_id", "entity_type");
+    
+    CREATE TABLE IF NOT EXISTS "notifications" (
+        "id"            UUID                NOT NULL DEFAULT gen_random_uuid(),
+        "user_id"       UUID                NOT NULL,
+        "from_user_id"  UUID                NOT NULL,
+        "entity_id"     UUID                NOT NULL,
+        "entity_type"   notification_type   NOT NULL,
+        "is_read"       BOOLEAN             NOT NULL DEFAULT FALSE,
+        "created_at" TIMESTAMP(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY ("user_id")          REFERENCES   "users"("id") ON DELETE CASCADE,
+        FOREIGN KEY ("from_user_id")     REFERENCES   "users"("id") ON DELETE CASCADE,
+
+        CONSTRAINT "notifications_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE INDEX IF NOT EXISTS "notifications_user_id_idx" ON "notifications"("user_id");
+    CREATE INDEX IF NOT EXISTS "notifications_from_user_id_idx" ON "notifications"("from_user_id");
 
 SQL;
 
