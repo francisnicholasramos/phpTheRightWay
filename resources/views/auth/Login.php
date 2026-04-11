@@ -4,7 +4,6 @@
 
 <main>
     <form action="/login" method="POST">
-        <h2>Login</h2>
         <div>
             <label>Email</label>
             <input type="email" name="email" placeholder="example@gmail.com" />

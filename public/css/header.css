@@ -1,0 +1,41 @@
+header {
+  background-color: #395799;
+  color: #fff;
+  display: flex;
+}
+
+.social-network {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* binary-niko */
+.niko img {
+  max-width: 250px;
+}
+
+.logo {
+  width: 280px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-links li{
+  list-style-type: none;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}

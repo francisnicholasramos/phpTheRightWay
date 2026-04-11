@@ -6,12 +6,10 @@ const ws = new WebSocket('ws://localhost:8080');
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     if (data.type === 'like_update') {
-        document.getElementById('likes-' + data.post_id).innerText = 'Likes: ' + data.count;
+        document.getElementById('likes-' + data.post_id).textContent = 'Likes: ' + data.count;
     }
 };
 </script>
-
-<h2>thefacebook</h2>
 
 <form action="/createPost" method="post">
     <textarea name="content" placeholder="What's on your mind?"></textarea>
@@ -29,7 +27,7 @@ ws.onmessage = (event) => {
         <span><b><?= $post->visibility?></b></span>
         <span id="likes-<?= $post->id ?>"><?= $post->likes_count ? "Likes: {$post->likes_count}" : '' ?></span>
 
-        <button onclick="likePost('<?= $post->id ?>')">Like</button>
+        <button onclick="likePost('<?= $post->id ?>')"></button>
 
         <form method="post" action="/postComment">
             <input type="textarea" name="comment" placeholder="comment?"/>
