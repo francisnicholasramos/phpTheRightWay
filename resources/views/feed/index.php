@@ -27,7 +27,7 @@ ws.onmessage = (event) => {
         <span><b><?= $post->visibility?></b></span>
         <span id="likes-<?= $post->id ?>"><?= $post->likes_count ? "Likes: {$post->likes_count}" : '' ?></span>
 
-        <button onclick="likePost('<?= $post->id ?>')"></button>
+        <button onclick="likePost('<?= $post->id ?>')">Like</button>
 
         <form method="post" action="/postComment">
             <input type="textarea" name="comment" placeholder="comment?"/>

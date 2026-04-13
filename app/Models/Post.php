@@ -62,4 +62,11 @@ class Post extends Model {
             values (:user_id, :content, :visibility)");
         return $stmt->execute($data);
     }
+
+    public function getOwnerId(string $id): ?self {
+        $stmt = $this->pdo->prepare("select * from {$this->table} where id = :id");
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row ? $this->hydrate($row) : null;
+    }
 }

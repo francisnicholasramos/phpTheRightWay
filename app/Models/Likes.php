@@ -45,22 +45,24 @@ class Likes extends Model {
                 AND user_id = :user_id
             ");
 
-            return $unlike->execute([
+            $unlike->execute([
                 ':entity_id' => $entity_id, 
                 ':entity_type' => $entity_type, 
                 ':user_id' => $user_id
             ]);
+            return false;
         } else {
             $like = $this->pdo->prepare(
                 "insert into {$this->table}
                 (entity_id, entity_type, user_id)
                 values (:entity_id, :entity_type, :user_id)
             ");
-            return $like->execute([
+            $like->execute([
                 ':entity_id' => $entity_id, 
                 ':entity_type' => $entity_type, 
                 ':user_id' => $user_id
             ]);
+            return true;
         }
     }
 

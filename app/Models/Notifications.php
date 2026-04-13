@@ -8,7 +8,7 @@ class Notifications extends Model {
     public readonly string $id;
     public readonly string $user_id; // owner
     public readonly string $from_user_id; // who likes
-    public readonly string $entity_id; // activities: like, comment, poke, etc..
+    public readonly string $entity_id; // entities: like, comment, poke, etc..
     public readonly string $entity_type;
     public readonly string $is_read;
     public readonly string $created_at;
@@ -33,10 +33,46 @@ class Notifications extends Model {
      * @param array $data
      */
     public function createNotification(array $data): bool {
-        $stmt = $this->pdo->prepare("insert into ${this->table}
+        $stmt = $this->pdo->prepare("insert into {$this->table}
             (user_id, from_user_id, entity_id, entity_type)
             values (:user_id, :from_user_id, :entity_id, :entity_type)
         ");
         return $stmt->execute($data);
+    }
+
+    /** 
+     * @param array $data
+     */
+    public function deleteNotification(array $data): bool {
+        $stmt = $this->pdo->prepare("
+            DELETE from {$this->table} 
+            WHERE user_id = :user_id
+            AND from_user_id = :from_user_id 
+            AND entity_id = :entity_id
+            AND entity_type = :entity_type
+        ");
+
+        return $stmt->execute($data);
+    }
+    
+    public function getNotification(string $user_id) {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                n.id,
+                n.entity_type,
+                n.entity_id,
+                n.is_read,
+                n.created_at,
+                
+                sender.username,
+                sender.avatar
+            FROM {$this->table} n
+            JOIN users sender ON sender.id = n.from_user_id
+            WHERE n.user_id = :user_id
+            ORDER BY n.created_at DESC
+        ");
+
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\AuthService;
-use App\Models\Post;
+use App\Services\PostService;
 use Core\Request;
 use Core\Response;
 
@@ -14,8 +14,6 @@ class PostController {
             (new Response())->redirect('/login');
             return;
         }
-
-        $user = AuthService::user();
 
         $request = new Request();
         $content = $request->post('content');
@@ -30,12 +28,9 @@ class PostController {
             return;
         }
 
-        $post = new Post();
-        $post->createPost([
-            'user_id' => $user->id,
-            'content' => $content,
-            'visibility' => $audience
-        ]);
+        $user = AuthService::user();
+        $postService = new PostService();
+        $postService->post($user->id, $content, $audience);
 
         (new Response())->redirect('/feed');
     }
