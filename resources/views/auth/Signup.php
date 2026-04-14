@@ -17,6 +17,7 @@
             <label>Password</label>
             <input type="password" name="password" />
         </div>
+        <?php include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
 
         <button type="submit">Sign Up</button>
     </form>
