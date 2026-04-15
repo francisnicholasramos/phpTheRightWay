@@ -1,14 +1,51 @@
 <?php require_once __DIR__ . '/../layouts/Header.php'; ?>
 
 <script>
-const ws = new WebSocket('ws://localhost:8080');
+let ws = null;
+let reconnectAttempts = 0;
+const maxReconnectAttempts = 10;
 
-ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    if (data.type === 'like_update') {
-        document.getElementById('likes-' + data.post_id).textContent = 'Likes: ' + data.count;
-    }
-};
+function connectWebSocket() {
+    ws = new WebSocket('ws://localhost:8080');
+
+    ws.onopen = () => {
+        console.log('WebSocket connected');
+        reconnectAttempts = 0;
+        if (window.userId) {
+            ws.send(JSON.stringify({
+                type: 'authenticate',
+                user_id: window.userId
+            }));
+        }
+    };
+
+    ws.onerror = (event) => {
+        console.error('WebSocket error:', event);
+    };
+
+    ws.onclose = () => {
+        console.log('WebSocket disconnected');
+        if (reconnectAttempts < maxReconnectAttempts) {
+            reconnectAttempts++;
+            console.log('Reconnecting in 2 seconds... attempt ' + reconnectAttempts);
+            setTimeout(connectWebSocket, 2000);
+        }
+    };
+
+    ws.onmessage = (event) => {
+        console.log('Message received from server:', event.data);
+        const data = JSON.parse(event.data);
+        if (data.type === 'like_update') {
+            document.getElementById('likes-' + data.post_id).textContent = 'Likes: ' + data.count;
+        }
+        if (data.type === 'notification') {
+            console.log('NOTIFICATION RECEIVED:', data);
+            updateNotificationBadge();
+        }
+    };
+}
+
+connectWebSocket();
 </script>
 
 <form action="/createPost" method="post">

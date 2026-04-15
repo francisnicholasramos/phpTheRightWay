@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Notifications;
+use App\WebSocket\WebSocketHandler;
 
 class NotificationService {
     private Notifications $notificationModel;
@@ -26,6 +27,16 @@ class NotificationService {
             'entity_id' => $entity_id,
             'entity_type' => $entity_type
         ]);
+
+        // Send real-time notification via WebSocket
+        WebSocketHandler::sendToUser($user_id, [
+            'type' => 'notification',
+            'user_id' => $user_id,
+            'from_user_id' => $from_user_id,
+            'entity_id' => $entity_id,
+            'entity_type' => $entity_type
+        ]);
+        
         return [
             'user_id' => $user_id,
             'from_user_id' => $from_user_id,

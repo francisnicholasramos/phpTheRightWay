@@ -5,11 +5,13 @@ use App\Controllers\FeedController;
 use App\Controllers\PostController;
 use App\Controllers\LikeController;
 use App\Controllers\CommentController;
+use App\Controllers\NotificationController;
 use Core\Router;
 
 Router::get('/login', [AuthController::class, 'loginPage']);
 Router::get('/signup', [AuthController::class, 'signUpPage']);
 Router::get('/feed', [FeedController::class, 'index'])->middleware('Authenticate');
+Router::get('/notifications/count', [NotificationController::class, 'countHandler'])->middleware('Authenticate');
 
 Router::post('/login', [AuthController::class, 'loginHandler']);
 Router::post('/logout', [AuthController::class, 'logout']);

@@ -3,10 +3,16 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Ratchet\Server\IoServer;
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
 use App\WebSocket\WebSocketHandler;
 
 $server = IoServer::factory(
-    new WebSocketHandler(),
+    new HttpServer(
+        new WsServer(
+            new WebSocketHandler()
+        )
+    ),
     8080
 );
 
