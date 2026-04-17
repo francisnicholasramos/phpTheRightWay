@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Likes;
 use App\Models\Post;
-use App\WebSocket\WebSocketHandler;
 use App\Services\NotificationService;
 
 class LikeService {
@@ -54,12 +53,6 @@ class LikeService {
         }
 
         $count = $this->likesModel->getLikesCount($entity_id, $entity_type);
-
-        WebSocketHandler::broadcast([
-            'type' => 'like_update',
-            'post_id' => $entity_id,
-            'count' => $count
-        ]);
 
         return [
             'liked' => !$isLiked,
