@@ -1,0 +1,32 @@
+/* login and signup */
+.auth {
+  border: 1px dashed #395799;
+  padding: 2px;
+}
+
+.auth div{
+  display: flex;
+  flex-direction: column;
+}
+
+.auth label {
+  font-size: 15px;
+  margin-left: auto;
+}
+
+.auth input {
+  border: 1px solid #4d4d4d;
+  background-color: #dae0eb;
+  outline: none;
+  padding: 3px;
+}
+
+.auth div:last-child {
+  display: block;
+}
+
+.auth button {
+  background-color: #5086de;
+  border-color: #5086de;
+  color: #fff;
+}
