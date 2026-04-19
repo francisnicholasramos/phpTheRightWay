@@ -13,13 +13,19 @@ $sql = <<<SQL
     END $$;
 
     DO $$ BEGIN
-        CREATE TYPE "like_entity_type" AS ENUM ('post', 'comment');
+        CREATE TYPE "like_entity_type" AS ENUM ('post', 'photo', 'comment');
     EXCEPTION 
         WHEN duplicate_object THEN NULL;
     END $$;
 
     DO $$ BEGIN
         CREATE TYPE "notification_type" AS ENUM ('like', 'comment', 'friend_request', 'poke');
+    EXCEPTION 
+        WHEN duplicate_object THEN NULL;
+    END $$;
+
+    DO $$ BEGIN
+        CREATE TYPE "chat_type" AS ENUM ('direct', 'group');
     EXCEPTION 
         WHEN duplicate_object THEN NULL;
     END $$;
@@ -102,6 +108,34 @@ $sql = <<<SQL
 
     CREATE INDEX IF NOT EXISTS "notifications_user_id_idx" ON "notifications"("user_id");
     CREATE INDEX IF NOT EXISTS "notifications_from_user_id_idx" ON "notifications"("from_user_id");
+
+    CREATE TABLE IF NOT EXISTS "chats" (
+        "id"               UUID                NOT NULL DEFAULT gen_random_uuid(),
+        "name"             VARCHAR(150),
+        "participant_id"   UUID[],
+        "chat_type"        chat_type           NOT NULL,
+        "created_at" TIMESTAMP(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+        CONSTRAINT "chats_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE IF NOT EXISTS "messages" (
+        "id"               UUID                NOT NULL DEFAULT gen_random_uuid(),
+        "chat_id"          UUID                NOT NULL,
+        "sender_id"        UUID                NOT NULL,
+        "reply_to_id"      UUID,
+        "message_content"  TEXT                NOT NULL,
+        "created_at"       TIMESTAMP(3)        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY ("chat_id")     REFERENCES  "chats"("id") ON DELETE CASCADE, 
+        FOREIGN KEY ("sender_id")   REFERENCES  "users"("id") ON DELETE CASCADE, 
+        FOREIGN KEY ("reply_to_id")   REFERENCES  "messages"("id") ON DELETE SET NULL, 
+
+        CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE INDEX IF NOT EXISTS "messages_chat_id_idx" ON "messages"("chat_id", "created_at" DESC);
+    CREATE INDEX IF NOT EXISTS "messages_sender_id_idx" ON "messages"("sender_id");
 
 SQL;
 
