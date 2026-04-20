@@ -112,12 +112,24 @@ $sql = <<<SQL
     CREATE TABLE IF NOT EXISTS "chats" (
         "id"               UUID                NOT NULL DEFAULT gen_random_uuid(),
         "name"             VARCHAR(150),
-        "participant_id"   UUID[],
         "chat_type"        chat_type           NOT NULL,
-        "created_at" TIMESTAMP(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "created_at"       TIMESTAMP(3)        NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
         CONSTRAINT "chats_pkey" PRIMARY KEY ("id")
     );
+    
+    CREATE TABLE IF NOT EXISTS "chat_participants" (
+        "chat_id"   UUID           NOT NULL,
+        "user_id"   UUID           NOT NULL,
+        "joined_at" TIMESTAMP(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY ("chat_id") REFERENCES "chats"("id") ON DELETE CASCADE,
+        FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
+
+        CONSTRAINT "chat_participants_pkey" PRIMARY KEY ("chat_id", "user_id")
+    );
+
+    CREATE INDEX IF NOT EXISTS "chat_participants_user_id_idx" ON chat_participants("user_id");
 
     CREATE TABLE IF NOT EXISTS "messages" (
         "id"               UUID                NOT NULL DEFAULT gen_random_uuid(),
