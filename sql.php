@@ -31,12 +31,15 @@ $sql = <<<SQL
     END $$;
 
     CREATE TABLE IF NOT EXISTS "users" (
-        "id"         UUID        NOT NULL DEFAULT gen_random_uuid(),
-        "username"   TEXT        NOT NULL,
-        "email"      TEXT        NOT NULL,
-        "password"   TEXT        NOT NULL,
-        "avatar"     TEXT,
-        "bio"        TEXT,
+        "id"            UUID        NOT NULL DEFAULT gen_random_uuid(),
+        "first_name"    TEXT        NOT NULL,
+        "middle_name"   TEXT,
+        "last_name"     TEXT        NOT NULL,
+        "username"      TEXT        NOT NULL,
+        "email"         TEXT        NOT NULL,
+        "password"      TEXT        NOT NULL,
+        "avatar"        TEXT,
+        "bio"           TEXT,
         "created_at" TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
         CONSTRAINT "users_pkey"          PRIMARY KEY ("id"),
