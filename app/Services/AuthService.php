@@ -32,9 +32,12 @@ class AuthService {
     }
 
     public static function signup(
+        string $firstname, 
+        string $middlename, 
+        string $lastname, 
         string $email, 
-        string $username, 
-        string $password
+        string $password,
+        string $gender
     ): bool {
         $userModel = new User();
 
@@ -42,12 +45,25 @@ class AuthService {
             return false;
         }
 
+        $baseUsername = strtolower($firstname . '.' . $lastname);
+        $username = $baseUsername;
+        $counter = 1;
+
+        while ($userModel->findByUsername($username)) {
+            $username = $baseUsername . '.' . $counter;
+            $counter++;
+        }
+
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
         return $userModel->createUser([
+            'first_name' => $firstname,
+            'middle_name' => $middlename,
+            'last_name' => $lastname,
             'email' => $email,
             'username' => $username,
-            'password' => $passwordHash
+            'password' => $passwordHash,
+            'gender' => $gender
         ]);
     }
 
@@ -55,7 +71,7 @@ class AuthService {
         $userModel = new User();
 
         if (empty($email) || empty($password)) {
-            return null;
+            return false;
         }
 
         $user = $userModel->findByEmail($email);
@@ -68,9 +84,11 @@ class AuthService {
             return false;
         }
 
+        session_regenerate_id(true);
+
         $session = new Session();
         $session->set('user_id', $user->id);
-        self::$user = $user;
+        self::$user = $user; // cached
 
         return true;
     }
