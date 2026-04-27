@@ -45,7 +45,7 @@ class AuthService {
             return false;
         }
 
-        $baseUsername = strtolower($firstname . '.' . $lastname);
+        $baseUsername = strtolower(str_replace(' ', '', $firstname) . '.' . str_replace(' ', '', $lastname));
         $username = $baseUsername;
         $counter = 1;
 
@@ -67,14 +67,18 @@ class AuthService {
         ]);
     }
 
-    public static function attempt(string $email, string $password): bool {
+    public static function attempt(string $params, string $password): bool {
         $userModel = new User();
 
-        if (empty($email) || empty($password)) {
+        if (empty($params) || empty($password)) {
             return false;
         }
 
-        $user = $userModel->findByEmail($email);
+        /* email or username as valid credential */
+        $user = $userModel->findByEmail($params);
+        if (!$user) {
+            $user = $userModel->findByUsername($params);
+        }
 
         if (!$user) {
             return false;
