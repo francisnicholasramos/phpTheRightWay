@@ -38,12 +38,40 @@ class Chat extends Model {
         return array_map(fn($row) => $this->hydrate($row), $stmt->fetchAll());
     }
 
-    public function createDirectChat() {
-        $stmt = $this->pdo->prepare("
-            insert into {$this->table} (chat_type)
-            values ('direct')
-        ");
+    public function createDirectChat(string $userA, string $userB): string|false {
+        $this->pdo->beginTransaction();
 
-        $stmt->execute();
+        try {
+            $stmt = $this->pdo->prepare("
+                INSERT INTO {$this->table} (chat_type)
+                VALUES ('direct')
+                RETURNING id
+            ");
+
+            $stmt->execute();
+            $row = $stmt->fetch();
+
+            if (!$row) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            $chatId = $row['id'];
+
+            $participant = $this->pdo->prepare("
+                INSERT INTO chat_participants (chat_id, user_id)
+                VALUES (:chat_id, :user_id)
+            ");
+
+            $participant->execute(['chat_id' => $chatId, 'user_id' => $userA]);
+            $participant->execute(['chat_id' => $chatId, 'user_id' => $userB]);
+
+            $this->pdo->commit(); // end transaction
+
+            return $chatId;
+        } catch (\Exception $e) {
+            $this->pdo->rollBack(); // revert 
+            throw $e;
+        }
     }
 }

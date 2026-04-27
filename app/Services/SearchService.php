@@ -11,7 +11,10 @@ class SearchService {
         $this->userModel = new User();
     }
 
-    public function search(string $query): array {
+    /**
+     * @return self[]
+     */
+    public function searchParam(string $query): array {
         return [
             'users' => $this->userModel->search($query)
         ];

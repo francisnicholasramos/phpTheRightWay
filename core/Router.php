@@ -9,32 +9,42 @@ class Router {
 
     public static function get(string $path, array $handler): Route {
         $route = new Route('GET', $path, $handler);
-        self::$routes["GET {$path}"] = $route;
+        self::$routes[] = $route;
         return $route;
     }
 
     public static function post(string $path, array $handler): Route {
         $route = new Route('POST', $path, $handler);
-        self::$routes["POST {$path}"] = $route;
+        self::$routes[] = $route;
         return $route;
     }
 
     public function dispatch(string $method, string $path): void {
-        $key = "{$method} {$path}";
-
-        if (isset(self::$routes[$key])) {
-            $route = self::$routes[$key];
-
-            if ($route->getMiddleware()) {
-                $middlewareClass = "App\\Middleware\\" . $route->getMiddleware();
-                (new $middlewareClass())->handle();
+        foreach (self::$routes as $route) {
+            if ($route->getMethod() !== $method) {
+                continue;
             }
 
-            [$controller, $action] = $route->getHandler();
-            (new $controller())->$action();
-        } else {
-            http_response_code(404);
-            echo "404 Not Found";
+            $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)',
+                $route->getPath());
+            $pattern = '#^' . $pattern . '$#';
+
+            if (preg_match($pattern, $path, $matches)) {
+                array_shift($matches); // remove full match
+
+                if ($route->getMiddleware()) {
+                    $middlewareClass = "App\\Middleware\\" .
+                        $route->getMiddleware();
+                    (new $middlewareClass())->handle();
+                }
+
+                [$controller, $action] = $route->getHandler();
+                (new $controller())->$action(...$matches);
+                return;
+            }
         }
+
+        http_response_code(404);
+        echo "404 Not Found";
     }
 }

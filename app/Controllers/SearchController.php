@@ -6,6 +6,7 @@ use App\Services\AuthService;
 use App\Services\SearchService;
 use Core\Request;
 use Core\Response;
+use Core\View;
 
 class SearchController {
     public function searchHandler(): void {
@@ -21,10 +22,10 @@ class SearchController {
 
         if ($query !== '') {
             $searchService = new SearchService();
-            $results = $searchService->search($query);
+            $results = $searchService->searchParam($query);
         }
 
-        require __DIR__ . '/../../resources/views/search/index.php';
+        View::render('search/index', ['results' => $results]);
     }
 
     public function suggestHandler(): void {
@@ -43,7 +44,7 @@ class SearchController {
         }
 
         $searchService = new SearchService();
-        $results = $searchService->search($query);
+        $results = $searchService->searchParam($query);
 
         header('Content-Type: application/json');
         echo json_encode($results);

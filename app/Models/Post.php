@@ -69,4 +69,30 @@ class Post extends Model {
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $row ? $this->hydrate($row) : null;
     }
+
+    public function getByUserId(string $userId): array {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                p.id, 
+                p.user_id, 
+                p.content, 
+                p.created_at, 
+                p.visibility,
+                COUNT(l.user_id) AS likes_count
+            FROM {$this->table} p
+            LEFT JOIN likes l ON p.id = l.entity_id AND l.entity_type = 'post'
+            WHERE p.user_id = :user_id
+            GROUP BY p.id
+            ORDER BY p.created_at DESC
+        ");
+
+        $stmt->execute(['user_id' => $userId]);
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $posts = [];
+        foreach ($rows as $row) {
+            $posts[] = $this->hydrate($row);
+        }
+        return $posts;
+    }
 }

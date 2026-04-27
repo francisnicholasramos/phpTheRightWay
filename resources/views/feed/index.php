@@ -1,62 +1,9 @@
 <?php require_once __DIR__ . '/../layouts/Header.php'; ?>
 
-<script>
-let ws = null;
-let reconnectAttempts = 0;
-const maxReconnectAttempts = 10;
+<?php require __DIR__ . '/../layouts/Sidebar.php'; ?>
 
-function connectWebSocket() {
-    ws = new WebSocket('ws://localhost:8080');
-
-    ws.onopen = () => {
-        console.log('WebSocket connected');
-        reconnectAttempts = 0;
-        if (window.userId) {
-            ws.send(JSON.stringify({
-                type: 'authenticate',
-                user_id: window.userId
-            }));
-        }
-    };
-
-    ws.onerror = (event) => {
-        console.error('WebSocket error:', event);
-    };
-
-    ws.onclose = () => {
-        console.log('WebSocket disconnected');
-        if (reconnectAttempts < maxReconnectAttempts) {
-            reconnectAttempts++;
-            console.log('Reconnecting in 2 seconds... attempt ' + reconnectAttempts);
-            setTimeout(connectWebSocket, 2000);
-        }
-    };
-
-    ws.onmessage = (event) => {
-        console.log('Message received from server:', event.data);
-        const data = JSON.parse(event.data);
-        if (data.type === 'like_update') {
-            document.getElementById('likes-' + data.post_id).textContent = 'Likes: ' + data.count;
-        }
-        if (data.type === 'notification') {
-            console.log('NOTIFICATION RECEIVED:', data);
-            updateNotificationBadge();
-        }
-    };
-}
-
-connectWebSocket();
-</script>
-
-<form action="/createPost" method="post">
-    <textarea name="content" placeholder="What's on your mind?"></textarea>
-    <select name="audience">
-        <option value="public">Public</option>
-        <option value="friends">Friends</option>
-        <option value="private">Private</option>
-    </select>
-    <button type="submit">Post</button>
-</form>
+<main class="index">
+<?php require __DIR__ . '/postForm.php'; ?>
 
 <?php foreach ($posts as $post): ?>
     <p>
@@ -85,12 +32,13 @@ async function likePost(postId) {
     });
     
     const data = await response.json();
-    document.getElementById('likes-' + postId).innerText = 'Likes: ' + data.count;
+    document.getElementById('likes-' + postId).textContent = 'Likes: ' + data.count;
 }
 </script>
 
 <form action="/logout" method="post">
     <button type="submit">Logout</button>
 </form>
+</main>
 
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>

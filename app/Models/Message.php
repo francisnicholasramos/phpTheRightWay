@@ -27,13 +27,31 @@ class Message extends Model {
         return $message;
     }
 
-    public function createMessage(array $data) {
+    public function createMessage(array $data): string|false {
         $stmt = $this->pdo->prepare("
-            insert into {$this->table} 
+            INSERT INTO {$this->table} 
             (chat_id, sender_id, message_content)
-            values (:chat_id, :sender_id, :message_content)
+            VALUES (:chat_id, :sender_id, :message_content)
+            RETURNING id
         ");
 
-        return $stmt->execute($data);
+        $stmt->execute($data);
+        $row = $stmt->fetch();
+
+        return $row ? $row['id'] : false;
+    }
+
+    /**
+     * @return self[]
+     */
+    public function getMessagesByChatId(string $chatId): array {
+        $stmt = $this->pdo->prepare("
+            select * from {$this->table}
+            where chat_id = :chat_id
+            order by created_at ASC
+        ");
+
+        $stmt->execute(['chat_id' => $chatId]);
+        return array_map(fn($row) => $this->hydrate($row), $stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
 }

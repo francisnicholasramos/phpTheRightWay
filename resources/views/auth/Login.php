@@ -2,19 +2,23 @@
 
 <?php require_once __DIR__ . '/../layouts/Header.php'; ?>
 
-<main>
+<main class="auth">
     <form action="/login" method="POST">
         <div>
-            <label>Email</label>
-            <input type="email" name="email" placeholder="example@gmail.com" />
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" />
         </div>
         <div>
-            <label>Password</label>
-            <input type="password" name="password" />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" />
         </div>
 
         <?php include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
-        <button type="submit">Login</button>
+
+        <div>
+            <button type="submit">register</button>
+            <button type="submit">login</button>
+        </div>
     </form>
 </main>
 

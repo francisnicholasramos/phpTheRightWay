@@ -2,40 +2,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>thesocialnetwork</title>
+        <meta name="viewport" content="width=900, initial-scale=1">
+        <title>socialnetwork</title>
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/header.css" rel="stylesheet">
-        <script>
-            window.userId = <?php echo json_encode($_SESSION['user_id'] ?? null); ?>;
-            let notificationCount = 0;
-
-            async function updateNotificationBadge() {
-                try {
-                    const response = await fetch('/notifications/count');
-                    const data = await response.json();
-                    notificationCount = data.count || 0;
-                    
-                    const badge = document.getElementById('notif-badge');
-                    if (badge) {
-                        if (notificationCount > 0) {
-                            badge.textContent = 'notifications(' + notificationCount + ')';
-                        } else {
-                            badge.textContent = 'notifications';
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error updating notification badge:', error);
-                }
-            }
-
-            // Update badge on page load
-            if (window.userId) {
-                document.addEventListener('DOMContentLoaded', updateNotificationBadge);
-                // Poll for new notifications every 5 seconds (fallback if WebSocket fails)
-                setInterval(updateNotificationBadge, 100);
-            }
-        </script>
+        <link href="/css/index.css" rel="stylesheet">
     </head>
     <body>
     <header>
@@ -47,14 +18,19 @@
             <nav class="nav-links">
                 <?php if (!isset($_SESSION['user_id'])) : ?>
                     <li><a href="/login">login</a></li>
-                    <li><a href="/signup">register</a></li>
+                    <li><a href="/register">register</a></li>
                 <?php else: ?>
                     <li><a href="/feed">home</a></li>
-                    <li><a href="">profile</a></li>
+                    <li>
+                        <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
+                    </li>
                     <li><a href="">messages</a></li>
-                    <li><a href="" id="notif-badge">notifications</a></li>
+                    <li><a href="">notifications</a></li>
                     <li><a href="">friends</a></li>
+                    <li><a href="">chats</a></li>
                 <?php endif; ?>
             </nav>
         </div>
     </header>
+    
+    <div class="layout-container">
