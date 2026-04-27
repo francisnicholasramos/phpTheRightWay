@@ -10,8 +10,9 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-family: Helvetica;
-  font-size: 1rem;
-  max-width: 800px;
+  font-size: 14px;
+  min-width: 900px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   color: #333;
@@ -20,4 +21,9 @@ body {
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

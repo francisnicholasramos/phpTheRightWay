@@ -1,3 +1,27 @@
+.layout-container {
+  display: flex;
+  width: 100%;
+}
+
+.index {
+  width: 100%;
+  background-color: #dee3ed;
+  padding: 10px;
+}
+
+.universal-btn {
+  background-color: #5086de;
+  border-color: #5086de;
+  color: #fff;
+}
+
+.dashed-border {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #395799;
+  border-style: dashed;
+}
+
 /* login and signup */
 .auth {
   border: 1px dashed #395799;
@@ -22,11 +46,190 @@
 }
 
 .auth div:last-child {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
 }
 
 .auth button {
   background-color: #5086de;
   border-color: #5086de;
   color: #fff;
+}
+
+.auth .gender {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.auth .gender label {
+  font-size: 12px;
+}
+
+.auth .gender > label:first-of-type {
+  font-weight: 600;
+  color: #404040;
+}
+
+.auth .gender div {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+/* postForm */
+.post-form {
+  width: 100%;
+}
+
+.post-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-form label {
+  color: #737373;
+}
+
+.post-form select {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #395799;
+  appearance: none;
+}
+
+.post-form textarea {
+  margin-bottom: 5px;
+  width: 100%;
+  resize: none;
+}
+
+.post-form button {
+  display: block;
+  margin-left: auto;
+  padding: 5px;
+  background-color: #395799;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+}
+
+/* sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+}
+
+/* search  */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+  gap: 5px;
+}
+
+.search-form span {
+  margin: auto;
+}
+
+/* search results */
+.search-results-container, .user-results, .post-results{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.search-results-container {
+  gap: 5px;
+}
+
+.user-results .user {
+  display: flex;
+  gap: 5px;
+}
+
+.user-results a:hover {
+  text-decoration: underline;
+}
+
+.search-results-container .avatar {
+  width: 32px;
+  height: 32px;
+  border: 1px solid;
+}
+
+/* profile page */
+.profile-container {
+  display: flex;
+  padding: 5px;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid;
+}
+
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 25%;
+  min-width: 25%;
+}
+
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  color: #395799;
+}
+
+.profile-actions a {
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.profile-actions a:hover {
+  text-decoration: underline;
+}
+
+.profile-information {
+  flex: 1;
+}
+
+.profile-information > div:first-child{
+  border-top: 2px solid #395799;
+  background-color: #dee3ed;
+  color: #395799;
+  font-weight: bold;
+  max-width: 100%;
+  padding: 0 10px 0 10px;
+}
+
+.profile-information > .info-section {
+  padding: 10px 10px 0 10px;
+  line-height: 1.2;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 5px;
+  gap: 8px;
+}
+
+.info-section p {
+  color: #395799;
+  font-weight: bold;
+}
+
+.label {
+  min-width: 130px;
+  color: #8c8c8c;
 }
