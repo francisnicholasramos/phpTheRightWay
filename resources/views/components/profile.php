@@ -8,7 +8,7 @@
         </div>
         <div class="profile-actions">
             <a href="/chat/start/<?= htmlspecialchars($user->id) ?>">Send a message</a>
-            <a href="">Poke <?= htmlspecialchars($user->first_name) ?>!</a>
+            <a href="">Poke!</a>
         </div>
     </div>
 
@@ -21,7 +21,9 @@
             <div class="info-row">
                 <span class="label">Name:</span>
                 <span class="value"><?= htmlspecialchars($user->first_name) ?></span>
-                <span class="value"><?= htmlspecialchars($user->middle_name) ?></span>
+                <?php if ($user->middle_name): ?>
+                    <span class="value"><?= htmlspecialchars($user->middle_name) ?></span>
+                <?php endif; ?>
                 <span class="value"><?= htmlspecialchars($user->last_name) ?></span>
             </div>
             <div class="info-row">

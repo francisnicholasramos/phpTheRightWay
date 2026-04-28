@@ -109,8 +109,6 @@
 
 .post-form textarea {
   margin-bottom: 5px;
-  width: 100%;
-  resize: none;
 }
 
 .post-form button {
@@ -166,7 +164,7 @@
 .search-results-container .avatar {
   width: 32px;
   height: 32px;
-  border: 1px solid;
+  border: 1px solid #8c8c8c;
 }
 
 /* profile page */
@@ -221,7 +219,7 @@
 .info-row {
   display: flex;
   margin-bottom: 5px;
-  gap: 8px;
+  gap: 5px;
 }
 
 .info-section p {
@@ -233,3 +231,62 @@
   min-width: 130px;
   color: #8c8c8c;
 }
+
+/* chatbox */
+.chatbox {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  width: 100%;
+}
+
+.chatbox form {
+  display: flex;
+  gap: 5px;
+}
+
+.chatbox textarea {
+  border: none;
+  border-top: 1px solid #cccccc;
+}
+
+.chatbox button{
+  display: none;
+}
+
+.chat-messages {
+   display: flex;
+   flex-direction: column;
+   padding: 10px;
+   gap: 3px;
+ }
+
+.chat-receiver-name {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.chat-receiver-name {
+  padding: 0 10px 0 10px;
+}
+
+.sender, .receiver {
+  padding: 5px;
+  word-break: break-word;
+  max-width: 70%;
+}
+
+.sender {
+  margin-left: auto;
+  background-color: #395799;
+  color: #fff;
+  border-radius: 5px 5px 0 5px;
+}
+
+.receiver{
+  margin-right: auto;
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 5px 5px 5px 0;
+}
+

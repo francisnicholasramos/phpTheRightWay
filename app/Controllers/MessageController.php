@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use App\Services\AuthService;
 use App\Services\MessageService;
 use Core\Request;
@@ -16,7 +17,7 @@ class MessageController {
 
         $request = new Request();
         $recipientId = $request->post('recipient_id');
-        $content = $request->post('message_content');
+        $content = trim($request->post('message_content'));
 
         if (empty($recipientId) || empty($content)) {
             $session = new \Core\Session();
@@ -47,6 +48,7 @@ class MessageController {
         $messageService = new MessageService();
         $messages = $messageService->getMessages($chatId);
         $recipientId = $messageService->getRecipientId($chatId, $currentUserId);
+        $recipient = (new User())->findById($recipientId);
 
         require __DIR__ . '/../../resources/views/components/chatbox.php';
     }

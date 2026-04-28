@@ -1,17 +1,28 @@
-<div>
-  <?php foreach ($messages as $msg): ?>
-    <div class="<?= $msg->sender_id === $currentUserId ? 'sent' : 'received' ?>">
-        <?= htmlspecialchars($msg->message_content) ?>
-    </div>
-  <?php endforeach; ?>
+<?php require_once __DIR__ . '/../layouts/Header.php'; ?>
+<?php require_once __DIR__ . '/../layouts/Sidebar.php'; ?>
+
+<div class="chatbox">
+  <div class="chat-receiver-name">
+        <span class="value"><?= htmlspecialchars($recipient->first_name) ?></span>
+        <?php if ($recipient->middle_name): ?>
+            <span class="value"><?= htmlspecialchars($recipient->middle_name) ?></span>
+        <?php endif; ?>
+        <span class="value"><?= htmlspecialchars($recipient->last_name) ?></span>
+  </div>
+  
+  <div class="chat-messages">
+      <?php foreach ($messages as $msg): ?>
+        <div class="<?= $msg->sender_id === $currentUserId ? 'sender' : 'receiver' ?>">
+            <?= htmlspecialchars($msg->message_content) ?>
+        </div>
+      <?php endforeach; ?>
+  </div>
   
   <form action="/sendMessage" method="POST">
     <input type="hidden" name="recipient_id" value="<?= htmlspecialchars($recipientId) ?>" />
-    <textarea name="message_content">
-    </textarea>
-    
-    <button type="submit">Send</button>
+    <textarea id="message-input" name="message_content" rows="1" placeholder="Type a message"></textarea>
+    <button type="submit" id="send-btn">send</button>
   </form>
 </div>
 
-
+<script src="/js/chatbox.js"></script>
