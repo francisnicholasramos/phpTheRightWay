@@ -3,7 +3,7 @@ $action = "/search";
 ?>
 
 <div class="dashed-border">
-<form action="<?= htmlspecialchars($action); ?>" method="GET" class="search-form">
+<form action="<?= htmlspecialchars($action); ?>" method="GET" onsubmit="if(!this.q.value.trim()) return false;" class="search-form">
     <input 
         id="search-input"
         name="q"
