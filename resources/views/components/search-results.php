@@ -1,16 +1,16 @@
 <div class="search-results-container">
     <div class="user-results">
         <?php foreach ($results['users'] as $result): ?>
-            <a href="/u/<?= htmlspecialchars($result->username) ?>">
             <div class="user">
                 <div class="avatar">
-                    <img src="<?= htmlspecialchars($result->avatar) ?>" loading="lazy"/>
+                    <img src="<?= htmlspecialchars($result->avatar) ?>" loading="lazy" alt="<?= $result->first_name ?>"/>
                 </div>
-                <?= htmlspecialchars($result->first_name . ' ' . 
-                ($result->middle_name ? $result->middle_name . ' ' : '') .
-                $result->last_name)?>
+                <a href="/u/<?= htmlspecialchars($result->username) ?>">
+                    <?= htmlspecialchars($result->first_name . ' ' . 
+                    ($result->middle_name ? $result->middle_name . ' ' : '') .
+                    $result->last_name)?>
+                </a>
             </div>
-            </a>
         <?php endforeach; ?>
     </div>
     
