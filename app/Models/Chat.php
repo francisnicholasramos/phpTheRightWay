@@ -74,4 +74,28 @@ class Chat extends Model {
             throw $e;
         }
     }
+
+    /* LEFT JOIN LATERAL = last message for preview */
+    public function getChatList(string $user_id): array {
+        $stmt = $this->pdo->prepare("select 
+            c.id, c.chat_type, c.created_at,
+            u.id, 
+            u.first_name, u.middle_name, u.last_name, u.avatar,
+            m.message_content, m.created_at
+        from {$this->table} c
+        JOIN chat_participants cp ON cp.chat_id = c.id AND cp.user_id = :user_id
+        JOIN chat_participants cp2 ON cp2.chat_id = c.id AND cp2.user_id != :user_id
+        JOIN users u ON u.id = cp2.user_id
+        LEFT JOIN LATERAL (
+            select message_content, created_at FROM messages    
+            where chat_id = c.id
+            ORDER BY created_at DESC
+            LIMIT 1 
+        ) m ON true
+        ORDER BY COALESCE(m.created_at, c.created_at) DESC
+        ");
+
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
