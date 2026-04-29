@@ -16,6 +16,7 @@ class User extends Model {
     public readonly string $password;
     public readonly ?string $avatar;
     public readonly ?string $bio;
+    public readonly string $created_at;
 
     /**
     * @param array<string, mixed> $row
@@ -32,6 +33,7 @@ class User extends Model {
         $user->avatar        = $row['avatar'] ?? null;
         $user->bio           = $row['bio'] ?? null;
         $user->gender        = $row['gender'];
+        $user->created_at    = $row['created_at'];
 
         return $user;
     }
