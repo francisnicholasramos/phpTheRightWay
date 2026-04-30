@@ -6,10 +6,13 @@
         <div class="profile-avatar">
             <img src="<?= htmlspecialchars($user->avatar) ?>" loading="lazy"/>
         </div>
+        <!-- if user if logged-in and can't do action in your own profile -->
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== $user->id) : ?>
         <div class="profile-actions">
             <a href="/chat/start/<?= htmlspecialchars($user->id) ?>">Send a message</a>
             <a href="">Poke!</a>
         </div>
+        <?php endif; ?>
     </div>
 
     <div class="profile-information">

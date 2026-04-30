@@ -9,6 +9,20 @@ use Core\Request;
 use Core\Response;
 
 class MessageController {
+    /* list of chat conversations */
+    public function index(): void {
+        if (!AuthService::check()) {
+            (new Response())->redirect('/login');
+            return;
+        }
+
+        $userId = AuthService::user()->id;
+        $messageService = new MessageService();
+        $conversations = $messageService->getUserConversations($userId);
+
+        require __DIR__ . '/../../resources/views/feed/messages.php';
+    }
+
     public function sendMessageHandler(): void {
         if (!AuthService::check()) {
             (new Response())->redirect('/login');

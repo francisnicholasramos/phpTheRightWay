@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=900, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>socialnetwork</title>
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/header.css" rel="stylesheet">
@@ -11,10 +11,10 @@
     <body>
     <header>
         <div class="niko">
-            <img src="/assets/4000.png" class="binary-niko" alt="logo"/>
+            <img src="/assets/4000.png" class="binary-niko" loading="lazy" alt="logo"/>
         </div>
         <div class="social-network">
-            <img src="/assets/social_network.png" class="logo" alt="logo"/>
+            <img src="/assets/social_network.png" class="logo" loading="lazy" alt="logo"/>
             <nav class="nav-links">
                 <?php if (!isset($_SESSION['user_id'])) : ?>
                     <li><a href="/login">login</a></li>
@@ -24,10 +24,12 @@
                     <li>
                         <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
                     </li>
-                    <li><a href="">messages</a></li>
+                    <li><a href="/messages">messages</a></li>
                     <li><a href="">notifications</a></li>
                     <li><a href="">friends</a></li>
-                    <li><a href="">chats</a></li>
+                    <form action="/logout" method="post">
+                        <button type="submit">logout</button>
+                    </form>
                 <?php endif; ?>
             </nav>
         </div>

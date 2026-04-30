@@ -21,6 +21,7 @@ Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);
 Router::get('/messages/{chatId}', [MessageController::class, 'showChat'])->middleware('Authenticate');
 
 Router::get('/chat/start/{userId}', [MessageController::class, 'startChatHandler'])->middleware('Authenticate');
+Router::get('/messages', [MessageController::class, 'index'])->middleware('Authenticate');
 
 Router::post('/login', [AuthController::class, 'loginHandler']);
 Router::post('/logout', [AuthController::class, 'logout']);

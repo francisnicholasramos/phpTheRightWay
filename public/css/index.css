@@ -4,8 +4,11 @@
 }
 
 .index {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
-  background-color: #dee3ed;
+  background-color: #eff1f6;
   padding: 10px;
 }
 
@@ -125,6 +128,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
+  margin-right: 5px;
   width: 15%;
 }
 
@@ -165,6 +169,42 @@
   width: 32px;
   height: 32px;
   border: 1px solid #8c8c8c;
+}
+
+/* feed item (per item) */
+.feed-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  background-color: #fff;
+  border-bottom: 1px solid #ced5e4;
+}
+
+.feed-user {
+  display: flex;
+  gap: 5px;
+}
+
+.feed-content {
+  word-break: break-word;
+}
+
+.feed-item-avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.feed-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.feed-action button {
+  border: none;
+  background-color: transparent;
+  color: #395799;
 }
 
 /* profile page */
@@ -213,7 +253,7 @@
 
 .profile-information > .info-section {
   padding: 10px 10px 0 10px;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .info-row {
@@ -252,6 +292,9 @@
 
 .chatbox button{
   display: none;
+  background-color: #5086de;
+  border-color: #5086de;
+  color: #fff;
 }
 
 .chat-messages {
@@ -290,3 +333,38 @@
   border-radius: 5px 5px 5px 0;
 }
 
+/* conversations (chat list) */
+.conversations {
+  width: 100%;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
+.conversation-name {
+  display: flex;
+  justify-items: center;
+  gap: 5px;
+}
+
+.conversations a { 
+  display: flex;
+  flex-direction: column;
+}
+
+.conversation-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid;
+}
+
+.conversation-avatar img {
+  border-radius: 50%;
+}
+
+.conversation-preview {
+  font-size: 13px;
+}

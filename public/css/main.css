@@ -13,9 +13,15 @@ body {
   font-size: 14px;
   min-width: 900px;
   max-width: 900px;
+  overflow-y: scroll;
+  scrollbar-width: none;
   margin-left: auto;
   margin-right: auto;
   color: #333;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 img, picture, video, canvas, svg {

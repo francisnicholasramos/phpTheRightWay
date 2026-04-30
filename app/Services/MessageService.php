@@ -58,4 +58,8 @@ class MessageService {
 
       return $this->chatModel->createDirectChat($senderId, $recipientId);
     }
+
+    public function getUserConversations(string $user_id): array {
+        return $this->chatModel->getChatList($user_id);
+    }
 }

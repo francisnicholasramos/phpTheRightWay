@@ -6,19 +6,42 @@
 <?php require __DIR__ . '/postForm.php'; ?>
 
 <?php foreach ($posts as $post): ?>
-    <p>
-        <?= $post->content?>
-        <span><b><?= $post->visibility?></b></span>
-        <span id="likes-<?= $post->id ?>"><?= $post->likes_count ? "Likes: {$post->likes_count}" : '' ?></span>
+<div class="feed-item">
+    <div class="feed-user">
+        <div class="feed-item-avatar">
+            <img src="<?= htmlspecialchars($post->avatar) ?>" loading="lazy" />
+        </div>
+        <div>
+        <span>
+            <?= htmlspecialchars($post->first_name) ?>
+            <?= htmlspecialchars($post->middle_name) ?>
+            <?= htmlspecialchars($post->last_name) ?>
+        </span>
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $post->user_id) : ?>
+            <small>
+                <b><?= $post->visibility?></b>
+            </small>
+        <?php endif; ?>
+        </div>
+    </div>
 
+    <div class="feed-content">
+        <?= $post->content?>
+    </div>
+
+    <div class="feed-action">
+        <div>
+        <span id="likes-<?= $post->id ?>"><?= $post->likes_count ? "{$post->likes_count}" : '' ?></span>
         <button onclick="likePost('<?= $post->id ?>')">Like</button>
+        </div>
 
         <form method="post" action="/postComment">
-            <input type="textarea" name="comment" placeholder="comment?"/>
             <input type="hidden" name="post_id" value="<?= $post->id ?>" />
             <button type="submit">Post comment</button>
         </form>
-    </p>
+        <button>Share</button>
+    </div>
+</div>
 <?php endforeach; ?>
 
 <script>
@@ -32,13 +55,10 @@ async function likePost(postId) {
     });
     
     const data = await response.json();
-    document.getElementById('likes-' + postId).textContent = 'Likes: ' + data.count;
+    document.getElementById('likes-' + postId).textContent = data.count;
 }
 </script>
 
-<form action="/logout" method="post">
-    <button type="submit">Logout</button>
-</form>
 </main>
 
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>
