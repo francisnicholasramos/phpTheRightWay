@@ -13,6 +13,7 @@ class Post extends Model {
     public readonly string $created_at;
     public readonly string $visibility;
     public readonly string $likes_count;
+    public readonly bool $liked_by_me;
     public readonly ?string $avatar;
     public readonly string $first_name;
     public readonly ?string $middle_name;
@@ -29,6 +30,7 @@ class Post extends Model {
         $post->created_at    = $row['created_at'];
         $post->visibility    = $row['visibility'];
         $post->likes_count   = ($row['likes_count'] ?? '');
+        $post->liked_by_me   = (bool) ($row['liked_by_me'] ?? false);
         $post->avatar        = $row['avatar'] ?? null;
         $post->first_name    = $row['first_name'];
         $post->middle_name   = $row['middle_name'] ?? null;
@@ -37,27 +39,40 @@ class Post extends Model {
         return $post;
     }
 
-    /** 
+    /**
      * @return Post[]
      * */
-    public function getAllPosts(): array {
-        $stmt = $this->pdo->query("
-            select 
-                posts.id, 
-                posts.user_id, 
-                posts.content, 
-                posts.created_at, 
+    public function getAllPosts(?string $currentUserId = null): array {
+        $likedByMeExpr = $currentUserId
+            ? 'MAX(CASE WHEN likes.user_id = :current_user_id THEN 1 ELSE 0 END) as liked_by_me'
+            : '0 as liked_by_me';
+
+        $sql = "
+            select
+                posts.id,
+                posts.user_id,
+                posts.content,
+                posts.created_at,
                 posts.visibility,
                 u.avatar,
                 u.first_name,
                 u.middle_name,
                 u.last_name,
-                count(likes.user_id) as likes_count
+                count(likes.user_id) as likes_count,
+                {$likedByMeExpr}
             from {$this->table}
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
             GROUP BY posts.id, u.avatar, u.first_name, u.middle_name, u.last_name
-            ORDER BY posts.created_at DESC");  
+            ORDER BY posts.created_at DESC";
+
+        if ($currentUserId) {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':current_user_id' => $currentUserId]);
+        } else {
+            $stmt = $this->pdo->query($sql);
+        }
+
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         $posts = [];

@@ -187,6 +187,7 @@
 }
 
 .feed-content {
+  font-size: 1.25rem;
   word-break: break-word;
 }
 
@@ -201,9 +202,19 @@
   justify-content: space-around;
 }
 
-.feed-action button {
+.feed-action button, .likes-count {
   border: none;
   background-color: transparent;
+  font-weight: bold;
+  color: #808080;
+}
+
+.feed-action button:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.feed-action button.liked{
   color: #395799;
 }
 

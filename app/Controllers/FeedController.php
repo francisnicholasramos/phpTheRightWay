@@ -8,7 +8,7 @@ use App\Models\Post;
 class FeedController {
     public function index(): void {
         $post = new Post();
-        $posts = $post->getAllPosts();
+        $posts = $post->getAllPosts($_SESSION['user_id'] ?? null);
 
         View::render('feed/index', ['posts' => $posts]);
     }

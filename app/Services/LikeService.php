@@ -55,7 +55,7 @@ class LikeService {
         $count = $this->likesModel->getLikesCount($entity_id, $entity_type);
 
         return [
-            'liked' => !$isLiked,
+            'liked' => $isLiked,
             'count' => $count
         ];
     }

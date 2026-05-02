@@ -31,8 +31,16 @@
 
     <div class="feed-action">
         <div>
-        <span id="likes-<?= $post->id ?>"><?= $post->likes_count ? "{$post->likes_count}" : '' ?></span>
-        <button onclick="likePost('<?= $post->id ?>')">Like</button>
+            <button 
+                id="like-btn-<?= htmlspecialchars($post->id) ?>"
+                class="<?= $post->liked_by_me ? 'liked' : '' ?>" 
+                data-post-id="<?= htmlspecialchars($post->id) ?>"
+            >
+                Like
+            </button>
+            <span id="likes-<?= htmlspecialchars($post->id) ?>" class="likes-count">
+                <?= $post->likes_count ? "{$post->likes_count}" : '' ?>
+            </span>
         </div>
 
         <form method="post" action="/postComment">
@@ -44,20 +52,7 @@
 </div>
 <?php endforeach; ?>
 
-<script>
-async function likePost(postId) {
-    const formData = new FormData();
-    formData.append('post_id', postId);
-    
-    const response = await fetch('/like', {
-        method: 'POST',
-        body: formData
-    });
-    
-    const data = await response.json();
-    document.getElementById('likes-' + postId).textContent = data.count;
-}
-</script>
+<script src="/js/likepost.js"></script>
 
 </main>
 

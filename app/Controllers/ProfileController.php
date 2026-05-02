@@ -4,9 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
-use App\Services\AuthService;
-use Core\Request;
-use Core\Response;
 
 class ProfileController {
     public function viewProfile(string $username): void {
