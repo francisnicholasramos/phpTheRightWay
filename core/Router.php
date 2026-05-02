@@ -22,7 +22,7 @@ class Router {
     public function dispatch(string $method, string $path): void {
         foreach (self::$routes as $route) {
             if ($route->getMethod() !== $method) {
-                continue;
+                continue; // skip mismatched http method
             }
 
             $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)',
@@ -30,14 +30,16 @@ class Router {
             $pattern = '#^' . $pattern . '$#';
 
             if (preg_match($pattern, $path, $matches)) {
-                array_shift($matches); // remove full match
+                array_shift($matches); // remove the full matched path, keep only the dynamic values
 
+                // if route is attached with midddleware check its authentication
                 if ($route->getMiddleware()) {
                     $middlewareClass = "App\\Middleware\\" .
                         $route->getMiddleware();
                     (new $middlewareClass())->handle();
                 }
 
+                // Controller::method
                 [$controller, $action] = $route->getHandler();
                 (new $controller())->$action(...$matches);
                 return;
