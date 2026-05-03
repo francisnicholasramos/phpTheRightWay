@@ -49,6 +49,12 @@ class MessageController {
             'message_content' => $content,
         ]);
 
+        if ($request->isAjax()) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+            return;
+        }
+
         (new Response())->redirect('/messages');
     }
 

@@ -9,7 +9,7 @@
         <?php endif; ?>
         <span class="value"><?= htmlspecialchars($recipient->last_name) ?></span>
   </div>
-  
+
   <div class="chat-messages">
       <?php foreach ($messages as $msg): ?>
         <div class="<?= $msg->sender_id === $currentUserId ? 'sender' : 'receiver' ?>">
@@ -17,7 +17,7 @@
         </div>
       <?php endforeach; ?>
   </div>
-  
+
   <form action="/sendMessage" method="POST">
     <input type="hidden" name="recipient_id" value="<?= htmlspecialchars($recipientId) ?>" />
     <textarea id="message-input" name="message_content" rows="1" placeholder="Type a message"></textarea>
@@ -25,4 +25,11 @@
   </form>
 </div>
 
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script>
+    window.CHAT = {
+        currentUserId: '<?= htmlspecialchars($currentUserId) ?>',
+        recipientId: '<?= htmlspecialchars($recipientId) ?>'
+    };
+</script>
 <script src="/js/chatbox.js"></script>

@@ -38,4 +38,8 @@ class Request {
     public function isGet(): bool {
         return $this->method() === 'GET';
     }
+
+    public function isAjax(): bool {
+        return ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest';
+    }
 }
