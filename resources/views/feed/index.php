@@ -9,7 +9,7 @@
 <div class="feed-item">
     <div class="feed-user">
         <div class="feed-item-avatar">
-            <img src="<?= htmlspecialchars($post->avatar) ?>" loading="lazy" />
+            <img src="<?= htmlspecialchars($post->avatar ?: '/assets/default.png') ?>" loading="lazy" />
         </div>
         <div>
         <span>

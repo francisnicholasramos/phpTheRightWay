@@ -1,6 +1,9 @@
 .layout-container {
   display: flex;
   width: 100%;
+  border: 1px solid #395799;
+  padding: 2px;
+  gap: 2px;
 }
 
 .index {
@@ -25,8 +28,50 @@
   border-style: dashed;
 }
 
-/* login and signup */
+/* error message */
+.message {
+  color: red;
+}
+
+/* welcome page */
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  border: 1px solid #395799;
+  color: #000;
+}
+
+.welcome-page .welcome-header {
+  color: #fff;
+  background-color: #395799;
+  padding-left: 5px;
+}
+
+.welcome-page h3 {
+  text-align: center;
+}
+
+.welcome {
+  margin: auto;
+}
+
+.welcome-page div:last-of-type{
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-page .auth-btn {
+  display: flex;
+  gap: 10px;
+  margin: 10px auto;
+}
+
+
+/* login */
 .auth {
+  height: fit-content;
   border: 1px dashed #395799;
   padding: 2px;
 }
@@ -45,7 +90,6 @@
   border: 1px solid #4d4d4d;
   background-color: #dae0eb;
   outline: none;
-  padding: 3px;
 }
 
 .auth div:last-child {
@@ -55,32 +99,59 @@
   gap: 10px;
 }
 
-.auth button {
+.auth button, .auth-signup button{
   background-color: #5086de;
   border-color: #5086de;
   color: #fff;
 }
 
-.auth .gender {
+/* auth-signup */
+.auth-signup {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin: auto;
+  gap: 5px;
+}
+
+.auth-signup form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 5px;
+}
+
+.auth-signup button {
+  max-width: fit-content;
+  margin: auto;
+}
+
+.auth-signup div {
+  display: flex;
+}
+
+.auth-signup label {
+  min-width: 100px;
+}
+
+.auth-signup .gender {
   gap: 5px;
   margin-bottom: 10px;
 }
 
-.auth .gender label {
-  font-size: 12px;
-}
-
-.auth .gender > label:first-of-type {
-  font-weight: 600;
-  color: #404040;
-}
-
-.auth .gender div {
+.auth-signup .gender div {
   display: flex;
   flex-direction: row;
   gap: 5px;
+}
+
+.auth-signup .gender div label{
+  min-width: 0;
+}
+
+.auth-signup input {
+  border: 1px solid #4d4d4d;
+  background-color: #dae0eb;
+  outline: none;
 }
 
 /* postForm */
@@ -194,6 +265,7 @@
 .feed-item-avatar {
   width: 32px;
   height: 32px;
+  border: 1px solid;
 }
 
 .feed-action {

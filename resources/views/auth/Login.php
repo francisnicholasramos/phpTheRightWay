@@ -16,10 +16,12 @@
         <?php include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
 
         <div>
-            <button type="submit">register</button>
+            <button type="button" onclick="window.location.href='/register'">register</button>
             <button type="submit">login</button>
         </div>
     </form>
 </main>
+
+<?php require __DIR__ . '/../components/welcome.php'; ?>
 
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>

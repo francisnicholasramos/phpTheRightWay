@@ -4,7 +4,7 @@
 <main class="profile-container">
     <div class="profile-panel">
         <div class="profile-avatar">
-            <img src="<?= htmlspecialchars($user->avatar) ?>" loading="lazy"/>
+            <img src="<?= htmlspecialchars($user->avatar ?: '/assets/default.png') ?>" loading="lazy"/>
         </div>
         <!-- if user if logged-in and can't do action in your own profile -->
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== $user->id) : ?>

@@ -30,7 +30,7 @@ class AuthController {
             $session = new \Core\Session();
             $session->flash('error' , 'Firstname field cannot be empty.');
 
-            (new Response())->redirect('/signup');
+            (new Response())->redirect('/register');
             return;
         }
 
@@ -38,7 +38,7 @@ class AuthController {
             $session = new \Core\Session();
             $session->flash('error' , 'Lastname field cannot be empty.');
 
-            (new Response())->redirect('/signup');
+            (new Response())->redirect('/register');
             return;
         }
 
@@ -46,7 +46,7 @@ class AuthController {
             $session = new \Core\Session();
             $session->flash('error' , 'Email field cannot be empty.');
 
-            (new Response())->redirect('/signup');
+            (new Response())->redirect('/register');
             return;
         }
 
@@ -54,7 +54,7 @@ class AuthController {
             $session = new \Core\Session();
             $session->flash('error' , 'Password field cannot be empty.');
 
-            (new Response())->redirect('/signup');
+            (new Response())->redirect('/register');
             return;
         }
 
@@ -62,7 +62,7 @@ class AuthController {
             $session = new \Core\Session();
             $session->flash('error' , 'Gender is required.');
 
-            (new Response())->redirect('/signup');
+            (new Response())->redirect('/register');
             return;
         }
 
@@ -70,7 +70,7 @@ class AuthController {
             (new Response())->redirect('/login');
         }
 
-        (new Response())->redirect('/signup');
+        (new Response())->redirect('/register');
     }
 
     public function loginHandler(): void {
