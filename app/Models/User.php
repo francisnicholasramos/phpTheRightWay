@@ -16,6 +16,7 @@ class User extends Model {
     public readonly string $password;
     public readonly ?string $avatar;
     public readonly ?string $bio;
+    public readonly string $gender;
     public readonly string $created_at;
 
     /**
