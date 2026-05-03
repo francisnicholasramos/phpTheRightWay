@@ -31,7 +31,9 @@
             </div>
             <div class="info-row">
                 <span class="label">Joined on:</span>
-                <span class="value"><?= (new DateTime($user->created_at)->format('F j, Y')) ?></span>
+                <span class="value">
+                    <?= (new DateTime($user->created_at))->format('F j, Y') ?>
+                </span>
             </div>
         </div>
 
