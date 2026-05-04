@@ -25,11 +25,12 @@
   </form>
 </div>
 
-<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="<?= rtrim($_ENV['SOCKET_URL'] ?? 'http://localhost:3000', '/') ?>/socket.io/socket.io.js"></script>
 <script>
     window.CHAT = {
         currentUserId: '<?= htmlspecialchars($currentUserId) ?>',
-        recipientId: '<?= htmlspecialchars($recipientId) ?>'
+        recipientId: '<?= htmlspecialchars($recipientId) ?>',
+        socketUrl: '<?= $_ENV['SOCKET_URL'] ?? 'http://localhost:3000' ?>'
     };
 </script>
 <script src="/js/chatbox.js"></script>

@@ -7,7 +7,7 @@ input.addEventListener('input', () => {
     btn.style.display = input.value.trim() ? 'block' : 'none';
 });
 
-const socket = io('http://localhost:3000');
+const socket = io(CHAT.socketUrl);
 
 socket.on('connect', () => {
     socket.emit('join', CHAT.currentUserId);
