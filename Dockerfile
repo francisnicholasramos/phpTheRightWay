@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y libpq-dev git curl supervisor && \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
-RUN a2enmod rewrite
+RUN a2enmod rewrite proxy proxy_http proxy_wstunnel
 
 # Point DocumentRoot to public/ and enable AllowOverride for .htaccess
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
@@ -32,6 +32,9 @@ COPY websocket/package*.json ./websocket/
 RUN cd websocket && npm install
 RUN cd websocket && ./node_modules/.bin/tsc
 RUN cd websocket && npm prune --omit=dev
+
+COPY apache-socket.conf /etc/apache2/conf-available/socket.conf
+RUN a2enconf socket
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
