@@ -26,12 +26,12 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
 
-COPY websocket/package*.json ./websocket/
-RUN cd websocket && npm install --omit=dev
-
 COPY . .
 
-RUN cd websocket && npx tsc
+COPY websocket/package*.json ./websocket/
+RUN cd websocket && npm install
+RUN cd websocket && ./node_modules/.bin/tsc
+RUN cd websocket && npm prune --omit=dev
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
