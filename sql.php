@@ -42,7 +42,7 @@ $sql = <<<SQL
         "middle_name"   TEXT,
         "last_name"     TEXT          NOT NULL,
         "username"      TEXT          NOT NULL,
-        "gender"        gender_type,
+        "gender"        gender_type   NOT NULL,
         "email"         TEXT          NOT NULL,
         "password"      TEXT          NOT NULL,
         "avatar"        TEXT,
