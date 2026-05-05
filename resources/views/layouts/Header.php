@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=900">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>socialnetwork</title>
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/header.css" rel="stylesheet">
@@ -11,7 +11,7 @@
     <body>
     <header>
         <div class="niko">
-            <img src="/assets/4000.png" class="binary-niko" loading="lazy" alt="logo"/>
+            <img src="/assets/binary.png" class="binary-niko" loading="lazy" alt="logo"/>
         </div>
         <div class="social-network">
             <img src="/assets/social_network.png" class="logo" loading="lazy" alt="logo"/>
