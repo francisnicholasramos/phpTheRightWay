@@ -25,7 +25,7 @@
                         <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
                     </li>
                     <li><a href="/messages">messages</a></li>
-                    <li><a href="">notifications</a></li>
+                    <li><a href="/notifications" id="notification-link">notifications</a></li>
                     <li><a href="">friends</a></li>
                     <form action="/logout" method="post">
                         <button type="submit">logout</button>
@@ -35,4 +35,15 @@
         </div>
     </header>
     
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <script src="<?= rtrim($_ENV['SOCKET_URL'] ?? 'http://localhost:3000', '/') ?>/socket.io/socket.io.js"></script>
+        <script>
+            window.NOTIF = {
+                userId: '<?= htmlspecialchars($_SESSION['user_id']) ?>',
+                socketUrl: '<?= $_ENV['SOCKET_URL'] ?? 'http://localhost:3000' ?>'
+            };
+        </script>
+        <script src="/js/notification-badge.js"></script>
+    <?php endif; ?>
+
     <div class="layout-container">

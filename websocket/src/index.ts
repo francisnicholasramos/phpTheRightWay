@@ -22,6 +22,10 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('notification', (data: { recipientId: string }) => {
+        io.to(`user:${data.recipientId}`).emit('notification');
+    });
+
     socket.on('disconnect', () => {
         console.log("Client disconnected.");
     });

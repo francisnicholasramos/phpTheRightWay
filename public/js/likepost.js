@@ -10,6 +10,10 @@ async function likePost(postId) {
     const data = await response.json();
     document.getElementById('likes-' + postId).textContent = data.count || '';
     document.getElementById('like-btn-' + postId).classList.toggle('liked', data.liked);
+
+    if (data.recipientId && window.notifSocket) {
+        window.notifSocket.emit('notification', { recipientId: data.recipientId });
+    }
 }
 
 document.querySelectorAll('[data-post-id]').forEach(btn => {

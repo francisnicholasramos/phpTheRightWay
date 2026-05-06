@@ -12,7 +12,7 @@ class View {
         $viewPath = __DIR__ . "/../resources/views/{$view}.php";
 
         if (!file_exists($viewPath)) {
-            throw new \Exception("View not found: {$view}");
+            throw new \Exception("Unable to locate resource file: {$view}");
         }
 
         require $viewPath;

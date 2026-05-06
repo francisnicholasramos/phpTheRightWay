@@ -14,7 +14,7 @@ class LikeController {
         $this->likeService = new LikeService();
     }
 
-    public function likeHandler(): void {
+    public function likePostHandler(): void {
         $request = new Request();
 
         if (!AuthService::check()) {
@@ -25,7 +25,7 @@ class LikeController {
         $entity_id = $request->post('post_id');
         $userId = AuthService::user()->id;
 
-        $result = $this->likeService->like($entity_id, 'post', $userId);
+        $result = $this->likeService->likePost($entity_id, 'post', $userId);
 
         (new Response())->json($result);
     }

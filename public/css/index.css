@@ -6,6 +6,13 @@
   gap: 2px;
 }
 
+.component-info-header {
+  background-color: #6d84b4;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+}
+
 .index {
   display: flex;
   flex-direction: column;
@@ -512,3 +519,43 @@
 .conversation-preview {
   font-size: 13px;
 }
+
+.notification {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.notification-item {
+  border: 1px solid #cccccc;
+  border-top: none;
+  padding: 5px;
+}
+
+.notification-item .notification-avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.notification-item .notification-data {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+}
+
+.notification-item a {
+  display: flex;
+  gap: 5px;
+}
+
+.notification-item p {
+  color: #395799;
+  font-weight: bold;
+}
+
+.notification-item .notification-event {
+  color: inherit;
+  font-weight: normal;
+}
+
+

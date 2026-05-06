@@ -18,7 +18,7 @@ class LikeService {
     /** 
      * @return array<string, mixed>
      */
-    public function like(
+    public function likePost(
         string $entity_id, 
         string $entity_type, 
         string $from_user_id, 
@@ -56,7 +56,8 @@ class LikeService {
 
         return [
             'liked' => $isLiked,
-            'count' => $count
+            'count' => $count,
+            'recipientId' => ($isLiked && $postOwnerId !== $from_user_id) ? $postOwnerId : null, // return only for likes not including unlikes
         ];
     }
 }

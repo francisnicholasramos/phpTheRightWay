@@ -57,14 +57,16 @@ class Notifications extends Model {
     
     public function getNotification(string $user_id) {
         $stmt = $this->pdo->prepare("
-            SELECT 
+            SELECT
                 n.id,
                 n.entity_type,
                 n.entity_id,
                 n.is_read,
                 n.created_at,
-                
-                sender.username,
+
+                sender.first_name,
+                sender.middle_name,
+                sender.last_name,
                 sender.avatar
             FROM {$this->table} n
             JOIN users sender ON sender.id = n.from_user_id
@@ -74,5 +76,22 @@ class Notifications extends Model {
 
         $stmt->execute(['user_id' => $user_id]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getUnreadNotif(string $user_id): int {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*) FROM {$this->table}
+            WHERE user_id = :user_id AND is_read = FALSE
+        ");
+        $stmt->execute(['user_id' => $user_id]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function markAllRead(string $user_id): void {
+        $stmt = $this->pdo->prepare("
+            UPDATE {$this->table} SET is_read = TRUE
+            WHERE user_id = :user_id AND is_read = FALSE
+        ");
+        $stmt->execute(['user_id' => $user_id]);
     }
 }
