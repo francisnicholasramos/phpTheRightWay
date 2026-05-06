@@ -34,11 +34,13 @@ class MessageService {
             return false;
         }
 
-        return $this->messageModel->createMessage([
+        $this->messageModel->createMessage([
             'chat_id' => $chatId,
             'sender_id' => $senderId,
             'message_content' => $content,
         ]);
+
+        return $chatId;
     }
 
     public function getMessages(string $chatId): array {

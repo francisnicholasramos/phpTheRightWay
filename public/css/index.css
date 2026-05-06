@@ -239,7 +239,6 @@
 .search-results-container .avatar {
   width: 32px;
   height: 32px;
-  border: 1px solid #8c8c8c;
 }
 
 /* feed item (per item) */
@@ -265,7 +264,6 @@
 .feed-item-avatar {
   width: 32px;
   height: 32px;
-  border: 1px solid;
 }
 
 .feed-action {
@@ -296,7 +294,7 @@
   padding: 5px;
   gap: 10px;
   width: 100%;
-  border: 1px solid;
+  position: relative;
 }
 
 .profile-panel {
@@ -359,7 +357,7 @@
 .chatbox {
   display: flex;
   flex-direction: column;
-  border: 1px solid;
+  border: 1px solid #cccccc;
   width: 100%;
 }
 
@@ -385,15 +383,24 @@
    flex-direction: column;
    padding: 10px;
    gap: 3px;
+   background-color: #f9f9f9;
  }
 
 .chat-receiver-name {
   font-weight: bold;
-  background-color: #f0f0f0;
+  background-color: #6d84b4;
+  color: #fff;
 }
 
 .chat-receiver-name {
-  padding: 0 10px 0 10px;
+  display: flex;
+  gap: 5px;
+  padding: 5px 10px;
+}
+
+.chat-receiver-avatar {
+  width: 35px;
+  height: 35px;
 }
 
 .sender, .receiver {
@@ -404,16 +411,71 @@
 
 .sender {
   margin-left: auto;
-  background-color: #395799;
-  color: #fff;
-  border-radius: 5px 5px 0 5px;
+  background-color: #dae0eb;
+  border: 1px solid #bdc7db;
+  color: #333;
+  border-radius: 2px;
 }
 
 .receiver{
   margin-right: auto;
-  background-color: #f0f0f0;
   color: #333;
-  border-radius: 5px 5px 5px 0;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+
+/* chat window from profile */
+.chat-window {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  z-index: 50;
+  border: 1px solid #cccccc;
+  background-color: #fff;
+  max-height: fit-content;
+  display: none;
+  min-width: 40%;
+}
+
+.modal-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.modal-box div {
+  display: flex;
+  justify-content: space-between;
+  background-color: #6d84b4;
+  color: #fff;
+  font-weight: bold;
+  padding-left: 5px;
+  margin: 0;
+}
+
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}
+
+.modal-box form button {
+  background-color: #6d84b4;
+  border: none;
+  color: #fff;
+  margin-left: auto;
+}
+
+.modal-box div button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+}
+
+.modal-box textarea {
+  border: 1px solid #cccccc;
 }
 
 /* conversations (chat list) */
@@ -441,7 +503,6 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid;
 }
 
 .conversation-avatar img {

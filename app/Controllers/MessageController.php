@@ -43,7 +43,7 @@ class MessageController {
 
         $user = AuthService::user();
         $messageService = new MessageService();
-        $messageService->messageUser([
+        $chatId = $messageService->messageUser([
             'sender_id' => $user->id,
             'recipient_id' => $recipientId,
             'message_content' => $content,
@@ -51,7 +51,7 @@ class MessageController {
 
         if ($request->isAjax()) {
             header('Content-Type: application/json');
-            echo json_encode(['success' => true]);
+            echo json_encode(['success' => true, 'chat_id' => $chatId]);
             return;
         }
 

@@ -3,7 +3,7 @@
         <?php foreach ($results['users'] as $result): ?>
             <div class="user">
                 <div class="avatar">
-                    <img src="<?= htmlspecialchars($result->avatar) ?>" loading="lazy" alt="<?= $result->first_name ?>"/>
+                    <img src="<?= htmlspecialchars($result->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" alt="<?= $result->first_name ?>"/>
                 </div>
                 <a href="/u/<?= htmlspecialchars($result->username) ?>">
                     <?= htmlspecialchars($result->first_name . ' ' . 

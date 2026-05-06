@@ -6,7 +6,7 @@
               <a href="/messages/<?= htmlspecialchars($convo['chat_id']) ?>" class="conversation-item">
                   <div class="conversation-name">
                       <div class="conversation-avatar">
-                          <img src="<?= htmlspecialchars($convo['avatar']) ?>" loading="lazy" />
+                          <img src="<?= htmlspecialchars($convo['avatar'] ?: '/assets/default_profile.svg') ?>" loading="lazy" />
                       </div>
                     
                       <div>
