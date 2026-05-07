@@ -26,7 +26,7 @@
             <?php else: ?>       
                 <a href="#" onclick="document.getElementById('chat-window').style.display='flex'">Send a message</a>
             <?php endif; ?>
-            <a href="">Poke!</a>
+                <button id="poke-btn" data-to-user-id="<?= htmlspecialchars($user->id) ?>">Poke!</button>
         </div>
         <?php endif; ?>
     </div>
@@ -79,5 +79,6 @@
 
 <script src="/js/friend-request.js"></script>
 <script src="/js/chat-window.js"></script>
+<script src="/js/poke.js"></script>
 
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>

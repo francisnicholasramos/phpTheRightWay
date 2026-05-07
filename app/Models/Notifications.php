@@ -94,4 +94,20 @@ class Notifications extends Model {
         ");
         $stmt->execute(['user_id' => $user_id]);
     }
+
+    public function pokeNotification(string $to_user_id, string $from_user_id): bool {
+        $stmt = $this->pdo->prepare("
+            select 1 from {$this->table}
+            where user_id = :user_id
+            AND from_user_id = :from_user_id
+            AND entity_type = 'poke'
+        ");
+
+        $stmt->execute([
+            'user_id' => $to_user_id,
+            'from_user_id' => $from_user_id
+        ]);
+
+        return (bool) $stmt->fetchColumn();
+    }
 }

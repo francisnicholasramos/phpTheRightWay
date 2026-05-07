@@ -10,6 +10,7 @@ use App\Controllers\MessageController;
 use App\Controllers\ProfileController;
 use App\Controllers\SearchController;
 use App\Controllers\FriendController;
+use App\Controllers\PokeController;
 use Core\Router;
 
 Router::get('/login', [AuthController::class, 'loginPage']);
@@ -35,3 +36,4 @@ Router::post('/friend-request', [FriendController::class, 'sendFriendRequest'])-
 Router::post('/cancel-request', [FriendController::class, 'cancelFriendRequest'])->middleware('Authenticate');
 Router::post('/accept-request', [FriendController::class, 'acceptRequest'])->middleware('Authenticate');
 Router::post('/decline-request', [FriendController::class, 'declineRequest'])->middleware('Authenticate');
+Router::post('/poke', [PokeController::class, 'pokeHandler'])->middleware('Authenticate');
