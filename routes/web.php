@@ -9,6 +9,7 @@ use App\Controllers\NotificationController;
 use App\Controllers\MessageController;
 use App\Controllers\ProfileController;
 use App\Controllers\SearchController;
+use App\Controllers\FriendController;
 use Core\Router;
 
 Router::get('/login', [AuthController::class, 'loginPage']);
@@ -30,3 +31,7 @@ Router::post('/createPost', [PostController::class, 'createPostHandler']);
 Router::post('/like', [LikeController::class, 'likePostHandler'])->middleware('Authenticate');
 Router::post('/postComment', [CommentController::class, 'postCommentHandler'])->middleware('Authenticate');
 Router::post('/sendMessage', [MessageController::class, 'sendMessageHandler'])->middleware('Authenticate');
+Router::post('/friend-request', [FriendController::class, 'sendFriendRequest'])->middleware('Authenticate');
+Router::post('/cancel-request', [FriendController::class, 'cancelFriendRequest'])->middleware('Authenticate');
+Router::post('/accept-request', [FriendController::class, 'acceptRequest'])->middleware('Authenticate');
+Router::post('/decline-request', [FriendController::class, 'declineRequest'])->middleware('Authenticate');

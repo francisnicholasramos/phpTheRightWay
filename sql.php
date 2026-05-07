@@ -36,6 +36,12 @@ $sql = <<<SQL
         WHEN duplicate_object THEN NULL;
     END $$;
 
+    DO $$ BEGIN
+        CREATE TYPE "friendship_status" AS ENUM ('pending', 'friends', 'blocked');
+    EXCEPTION 
+        WHEN duplicate_object THEN NULL;
+    END $$;
+
     CREATE TABLE IF NOT EXISTS "users" (
         "id"            UUID          NOT NULL DEFAULT gen_random_uuid(),
         "first_name"    TEXT          NOT NULL,
@@ -53,6 +59,20 @@ $sql = <<<SQL
         CONSTRAINT "users_username_key"  UNIQUE ("username"),
         CONSTRAINT "users_email_key"     UNIQUE ("email")
     );
+
+    CREATE TABLE IF NOT EXISTS "friends" (
+        "requester_id"        UUID                NOT NULL,
+        "recipient_id"        UUID                NOT NULL,
+        "status"              friendship_status   NOT NULL DEFAULT 'pending',
+        "created_at"          TIMESTAMP(3)        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY ("requester_id") REFERENCES "users"("id") ON DELETE CASCADE,
+        FOREIGN KEY ("recipient_id") REFERENCES "users"("id") ON DELETE CASCADE,
+
+        CONSTRAINT "friends_pkey" PRIMARY KEY ("requester_id", "recipient_id")
+    );
+
+    CREATE INDEX IF NOT EXISTS "friends_recipient_id_idx" ON "friends"("recipient_id");
 
     CREATE TABLE IF NOT EXISTS "posts" (
         "id"        UUID        NOT NULL DEFAULT gen_random_uuid(),

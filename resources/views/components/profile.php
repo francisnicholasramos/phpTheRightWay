@@ -8,7 +8,19 @@
         <!-- if user if logged-in and can't do action in your own profile -->
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== $user->id) : ?>
         <div class="profile-actions">
-            <a href="">Add friend</a>
+            <?php if ($isFriends): ?>
+                <button disabled>Friends</button>
+            <?php elseif ($isIncoming): ?>
+                <button class="accept-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Accept</button>
+                <button class="decline-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Decline</button>
+            <?php else: ?>
+                <!-- user's perspective for who intiates the event -->
+                <button
+                    id="add-friend"
+                    data-recipient-id="<?= htmlspecialchars($user->id) ?>"
+                    data-pending="<?= $isPending ? 'true' : 'false' ?>"><?= $isPending ? 'Cancel Request' : 'Add Friend' ?>
+                </button>
+            <?php endif; ?>
             <?php if ($existingChatId): ?>
                 <a href="/messages/<?= htmlspecialchars($existingChatId) ?>">Send a message</a>
             <?php else: ?>       
@@ -65,17 +77,7 @@
    </div>
 </main>
 
-<script>
-  document.getElementById('chat-window').querySelector('form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const res = await fetch('/sendMessage', {
-          method: 'POST',
-          headers: { 'X-Requested-With': 'XMLHttpRequest' },
-          body: new FormData(this)
-      });
-      const data = await res.json();
-      if (data.success) window.location.href = '/messages/' + data.chat_id;
-  });
-</script>
+<script src="/js/friend-request.js"></script>
+<script src="/js/chat-window.js"></script>
 
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>
