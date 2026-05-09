@@ -2,13 +2,15 @@
 <?php require_once __DIR__ . '/../layouts/Sidebar.php'; ?>
 
 <div class="chatbox">
-  <div class="chat-receiver-name">
-        <span class="value"><?= htmlspecialchars($recipient->first_name) ?></span>
-        <?php if ($recipient->middle_name): ?>
-            <span class="value"><?= htmlspecialchars($recipient->middle_name) ?></span>
-        <?php endif; ?>
-        <span class="value"><?= htmlspecialchars($recipient->last_name) ?></span>
-  </div>
+  <a href="/u/<?= htmlspecialchars($recipient->username) ?>">
+      <div class="chat-receiver-name">
+            <span class="value"><?= htmlspecialchars($recipient->first_name) ?></span>
+            <?php if ($recipient->middle_name): ?>
+                <span class="value"><?= htmlspecialchars($recipient->middle_name) ?></span>
+            <?php endif; ?>
+            <span class="value"><?= htmlspecialchars($recipient->last_name) ?></span>
+      </div>
+  </a>
 
   <div class="chat-messages">
       <?php foreach ($messages as $msg): ?>

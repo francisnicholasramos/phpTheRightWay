@@ -1,6 +1,10 @@
 <?php require_once __DIR__ . '/../layouts/Header.php'; ?>
 <?php require_once __DIR__ . '/../layouts/Sidebar.php'; ?>
 <main class="profile-container">
+    <div class="component-info-header">
+        <p>Profile</p>
+    </div>
+    <div class="profile-wrapper">
     <div class="profile-panel">
         <div class="profile-avatar">
             <img src="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" loading="lazy"/>
@@ -39,11 +43,11 @@
             <p>Account Info</p>
             <div class="info-row">
                 <span class="label">Name:</span>
-                <span class="value"><?= htmlspecialchars($user->first_name) ?></span>
+                <span class="value"><?= htmlspecialchars($user->first_name) ?>
                 <?php if ($user->middle_name): ?>
-                    <span class="value"><?= htmlspecialchars($user->middle_name) ?></span>
+                    <?= htmlspecialchars($user->middle_name) ?>
                 <?php endif; ?>
-                <span class="value"><?= htmlspecialchars($user->last_name) ?></span>
+                <?= htmlspecialchars($user->last_name) ?>
             </div>
             <div class="info-row">
                 <span class="label">Joined on:</span>
@@ -74,6 +78,7 @@
               <button type="submit">Send</button>
           </form>
         </div>
+   </div>
    </div>
 </main>
 

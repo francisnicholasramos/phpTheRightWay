@@ -1,9 +1,7 @@
 .layout-container {
   display: flex;
   width: 100%;
-  border: 1px solid #395799;
-  padding: 2px;
-  gap: 2px;
+  padding: 1px 0;
 }
 
 .component-info-header {
@@ -14,12 +12,8 @@
 }
 
 .index {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   width: 100%;
   background-color: #eff1f6;
-  padding: 10px;
 }
 
 .universal-btn {
@@ -44,6 +38,7 @@
 .welcome-page {
   display: flex;
   flex-direction: column;
+  margin-left: 2px;
   gap: 15px;
   width: 100%;
   border: 1px solid #395799;
@@ -196,7 +191,7 @@
   display: block;
   margin-left: auto;
   padding: 5px;
-  background-color: #395799;
+  background-color: #6d84b4;
   color: #fff;
   border: none;
   border-radius: 2px;
@@ -249,6 +244,20 @@
 }
 
 /* feed item (per item) */
+.post-detail {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  border-top: none;
+}
+
+.feed-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
 .feed-item {
   display: flex;
   flex-direction: column;
@@ -261,11 +270,18 @@
 .feed-user {
   display: flex;
   gap: 5px;
+  padding: 5px;
+}
+
+.feed-user span {
+  color: #395799;
+  font-weight: bold;
 }
 
 .feed-content {
   font-size: 1.25rem;
   word-break: break-word;
+  padding: 5px;
 }
 
 .feed-item-avatar {
@@ -295,13 +311,70 @@
   color: #395799;
 }
 
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  gap: 5px;
+}
+
+.comments-section .no-comments {
+  color: #999999;
+  text-align: center;
+  font-weight: bold;
+}
+
+.comments-section, .comment-form {
+  padding: 5px;
+}
+
+.comment-form h3 {
+  color: #808080;
+  margin-bottom: 5px;
+}
+
+.comment-item {
+  display: flex;
+  gap: 5px;
+  padding: 5px 0;
+}
+
+.comment-avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.comment-body {
+  background-color: #eff1f6;
+  padding: 0 5px;
+}
+
+
+.comment-form button {
+  display: block;
+  margin-left: auto;
+  padding: 5px;
+  background-color: #6d84b4;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 2px;
+}
+
 /* profile page */
 .profile-container {
   display: flex;
-  padding: 5px;
-  gap: 10px;
+  flex-direction: column;
   width: 100%;
   position: relative;
+}
+
+.profile-wrapper {
+  display: flex;
+  border: 1px solid #cccccc;
+  border-top: none;
+  border-left: none;
 }
 
 .profile-panel {
@@ -331,7 +404,6 @@
 }
 
 .profile-information > div:first-child{
-  border-top: 2px solid #395799;
   background-color: #dee3ed;
   color: #395799;
   font-weight: bold;
@@ -356,7 +428,7 @@
 }
 
 .label {
-  min-width: 130px;
+  width: 30%;
   color: #8c8c8c;
 }
 
@@ -365,6 +437,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #cccccc;
+  border-top: none;
   width: 100%;
 }
 
@@ -488,10 +561,15 @@
 /* conversations (chat list) */
 .conversations {
   width: 100%;
-  border: 1px solid;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  border-top: none;
+}
+
+.conversation-item {
+  border: 1px solid #cccccc;
+  border-top: none;
   padding: 5px;
 }
 
@@ -509,6 +587,7 @@
 .conversation-avatar {
   width: 32px;
   height: 32px;
+  flex-shrink: 0;
   border-radius: 50%;
 }
 
@@ -516,8 +595,15 @@
   border-radius: 50%;
 }
 
+.conversation-name div:last-child {
+  min-width: 0;
+}
+
 .conversation-preview {
   font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .notification {
@@ -554,7 +640,7 @@
 }
 
 .notification-item .notification-event {
-  color: inherit;
+  color: #333;
   font-weight: normal;
 }
 

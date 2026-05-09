@@ -1,4 +1,7 @@
 <div class="search-results-container">
+    <div class="component-info-header">
+        <p>Search results</p>
+    </div>
     <div class="user-results">
         <?php foreach ($results['users'] as $result): ?>
             <div class="user">

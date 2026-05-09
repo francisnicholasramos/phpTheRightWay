@@ -1,4 +1,7 @@
 <div class="conversations">
+<div class="component-info-header">
+    <p>Inbox chats</p>
+</div>
 <?php if (empty($conversations)): ?>
           <p>No conversations yet.</p>
       <?php else: ?>

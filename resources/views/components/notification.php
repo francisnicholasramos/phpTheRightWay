@@ -17,14 +17,13 @@
                     <img src="<?= htmlspecialchars($notification['avatar'] ?: '/assets/default_profile.png') ?>" loading="lazy" />
                 </div>
                 <div class="notification-data">
-                    <p><?= htmlspecialchars($notification['first_name']) ?></p>
-
-                    <?php if ($notification['middle_name']): ?>
-                        <p><?= htmlspecialchars($notification['middle_name']) ?></p>
-                    <?php endif; ?>
-
-                    <p><?= htmlspecialchars($notification['last_name']) ?></p>
-                    <p class="notification-event">
+                    <p>
+                        <strong><?= htmlspecialchars($notification['first_name']) ?>
+                        <?php if ($notification['middle_name']): ?>
+                            <?= htmlspecialchars($notification['middle_name']) ?>
+                        <?php endif; ?>
+                        <?= htmlspecialchars($notification['last_name']) ?></strong>
+                        <span class="notification-event">
                         <?php if ($notification['entity_type'] === 'like'): ?>
                             likes your post.
                         <?php elseif ($notification['entity_type'] === 'friend_request'): ?>
@@ -34,6 +33,7 @@
                         <?php elseif ($notification['entity_type'] === 'comment'): ?>
                             commented on your post.
                         <?php endif; ?>
+                        </span>
                     </p>
                 </div>
             </a>

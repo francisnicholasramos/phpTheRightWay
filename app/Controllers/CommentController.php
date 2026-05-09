@@ -24,7 +24,7 @@ class CommentController {
             $session = new \Core\Session();
             $session->flash('error' , 'You must write something.');
 
-            (new Response())->redirect('/feed');
+            (new Response())->redirect('/post/' . $postId);
             return;
         }
 
@@ -34,5 +34,7 @@ class CommentController {
             'post_id' => $postId,
             'content' => $data
         ]);
+
+        (new Response())->redirect('/post/' . $postId);
     }
 }

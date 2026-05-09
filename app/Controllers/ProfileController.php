@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Friend;
 use App\Models\ChatParticipant;
 use App\Services\AuthService;
+use Core\View;
 
 class ProfileController {
     public function viewProfile(string $username): void {
@@ -36,6 +37,12 @@ class ProfileController {
             $isFriends = (new Friend())->isFriends($currentUser, $user->id);
         }
 
-        require_once __DIR__ . '/../../resources/views/components/profile.php';
+        View::render('components/profile', [
+            'user' => $user,
+            'existingChatId' => $existingChatId,
+            'isPending' => $isPending,
+            'isIncoming' => $isIncoming,
+            'isFriends' => $isFriends
+        ]);
     }
 }

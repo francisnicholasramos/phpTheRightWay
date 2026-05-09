@@ -6,6 +6,7 @@ use App\Services\AuthService;
 use App\Services\PostService;
 use Core\Request;
 use Core\Response;
+use Core\View;
 
 class PostController {
     public function createPostHandler(): void {
@@ -33,5 +34,32 @@ class PostController {
         $postService->post($user->id, $content, $audience);
 
         (new Response())->redirect('/feed');
+    }
+
+    public function viewPost(string $postId): void {
+        if (!AuthService::check()) {
+            (new Response())->redirect('/login');
+            return;
+        }
+
+        $user = AuthService::user();
+
+        $postModel = new \App\Models\Post();
+        $post = $postModel->getPostById($postId, $user->id);
+
+        if (!$post) {
+            http_response_code(404);
+            echo "Post not found.";
+            return;
+        }
+
+        $commentModel = new \App\Models\Comment();
+        $comments = $commentModel->getPostById($postId);
+
+        View::render('components/post-view', [ 
+            'user' => $user,
+            'post' => $post,
+            'comments' => $comments
+        ]);
     }
 }

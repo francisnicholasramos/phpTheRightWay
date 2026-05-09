@@ -26,7 +26,6 @@
                     </li>
                     <li><a href="/messages">messages</a></li>
                     <li><a href="/notifications" id="notification-link">notifications</a></li>
-                    <li><a href="">friends</a></li>
                     <form action="/logout" method="post">
                         <button type="submit">logout</button>
                     </form>

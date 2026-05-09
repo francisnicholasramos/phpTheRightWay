@@ -3,10 +3,15 @@
 <?php require __DIR__ . '/../layouts/Sidebar.php'; ?>
 
 <main class="index">
+<div class="component-info-header">
+    <p>Newsfeed</p>
+</div>
+<div class="feed-wrapper">
 <?php require __DIR__ . '/postForm.php'; ?>
 
 <?php foreach ($posts as $post): ?>
 <div class="feed-item">
+    <a href="/u/<?= htmlspecialchars($post->username) ?>">
     <div class="feed-user">
         <div class="feed-item-avatar">
             <img src="<?= htmlspecialchars($post->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
@@ -18,12 +23,11 @@
             <?= htmlspecialchars($post->last_name) ?>
         </span>
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $post->user_id) : ?>
-            <small>
-                <b><?= $post->visibility?></b>
-            </small>
+            <small><?= $post->visibility?></small>
         <?php endif; ?>
         </div>
     </div>
+    </a>
 
     <div class="feed-content">
         <?= $post->content?>
@@ -43,14 +47,12 @@
             </span>
         </div>
 
-        <form method="post" action="/postComment">
-            <input type="hidden" name="post_id" value="<?= $post->id ?>" />
-            <button type="submit">Post comment</button>
-        </form>
+        <a href="/post/<?= htmlspecialchars($post->id) ?>">Comment</a>
         <button>Share</button>
     </div>
 </div>
 <?php endforeach; ?>
+</div>
 
 <script src="/js/likepost.js"></script>
 

@@ -15,6 +15,7 @@ class Post extends Model {
     public readonly string $likes_count;
     public readonly bool $liked_by_me;
     public readonly ?string $avatar;
+    public readonly string $username;
     public readonly string $first_name;
     public readonly ?string $middle_name;
     public readonly string $last_name;
@@ -32,6 +33,7 @@ class Post extends Model {
         $post->likes_count   = ($row['likes_count'] ?? '');
         $post->liked_by_me   = (bool) ($row['liked_by_me'] ?? false);
         $post->avatar        = $row['avatar'] ?? null;
+        $post->username      = $row['username'];
         $post->first_name    = $row['first_name'];
         $post->middle_name   = $row['middle_name'] ?? null;
         $post->last_name     = $row['last_name'];
@@ -55,6 +57,7 @@ class Post extends Model {
                 posts.created_at,
                 posts.visibility,
                 u.avatar,
+                u.username,
                 u.first_name,
                 u.middle_name,
                 u.last_name,
@@ -63,7 +66,7 @@ class Post extends Model {
             from {$this->table}
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
-            GROUP BY posts.id, u.avatar, u.first_name, u.middle_name, u.last_name
+            GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
             ORDER BY posts.created_at DESC";
 
         if ($currentUserId) {
@@ -80,6 +83,46 @@ class Post extends Model {
             $posts[] = $this->hydrate($row);
         }
         return $posts;
+    }
+
+    public function getPostById(string $id, string $currentUserId): ?self {
+        $likedByMeExpr = $currentUserId
+            ? 'MAX(CASE WHEN likes.user_id = :current_user_id THEN 1 ELSE 0 END) as liked_by_me'
+            : '0 as liked_by_me';
+
+        $sql = "
+            select
+                posts.id,
+                posts.user_id,
+                posts.content,
+                posts.created_at,
+                posts.visibility,
+                u.avatar,
+                u.username,
+                u.first_name,
+                u.middle_name,
+                u.last_name,
+                COUNT(likes.user_id) as likes_count,
+                {$likedByMeExpr}
+            FROM {$this->table}
+            JOIN users u ON posts.user_id = u.id
+            LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
+            WHERE posts.id = :id
+            GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
+        ";
+
+        $params = [':id' => $id];
+
+        if ($currentUserId) {
+            $params[':current_user_id'] = $currentUserId;
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$row) return null;
+        return $this->hydrate($row);
     }
 
     /** 
@@ -116,6 +159,7 @@ class Post extends Model {
                 p.created_at,
                 p.visibility,
                 u.avatar,
+                u.username,
                 u.first_name,
                 u.middle_name,
                 u.last_name,
@@ -124,7 +168,7 @@ class Post extends Model {
             JOIN users u ON p.user_id = u.id
             LEFT JOIN likes l ON p.id = l.entity_id AND l.entity_type = 'post'
             WHERE p.user_id = :user_id
-            GROUP BY p.id, u.avatar, u.first_name, u.middle_name, u.last_name
+            GROUP BY p.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
             ORDER BY p.created_at DESC
         ");
 

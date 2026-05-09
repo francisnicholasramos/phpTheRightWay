@@ -7,13 +7,13 @@ input.addEventListener('input', () => {
     btn.style.display = input.value.trim() ? 'block' : 'none';
 });
 
-const socket = io(CHAT.socketUrl);
+const chatSocket = io(CHAT.chatSocketUrl);
 
-socket.on('connect', () => {
-    socket.emit('join', CHAT.currentUserId);
+chatSocket.on('connect', () => {
+    chatSocket.emit('join', CHAT.currentUserId);
 });
 
-socket.on('message', (data) => {
+chatSocket.on('message', (data) => {
     appendMessage(data.content, 'receiver');
 });
 
@@ -34,7 +34,7 @@ form.addEventListener('submit', async (e) => {
     if (!res.ok) return;
 
     appendMessage(content, 'sender');
-    socket.emit('message', {
+    chatSocket.emit('message', {
         recipientId: CHAT.recipientId,
         senderId: CHAT.currentUserId,
         content,
