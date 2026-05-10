@@ -15,8 +15,8 @@
             <?php if ($isFriends): ?>
                 <button disabled>Friends</button>
             <?php elseif ($isIncoming): ?>
-                <button class="accept-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Accept</button>
-                <button class="decline-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Decline</button>
+                <button class="accept-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Accept &#8730;</button>
+                <button class="decline-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Decline &#88;</button>
             <?php else: ?>
                 <!-- user's perspective for who intiates the event -->
                 <button

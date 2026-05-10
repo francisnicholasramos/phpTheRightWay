@@ -14,23 +14,23 @@ $headTitle = str_contains($_SERVER['REQUEST_URI'], '/register') ? 'Registration'
     <form action="/signup" method="POST">
         <div>
             <label>First name:</label>
-            <input type="text" name="firstname" size="30"/>
+            <input type="text" name="firstname" />
         </div>
         <div>
             <label>Middlename:</label>
-            <input type="text" name="middlename" size="30" placeholder="(optional)" />
+            <input type="text" name="middlename"  placeholder="(optional)" />
         </div>
         <div>
             <label>Last name:</label>
-            <input type="text" name="lastname" size="30"/>
+            <input type="text" name="lastname" />
         </div>
         <div>
             <label>Email:</label>
-            <input type="email" name="email" size="30"placeholder="example@gmail.com" />
+            <input type="email" name="email" placeholder="example@gmail.com" />
         </div>
         <div>
             <label>Password:</label>
-            <input type="password" name="password" size="30"/>
+            <input type="password" name="password" />
         </div>
         <div class="gender">
             <label>Gender: </label>

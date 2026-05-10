@@ -15,11 +15,8 @@ $action = "/search";
         autocomplete="off"
         aria-invalid="false"
         value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
+        placeholder="Search"
     />
-    <span>
-        quick search
-        <button type="submit" class="universal-btn">go</button>
-    </span>
     <ul id="search-suggestions"></ul>
 </form>
 </div>
