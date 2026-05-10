@@ -98,7 +98,8 @@ class AuthController {
             (new Response())->redirect('/feed');
         }
 
-        (new Response())->json(['error' => 'Invalid credentials'], 401);
+        $session = new \Core\Session();
+        $session->flash('error', 'Invalid email or password.');
 
         (new Response())->redirect('/login');
     }
