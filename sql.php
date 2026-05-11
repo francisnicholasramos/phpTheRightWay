@@ -54,6 +54,7 @@ $sql = <<<SQL
         "birthday"      DATE          NOT NULL,
         "avatar"        TEXT,
         "bio"           TEXT,
+        "hometown"      TEXT,
         "created_at" TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
         CONSTRAINT "users_pkey"          PRIMARY KEY ("id"),
@@ -77,7 +78,6 @@ $sql = <<<SQL
 
     CREATE TABLE IF NOT EXISTS "user_profile" (
         "user_id"           UUID                NOT NULL,
-        "hometown"          TEXT,
         "education"         JSONB,
         "work"              JSONB,
         "hobbies"           TEXT[],
@@ -88,6 +88,17 @@ $sql = <<<SQL
 
         CONSTRAINT "user_profile_pkey" PRIMARY KEY ("user_id")
     );
+
+    CREATE TABLE IF NOT EXISTS "user_timestamp" (
+        "user_id"               UUID        NOT NULL,
+        "name_changed_at"       TIMESTAMP,
+        "password_changed_at"   TIMESTAMP,
+
+        FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
+
+        CONSTRAINT "user_timestamp_pkey" PRIMARY KEY ("user_id")
+    );
+      
 
     CREATE TABLE IF NOT EXISTS "posts" (
         "id"        UUID        NOT NULL DEFAULT gen_random_uuid(),
