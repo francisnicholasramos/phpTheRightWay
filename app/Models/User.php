@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Dto\UserSearchResult;
+use App\Dto\ChangeNameDto;
 
 class User extends Model {
     protected string $table = 'users';
@@ -18,6 +19,7 @@ class User extends Model {
     public readonly ?string $bio;
     public readonly string $birthday;
     public readonly string $gender;
+    public readonly ?string $hometown;
     public readonly string $created_at;
 
     /**
@@ -36,6 +38,7 @@ class User extends Model {
         $user->bio           = $row['bio'] ?? null;
         $user->birthday      = $row['birthday'];
         $user->gender        = $row['gender'];
+        $user->hometown      = $row['hometown'] ?? null;
         $user->created_at    = $row['created_at'];
 
         return $user;
@@ -54,9 +57,23 @@ class User extends Model {
                 username, 
                 password,
                 birthday,
+                hometown,
                 gender) 
-             values (:first_name, :middle_name, :last_name, :email, :username, :password, :birthday, :gender)");
+             values (:first_name, :middle_name, :last_name, :email, :username, :password, :birthday, :hometown, :gender)");
         return $stmt->execute($data);
+    }
+
+    public function changeName(ChangeNameDto $data): bool {
+        $stmt = $this->pdo->prepare("
+            update {$this->table} 
+            SET first_name = :first_name,
+                middle_name = :middle_name,
+                last_name = :last_name
+            WHERE id = :id
+        ");
+
+        // converts DTO's public propperties into an associative array
+        return $stmt->execute((array) $data);
     }
 
     public function findById(string $id): ?self {

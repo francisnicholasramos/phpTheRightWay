@@ -22,6 +22,8 @@ Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);
 Router::get('/messages/{chatId}', [MessageController::class, 'showChat'])->middleware('Authenticate');
 Router::get('/notifications', [NotificationController::class, 'index'])->middleware('Authenticate');
 Router::get('/post/{postId}', [PostController::class, 'viewPost'])->middleware('Authenticate');
+Router::get('/profiles/{userId}', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/profiles/{userId}/name', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 
 Router::get('/chat/start/{userId}', [MessageController::class, 'startChatHandler'])->middleware('Authenticate');
 Router::get('/messages', [MessageController::class, 'index'])->middleware('Authenticate');
@@ -38,3 +40,5 @@ Router::post('/cancel-request', [FriendController::class, 'cancelFriendRequest']
 Router::post('/accept-request', [FriendController::class, 'acceptRequest'])->middleware('Authenticate');
 Router::post('/decline-request', [FriendController::class, 'declineRequest'])->middleware('Authenticate');
 Router::post('/poke', [PokeController::class, 'pokeHandler'])->middleware('Authenticate');
+Router::post('/updateProfile', [ProfileController::class, 'updateProfile'])->middleware('Authenticate');
+Router::post('/profiles/{userId}/name', [ProfileController::class, 'changeName'])->middleware('Authenticate');
