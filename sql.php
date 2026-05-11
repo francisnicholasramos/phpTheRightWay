@@ -51,6 +51,7 @@ $sql = <<<SQL
         "gender"        gender_type   NOT NULL,
         "email"         TEXT          NOT NULL,
         "password"      TEXT          NOT NULL,
+        "birthday"      DATE          NOT NULL,
         "avatar"        TEXT,
         "bio"           TEXT,
         "created_at" TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -73,6 +74,20 @@ $sql = <<<SQL
     );
 
     CREATE INDEX IF NOT EXISTS "friends_recipient_id_idx" ON "friends"("recipient_id");
+
+    CREATE TABLE IF NOT EXISTS "user_profile" (
+        "user_id"           UUID                NOT NULL,
+        "hometown"          TEXT,
+        "education"         JSONB,
+        "work"              JSONB,
+        "hobbies"           TEXT[],
+        "interests"         TEXT[],
+        "favorite_music"    TEXT[],
+
+        FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
+
+        CONSTRAINT "user_profile_pkey" PRIMARY KEY ("user_id")
+    );
 
     CREATE TABLE IF NOT EXISTS "posts" (
         "id"        UUID        NOT NULL DEFAULT gen_random_uuid(),

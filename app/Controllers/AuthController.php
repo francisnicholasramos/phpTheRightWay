@@ -24,11 +24,12 @@ class AuthController {
         $last_name = $request->post('lastname');
         $email = $request->post('email');
         $password = $request->post('password');
+        $birthday = $request->post('birthday');
         $gender = $request->post('gender');
         
         if (empty($first_name)) {
             $session = new \Core\Session();
-            $session->flash('error' , 'Firstname field cannot be empty.');
+            $session->flash('error' , 'Firstname is required.');
 
             (new Response())->redirect('/register');
             return;
@@ -36,7 +37,7 @@ class AuthController {
 
         if (empty($last_name)) {
             $session = new \Core\Session();
-            $session->flash('error' , 'Lastname field cannot be empty.');
+            $session->flash('error' , 'Lastname is required.');
 
             (new Response())->redirect('/register');
             return;
@@ -44,7 +45,7 @@ class AuthController {
 
         if (empty($email)) {
             $session = new \Core\Session();
-            $session->flash('error' , 'Email field cannot be empty.');
+            $session->flash('error' , 'Email is required.');
 
             (new Response())->redirect('/register');
             return;
@@ -52,7 +53,15 @@ class AuthController {
 
         if (empty($password)) {
             $session = new \Core\Session();
-            $session->flash('error' , 'Password field cannot be empty.');
+            $session->flash('error' , 'Password is required.');
+
+            (new Response())->redirect('/register');
+            return;
+        }
+
+        if (empty($birthday)) {
+            $session = new \Core\Session();
+            $session->flash('error' , 'Birthday is required.');
 
             (new Response())->redirect('/register');
             return;
@@ -66,7 +75,7 @@ class AuthController {
             return;
         }
 
-        if (AuthService::signup($first_name, $middle_name, $last_name, $email, $password, $gender)) {
+        if (AuthService::signup($first_name, $middle_name, $last_name, $email, $password, $birthday, $gender)) {
             (new Response())->redirect('/login');
         }
 

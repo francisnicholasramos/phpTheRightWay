@@ -37,6 +37,7 @@ class AuthService {
         string $lastname, 
         string $email, 
         string $password,
+        string $birthday,
         string $gender
     ): bool {
         $userModel = new User();
@@ -63,6 +64,7 @@ class AuthService {
             'email' => $email,
             'username' => $username,
             'password' => $passwordHash,
+            'birthday' => $birthday,
             'gender' => $gender
         ]);
     }

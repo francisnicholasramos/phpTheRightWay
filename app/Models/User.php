@@ -16,6 +16,7 @@ class User extends Model {
     public readonly string $password;
     public readonly ?string $avatar;
     public readonly ?string $bio;
+    public readonly string $birthday;
     public readonly string $gender;
     public readonly string $created_at;
 
@@ -33,6 +34,7 @@ class User extends Model {
         $user->password      = $row['password'];
         $user->avatar        = $row['avatar'] ?? null;
         $user->bio           = $row['bio'] ?? null;
+        $user->birthday      = $row['birthday'];
         $user->gender        = $row['gender'];
         $user->created_at    = $row['created_at'];
 
@@ -51,8 +53,9 @@ class User extends Model {
                 email, 
                 username, 
                 password,
+                birthday,
                 gender) 
-             values (:first_name, :middle_name, :last_name, :email, :username, :password, :gender)");
+             values (:first_name, :middle_name, :last_name, :email, :username, :password, :birthday, :gender)");
         return $stmt->execute($data);
     }
 
