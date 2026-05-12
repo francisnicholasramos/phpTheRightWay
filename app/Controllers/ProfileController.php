@@ -10,6 +10,9 @@ use App\Models\ChatParticipant;
 use App\Services\AuthService;
 use App\Services\ProfileService;
 use App\Dto\ChangeNameDto;
+use App\Dto\EditPersonalDetailsDto;
+use App\Dto\AboutMeDto;
+use App\Dto\EducationDto;
 use Core\Response;
 use Core\Session;
 use Core\View;
@@ -24,6 +27,8 @@ class ProfileController {
             echo "User not found";
             return;
         }
+
+        $profile = (new UserProfile())->findByUserId($user->id);
 
         $postModel = new Post();
         $posts = $postModel->getByUserId($user->id);
@@ -44,6 +49,7 @@ class ProfileController {
 
         View::render('components/profile', [
             'user' => $user,
+            'profile' => $profile,
             'existingChatId' => $existingChatId,
             'isPending' => $isPending,
             'isIncoming' => $isIncoming,
@@ -53,8 +59,10 @@ class ProfileController {
 
     public function viewEditProfile(string $user_id): void{
         $user = AuthService::user();
+        $profile = (new UserProfile())->findByUserId($user_id);
         View::render('components/edit-profile', [
-            'user' => $user
+            'user' => $user,
+            'profile' => $profile
         ]);
     }
 
@@ -100,5 +108,96 @@ class ProfileController {
         }
 
         (new Response())->redirect('/u/' . $user->username);
+    }
+
+    public function editPersonalDetails(): void {
+        $user = AuthService::user();
+      
+        if (empty($_POST['username'])) {
+            (new Session())->flash('error', 'Username cannot be empty.');
+            (new Response())->redirect('/profiles/' . $user->id . '/personal_details');
+            return;
+        }
+
+        // no spaces to avoid urlencoding issues
+        if (str_contains($_POST['username'], ' ')) {
+            (new Session())->flash('error', 'Username cannot contain spaces.');
+            (new Response())->redirect('/profiles/' . $user->id . '/personal_details');
+            return;
+        }
+        
+        if (empty($_POST['birthday'])) {
+            (new Session())->flash('error', 'Birthday cannot be empty.');
+            (new Response())->redirect('/profiles/' . $user->id . '/personal_details');
+            return;
+        }
+
+        if (empty($_POST['gender'])) {
+            (new Session())->flash('error', 'Gender cannot be empty.');
+            (new Response())->redirect('/profiles/' . $user->id . '/personal_details');
+            return;
+        }
+
+        $data              = new EditPersonalDetailsDto();
+        $data->id          = $user->id;
+        $data->bio         = trim($_POST['bio'] ?? '') ?: null;
+        $data->username    = trim($_POST['username']);
+        $data->hometown    = trim($_POST['hometown'] ?? '') ?: null;
+        $data->birthday    = $_POST['birthday'];
+        $data->gender      = $_POST['gender'];
+
+        $updated = (new ProfileService())->editPersonalDetails($data);
+
+        if ($updated) {
+            (new Session())->flash('error', $updated);
+            (new Response())->redirect('/profiles/' . $user->id . '/personal_details');
+            return;
+        }
+
+        (new Response())->redirect('/profiles/' . $user->id . '/personal_details');
+    }
+
+    public function editAboutMe(): void {
+        $user = AuthService::user();
+
+        $data                 = new AboutMeDto();
+        $data->id             = $user->id;
+        $data->interests      = array_map('trim', explode(',', $_POST['interests'] ?? ''));
+        $data->hobbies        = array_map('trim', explode(',', $_POST['hobbies'] ?? ''));
+        $data->favorite_music = array_map('trim', explode(',', $_POST['favorite_music'] ?? ''));
+
+        $arr_data = (new ProfileService())->editAboutMe($data);
+
+        if (!$arr_data) {
+          (new Session())->flash('error', 'Something went wrong.');
+          (new Response())->redirect('/profiles/' . $user->id . '/about_me');
+          return;
+        }
+
+        (new Response())->redirect('/profiles/' . $user->id . '/about_me');
+    }
+
+    public function editEducation(): void {
+        $user = AuthService::user();
+
+        $data             = new EducationDto();
+        $data->id         = $user->id;
+        $data->education  = [
+            'school'     => trim($_POST['education']['school'] ?? '') ?: null,
+            'degree'     => trim($_POST['education']['degree'] ?? '') ?: null,
+            'field'      => trim($_POST['education']['field'] ?? '') ?: null,
+            'from_year'  => $_POST['education']['from_year'] ? (int) $_POST['education']['from_year'] : null,
+            'to_year'    => $_POST['education']['to_year'] ? (int) $_POST['education']['to_year'] : null,
+        ];
+
+        $arr_data = (new ProfileService())->editEducation($data);
+
+        if (!$arr_data) {
+            (new Session())->flash('error', 'Something went wrong.');
+            (new Response())->redirect('/profiles/' . $user->id . '/education');
+            return;
+        }
+
+        (new Response())->redirect('/profiles/' . $user->id . '/education');
     }
 }

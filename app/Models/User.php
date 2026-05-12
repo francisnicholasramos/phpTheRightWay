@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Dto\EditPersonalDetailsDto;
 use App\Dto\UserSearchResult;
 use App\Dto\ChangeNameDto;
 
@@ -73,6 +74,20 @@ class User extends Model {
         ");
 
         // converts DTO's public propperties into an associative array
+        return $stmt->execute((array) $data);
+    }
+
+    public function updatePersonalDetails(EditPersonalDetailsDto $data): bool {
+        $stmt = $this->pdo->prepare("
+            update {$this->table} 
+            SET bio      = :bio,
+                username = :username,
+                hometown = :hometown,
+                birthday = :birthday,
+                gender   = :gender
+            WHERE id = :id
+        ");
+
         return $stmt->execute((array) $data);
     }
 

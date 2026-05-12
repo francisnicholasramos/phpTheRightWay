@@ -51,12 +51,12 @@
 
     <!-- personail details -->
     <?php if ($_SERVER['REQUEST_URI'] === '/profiles/' . htmlspecialchars($user->id) . '/personal_details'): ?>
-      <form action="" method="">
+      <form action="/profiles/<?= htmlspecialchars($user->id)?>/personal_details" method="POST">
           <div class="info-section">
               <p>Personal details</p>
               <div class="info-row">
                   <span class="label">Bio:</span>
-                  <textarea name="bio" value="<?= htmlspecialchars($user->bio) ?>" placeholder="Describe yourself"></textarea>
+                  <textarea name="bio" placeholder="Describe yourself" maxlength="150"><?= htmlspecialchars($user->bio) ?></textarea>
               </div>
               <div class="info-row">
                   <span class="label">Username:</span>
@@ -64,7 +64,7 @@
               </div>
               <div class="info-row">
                   <span class="label">Hometown:</span>
-                  <input type="text" name="hometown" class="value" value="<?= htmlspecialchars($profile?->hometown ?? '') ?>" placeholder="e.g, Manila"/>
+                  <input type="search" name="hometown" class="value" value="<?= htmlspecialchars($user->hometown ?? '') ?>" placeholder="e.g, Manila"/>
               </div>
               <div class="info-row">
                   <span class="label">Birthday:</span>
@@ -77,26 +77,35 @@
                       <option value="female" <?= $user->gender === 'female' ? 'selected' : '' ?>>Female</option>
                   </select>
               </div>
+              <div class="info-row">
+                  <?php include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+              </div>
+              <div class="info-row">
+                  <button type="submit">Save changes</button>
+              </div>
           </div>
       </form>
     <?php endif; ?>
 
     <!-- about me -->
     <?php if ($_SERVER['REQUEST_URI'] === '/profiles/' . htmlspecialchars($user->id) . '/about_me'): ?>
-      <form action="" method="">
+      <form action="/profiles/<?= htmlspecialchars($user->id)?>/about_me" method="POST">
           <div class="info-section">
               <p>About me</p>
               <div class="info-row">
                   <span class="label">Interests:</span>
-                  <input type="text" name="interests" class="value" value="<?= htmlspecialchars(implode(', ', $profile?->interests ?? [])) ?>" placeholder="e.g. hiking, cooking" />
+                  <input type="text" name="interests" class="value" value="<?= htmlspecialchars($profile ? implode(', ', $profile->interests) : '') ?>" placeholder="e.g. hiking, cooking" />
               </div>
               <div class="info-row">
                   <span class="label">Hobbies:</span>
-                  <input type="text" name="hobbies" class="value" value="<?= htmlspecialchars(implode(', ', $profile?->hobbies ?? [])) ?>" placeholder="e.g. reading, gaming" />
+                  <input type="text" name="hobbies" class="value" value="<?= htmlspecialchars($profile ? implode(', ', $profile->hobbies) : '') ?>" placeholder="e.g. reading, gaming" />
               </div>
               <div class="info-row">
                   <span class="label">Favorite Music:</span>
-                  <input type="text" name="favorite_music" class="value" value="<?= htmlspecialchars(implode(', ', $profile?->favorite_music ?? [])) ?>" placeholder="e.g. Linkin Park, My Chemical Romance" />
+                  <input type="text" name="favorite_music" class="value" value="<?= htmlspecialchars($profile ? implode(', ', $profile->favorite_music) : '') ?>" placeholder="e.g. Linkin Park, My Chemical Romance" />
+              </div>
+              <div class="info-row">
+                  <button type="submit">Save changes</button>
               </div>
           </div>
       </form>
@@ -104,7 +113,7 @@
 
     <!-- education -->
     <?php if ($_SERVER['REQUEST_URI'] === '/profiles/' . htmlspecialchars($user->id) . '/education'): ?>
-      <form action="" method="">
+        <form action="/profiles/<?= htmlspecialchars($user->id)?>/education" method="POST">
           <div class="info-section">
               <p>Education Info</p>
               <div class="info-row">
@@ -126,6 +135,9 @@
               <div class="info-row">
                   <span class="label">To:</span>
                   <input type="number" name="education[to_year]" class="value" value="<?= htmlspecialchars($profile?->education['to_year'] ?? '') ?>" min="1900" max="2099" />
+              </div>
+              <div class="info-row">
+                  <button type="submit">Save changes</button>
               </div>
           </div>
       </form>

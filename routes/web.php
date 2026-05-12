@@ -24,6 +24,9 @@ Router::get('/notifications', [NotificationController::class, 'index'])->middlew
 Router::get('/post/{postId}', [PostController::class, 'viewPost'])->middleware('Authenticate');
 Router::get('/profiles/{userId}', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/name', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/profiles/{userId}/personal_details', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/profiles/{userId}/about_me', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/profiles/{userId}/education', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 
 Router::get('/chat/start/{userId}', [MessageController::class, 'startChatHandler'])->middleware('Authenticate');
 Router::get('/messages', [MessageController::class, 'index'])->middleware('Authenticate');
@@ -42,3 +45,6 @@ Router::post('/decline-request', [FriendController::class, 'declineRequest'])->m
 Router::post('/poke', [PokeController::class, 'pokeHandler'])->middleware('Authenticate');
 Router::post('/updateProfile', [ProfileController::class, 'updateProfile'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/name', [ProfileController::class, 'changeName'])->middleware('Authenticate');
+Router::post('/profiles/{userId}/personal_details', [ProfileController::class, 'editPersonalDetails'])->middleware('Authenticate');
+Router::post('/profiles/{userId}/about_me', [ProfileController::class, 'editAboutMe'])->middleware('Authenticate');
+Router::post('/profiles/{userId}/education', [ProfileController::class, 'editEducation'])->middleware('Authenticate');

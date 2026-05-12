@@ -3,8 +3,12 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use App\Models\UserTimestamp;
 use App\Dto\ChangeNameDto;
+use App\Dto\EditPersonalDetailsDto;
+use App\Dto\AboutMeDto;
+use App\Dto\EducationDto;
 
 class ProfileService {
     private User $userModel;
@@ -31,5 +35,31 @@ class ProfileService {
         }
 
         return $changed;
+    }
+
+    public function editPersonalDetails(EditPersonalDetailsDto $data): ?string {
+        $existing = $this->userModel->findByUsername($data->username);
+        if ($existing && $existing->id !== $data->id) {
+            return 'Username is already taken.';
+        }
+
+        $birthday = \DateTime::createFromFormat('Y-m-d', $data->birthday);
+        if (!$birthday || $birthday > new \DateTime()) {
+            return 'Birthday cannot be in the future';
+        }
+
+        if (!in_array($data->gender, ['male', 'female'])) {
+            return 'Invalid gender.';
+        }
+
+        return $this->userModel->updatePersonalDetails($data) ? null : 'Something went wrong.';
+    }
+
+    public function editAboutMe(AboutMeDto $data): bool {
+        return (new UserProfile())->upsert($data->id, $data);
+    }
+
+    public function editEducation(EducationDto $data): bool {
+        return (new UserProfile())->upsertEducation($data->id, $data);
     }
 }

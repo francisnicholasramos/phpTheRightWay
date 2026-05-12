@@ -9,11 +9,17 @@
         <div class="profile-avatar">
             <img src="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" loading="lazy"/>
         </div>
+        <?php if ($_SESSION['user_id'] === $user->id): ?>
+            <div class="profile-actions">
+                <a href="/profiles/<?= htmlspecialchars($user->id) ?>" id="edit-profile">Edit Profile</a>
+                <a href="" id="view-friends">View all friends</a>
+            </div>
+        <?php endif; ?>
         <!-- if user if logged-in and can't do action in your own profile -->
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] !== $user->id) : ?>
         <div class="profile-actions">
             <?php if ($isFriends): ?>
-                <button disabled>Friends</button>
+                <button disabled>Friends &#8730;</button>
             <?php elseif ($isIncoming): ?>
                 <button class="accept-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Accept &#8730;</button>
                 <button class="decline-btn" data-requester-id="<?= htmlspecialchars($user->id) ?>">Decline &#88;</button>
@@ -58,12 +64,87 @@
         </div>
 
         <div class="info-section">
+            <p>Basic Info</p>
+            <div class="info-row">
+                <span class="label">Bio:</span>
+                <span class="value"><?= htmlspecialchars($user->bio) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Hometown:</span>
+                <span class="value"><?= htmlspecialchars($user->hometown) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Gender:</span>
+                <span class="value"><?= htmlspecialchars($user->gender) ?></span>
+            </div>
+            <div class="info-row">
+                <span class="label">Birthday:</span>
+                <span class="value"><?= htmlspecialchars(date('F j, Y', strtotime( $user->birthday))) ?></span>
+            </div>
+        </div>
+
+        <div class="info-section">
             <p>Contact Info</p>
             <div class="info-row">
                 <span class="label">Email:</span>
                 <span class="value"><?= htmlspecialchars($user->email) ?></span>
             </div>
         </div>
+
+        <?php if ($profile): ?>
+            <!-- about me -->
+            <?php if ($profile->interests || $profile->hobbies || $profile->favorite_music): ?>
+                <div class="info-section">
+                    <p>About me</p>
+                    <?php if ($profile->interests): ?>
+                    <div class="info-row">
+                        <span class="label">Interests:</span>
+                        <span class="value"><?= htmlspecialchars(implode(', ', $profile->interests)) ?></span>
+                    </div>
+                    <?php endif; ?>
+                    <?php if ($profile->hobbies): ?>
+                    <div class="info-row">
+                        <span class="label">Hobbies:</span>
+                        <span class="value"><?= htmlspecialchars(implode(', ', $profile->hobbies)) ?></span>
+                    </div>
+                    <?php endif; ?>
+                    <?php if ($profile->favorite_music): ?>
+                    <div class="info-row">
+                        <span class="label">Favorite Music:</span>
+                        <span class="value"><?= htmlspecialchars(implode(', ', $profile->favorite_music)) ?></span>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- education -->
+            <?php if ($profile?->education): ?>
+              <div class="info-section">
+                  <p>Education</p>
+                  <div class="info-row">
+                      <span class="label">School:</span>
+                      <span class="value"><?= htmlspecialchars($profile->education['school'] ?? '') ?></span>
+                  </div>
+                  <div class="info-row">
+                      <span class="label">Degree:</span>
+                      <span class="value"><?= htmlspecialchars($profile->education['degree'] ?? '') ?></span>
+                  </div>
+                  <div class="info-row">
+                      <span class="label">Field:</span>
+                      <span class="value"><?= htmlspecialchars($profile->education['field'] ?? '') ?></span>
+                  </div>
+                  <div class="info-row">
+                      <span class="label">From:</span>
+                      <span class="value"><?= htmlspecialchars($profile->education['from_year'] ?? '') ?></span>
+                  </div>
+                  <div class="info-row">
+                      <span class="label">To:</span>
+                      <span class="value"><?= htmlspecialchars($profile->education['to_year'] ?? '') ?></span>
+                  </div>
+              </div>
+              <?php endif; ?>
+
+        <?php endif; ?>
     </div>
 
     <div id="chat-window" class="chat-window">
