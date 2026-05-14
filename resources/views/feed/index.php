@@ -11,6 +11,7 @@
 
 <?php foreach ($posts as $post): ?>
 <div class="feed-item">
+    <div class="feed-item-header">
     <a href="/u/<?= htmlspecialchars($post->username) ?>">
     <div class="feed-user">
         <div class="feed-item-avatar">
@@ -29,9 +30,29 @@
     </div>
     </a>
 
-    <div class="feed-content">
-        <?= $post->content?>
+    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $post->user_id): ?>
+        <div class="feed-item-options">
+            <button class="options-btn" data-post-id="<?= htmlspecialchars($post->id) ?>">&#8943;</button>
+            <div class="options-dropdown" id="dropdown-<?= htmlspecialchars($post->id) ?>">
+                <button class="edit-post-btn" data-post-id="<?= htmlspecialchars($post->id) ?>">Edit</button>
+            </div>
+        </div>
+    <?php endif; ?>
     </div>
+
+   <div class="feed-content" data-post-id="<?= htmlspecialchars($post->id) ?>">
+      <span class="post-text"><?= htmlspecialchars($post->content) ?></span>
+      <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $post->user_id): ?>
+          <form action="/editPost" method="POST">
+              <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->id) ?>" />
+              <textarea name="edit-content" class="edit-textarea"><?= htmlspecialchars($post->content) ?></textarea>
+              <div class="edit-actions">
+                  <button type="submit" class="save-edit-btn">Save</button>
+                  <button type="button" class="cancel-edit-btn" data-post-id="<?= htmlspecialchars($post->id) ?>">Cancel</button>
+              </div>
+          </form>
+      <?php endif; ?>
+   </div>
 
     <div class="feed-action">
         <div>
@@ -48,13 +69,46 @@
         </div>
 
         <a href="/post/<?= htmlspecialchars($post->id) ?>">Comment</a>
-        <button>Share</button>
     </div>
 </div>
 <?php endforeach; ?>
 </div>
 
 <script src="/js/likepost.js"></script>
+<script>
+    // toggle dropdown
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('options-btn')) {
+            const postId = e.target.dataset.postId;
+            const dropdown = document.getElementById('dropdown-' + postId);
+            dropdown.classList.toggle('open');
+        } else {
+            document.querySelectorAll('.options-dropdown.open').forEach(d => d.classList.remove('open'));
+        }
+    });
+
+    // edit post
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('edit-post-btn')) {
+            const postId = e.target.dataset.postId;
+            const feedContent = document.querySelector('.feed-content[data-post-id="' + postId + '"]');
+            feedContent.classList.add('editing');
+            document.getElementById('dropdown-' + postId).classList.remove('open');
+        }
+    });
+
+    // cancel edit
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('cancel-edit-btn')) {
+            const postId = e.target.dataset.postId;
+            const feedContent = document.querySelector('.feed-content[data-post-id="' + postId + '"]');
+            const textarea = feedContent.querySelector('.edit-textarea');
+            textarea.value = feedContent.querySelector('.post-text').textContent.trim();
+            feedContent.classList.remove('editing');
+        }
+    });
+
+</script>
 
 </main>
 

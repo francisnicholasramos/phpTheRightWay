@@ -67,6 +67,7 @@ class Notifications extends Model {
                 sender.first_name,
                 sender.middle_name,
                 sender.last_name,
+                sender.username,
                 sender.avatar
             FROM {$this->table} n
             JOIN users sender ON sender.id = n.from_user_id

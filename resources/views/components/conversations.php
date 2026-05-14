@@ -3,7 +3,9 @@
     <p>Inbox chats</p>
 </div>
 <?php if (empty($conversations)): ?>
-          <p>No conversations yet.</p>
+        <div style="border: 1px solid #cccccc; padding: 5px;">
+            <p style="color: #808080;">No conversations yet.</p>
+        </div>
       <?php else: ?>
           <?php foreach ($conversations as $convo): ?>
               <a href="/messages/<?= htmlspecialchars($convo['chat_id']) ?>" class="conversation-item">

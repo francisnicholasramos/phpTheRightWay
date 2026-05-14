@@ -39,10 +39,37 @@
                 <button id="poke-btn" data-to-user-id="<?= htmlspecialchars($user->id) ?>">Poke!</button>
         </div>
         <?php endif; ?>
+        
+        <div class="profile-friend-section">
+            <div class="profile-category">
+                <p class="info-header">Friends</p>
+            </div>
+            <div class="profile-friend-list">
+                <?php if (empty($friends)): ?>
+                    <p style="color: #808080; font-size: 13px;">No friends yet.</p>
+                <?php else: ?>
+                    <?php foreach ($friends as $friend): ?>
+                    <a href="/u/<?= htmlspecialchars($friend['username']) ?>">
+                        <div 
+                          class="friend-item"
+                          title="<?= htmlspecialchars($friend['first_name']) ?> <?= htmlspecialchars($friend['middle_name']) ?> <?= htmlspecialchars($friend['last_name']) ?>"
+                        >
+                            <img src="<?= htmlspecialchars($friend['avatar'] ?: '/assets/default_profile.svg') ?>" loading="lazy" />
+                            <span>
+                              <small>
+                                <?= htmlspecialchars($friend['first_name']) ?>
+                              </small>
+                            </span>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 
     <div class="profile-information">
-        <div>
+        <div class="profile-category">
             <p class="info-header">Information</p>
         </div>
         <div class="info-section">
@@ -65,14 +92,18 @@
 
         <div class="info-section">
             <p>Basic Info</p>
+            <?php if ($user->bio): ?>
             <div class="info-row">
                 <span class="label">Bio:</span>
                 <span class="value"><?= htmlspecialchars($user->bio) ?></span>
             </div>
+            <?php endif; ?>
+            <?php if ($user->hometown): ?>
             <div class="info-row">
                 <span class="label">Hometown:</span>
                 <span class="value"><?= htmlspecialchars($user->hometown) ?></span>
             </div>
+            <?php endif; ?>
             <div class="info-row">
                 <span class="label">Gender:</span>
                 <span class="value"><?= htmlspecialchars($user->gender) ?></span>

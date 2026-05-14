@@ -55,7 +55,7 @@ class MessageController {
             return;
         }
 
-        (new Response())->redirect('/messages');
+        (new Response())->redirect('/messages/' . $chatId);
     }
 
     public function showChat(string $chatId): void {

@@ -58,9 +58,8 @@ class User extends Model {
                 username, 
                 password,
                 birthday,
-                hometown,
                 gender) 
-             values (:first_name, :middle_name, :last_name, :email, :username, :password, :birthday, :hometown, :gender)");
+             values (:first_name, :middle_name, :last_name, :email, :username, :password, :birthday, :gender)");
         return $stmt->execute($data);
     }
 

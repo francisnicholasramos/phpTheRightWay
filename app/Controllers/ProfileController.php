@@ -47,9 +47,12 @@ class ProfileController {
             $isFriends = (new Friend())->isFriends($currentUser, $user->id);
         }
 
+        $friends = (new Friend())->getFriends($user->id);
+
         View::render('components/profile', [
             'user' => $user,
             'profile' => $profile,
+            'friends' => $friends,
             'existingChatId' => $existingChatId,
             'isPending' => $isPending,
             'isIncoming' => $isIncoming,

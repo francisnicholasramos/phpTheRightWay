@@ -11,8 +11,15 @@
         </div>
     <?php else: ?>
     <?php foreach ($notifications as $notification): ?>
+        <?php
+            if ($notification['entity_type'] === 'like') {
+                $redirectionPage = '/post/' . htmlspecialchars($notification['entity_id']);
+            } elseif ($notification['entity_type'] === 'poke' || $notification['entity_type'] === 'friend_request') {
+                $redirectionPage = '/u/' . htmlspecialchars($notification['username']);
+            } 
+        ?>
         <div class="notification-item">
-            <a href="">
+            <a href="<?= $redirectionPage ?>">
                 <div class="notification-avatar">
                     <img src="<?= htmlspecialchars($notification['avatar'] ?: '/assets/default_profile.png') ?>" loading="lazy" />
                 </div>

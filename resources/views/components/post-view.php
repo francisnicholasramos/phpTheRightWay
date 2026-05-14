@@ -28,13 +28,15 @@
     <form class="comment-form" method="post" action="/postComment">
     <h3>Comments</h3>
         <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->id) ?>" />
-        <textarea name="comment" placeholder="Write a comment..." rows="2"></textarea>
-        <button type="submit" class="universal-btn">Comment</button>
+        <div class="comment-input-wrapper">
+            <textarea name="comment" placeholder="Write a comment..." rows="2"></textarea>
+            <button type="submit" class="universal-btn">Post</button>
+        </div>
     </form>
 
     <div class="comments-section">
         <?php if (!$comments): ?>
-            <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
+            <p class="no-comments">No comments yet.</p>
         <?php endif; ?>
         <?php foreach ($comments as $comment): ?>
         <div class="comment-item">
@@ -54,5 +56,15 @@
     </div>
 </div>
 
+<script>
+    const textarea = document.querySelector('.comment-input-wrapper textarea');
+    const button = document.querySelector('.comment-input-wrapper button');
+    button.style.display = 'none';
+    textarea.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+        button.style.display = this.value.trim() ? 'block' : 'none';
+    });
+</script>
 </main>
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>

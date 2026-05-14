@@ -15,7 +15,7 @@ $action = "/search";
         autocomplete="off"
         aria-invalid="false"
         value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
-        placeholder="Search"
+        placeholder="Search..."
     />
     <ul id="search-suggestions"></ul>
 </form>

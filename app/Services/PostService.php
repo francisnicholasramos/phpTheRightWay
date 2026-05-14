@@ -22,5 +22,16 @@ class PostService {
         ]);
     }
 
+    /**
+     * @return bool
+     */
+    public function editPost(string $currentUser, \App\Dto\EditPostDto $data): bool {
+        $user = $this->postModel->getOwnerId($data->id);
+
+        if (!$user || $user->user_id !== $currentUser) return false;
+
+        return $this->postModel->updatePost($data);
+    }
+
 }
 

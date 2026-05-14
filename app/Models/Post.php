@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Dto\PostDto;
+use App\Dto\EditPostDto;
 
 class Post extends Model {
     protected string $table = 'posts';
@@ -83,6 +84,16 @@ class Post extends Model {
             $posts[] = $this->hydrate($row);
         }
         return $posts;
+    }
+
+    public function updatePost(EditPostDto $data): bool {
+        $stmt = $this->pdo->prepare("
+            UPDATE {$this->table} 
+                SET content = :content
+            WHERE id = :id
+        ");
+
+        return $stmt->execute((array) $data);
     }
 
     public function getPostById(string $id, string $currentUserId): ?self {

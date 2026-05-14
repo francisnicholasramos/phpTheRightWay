@@ -101,7 +101,7 @@
   gap: 10px;
 }
 
-.auth button, .auth-signup button{
+.auth button, .auth-signup button, .edit-profile button{
   margin-top: 5px;
   background-color: #6d84b4;
   border-color: #6d84b4;
@@ -135,7 +135,6 @@
 .auth-signup label {
   min-width: 100px;
   font-size: 15px;
-  font-weight: bold;
   color: #808080;
 }
 
@@ -283,6 +282,54 @@
   border-bottom: 1px solid #ced5e4;
 }
 
+.feed-item .feed-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.feed-item-options {
+  position: relative;
+}
+
+.options-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #808080;
+  padding: 0 5px;
+}
+
+.options-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 10;
+  flex-direction: column;
+  min-width: 80px;
+}
+
+.options-dropdown.open {
+  display: flex;
+}
+
+.options-dropdown button {
+  background: none;
+  border: none;
+  color: #4d4d4d;
+  padding: 5px 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.options-dropdown button:hover {
+  background-color: #eff1f6;
+}
+
 .feed-user {
   display: flex;
   gap: 5px;
@@ -294,10 +341,38 @@
   font-weight: bold;
 }
 
+.feed-user span:hover {
+  text-decoration: underline;
+}
+
 .feed-content {
   font-size: 1.25rem;
   word-break: break-word;
   padding: 5px;
+}
+
+.feed-content .edit-textarea {
+  display: none;
+  font-size: 20px;
+  color: #333;
+}
+
+.feed-content.editing .post-text {
+  display: none; 
+}
+
+.feed-content.editing .edit-textarea {
+  display: block;
+}
+
+.edit-actions {
+  display: none;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.feed-content.editing .edit-actions {
+  display: flex;
 }
 
 .feed-item-avatar {
@@ -316,6 +391,18 @@
   background-color: transparent;
   font-weight: bold;
   color: #808080;
+}
+
+.feed-action > a {
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+  color: #808080;
+}
+
+.feed-action > a:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
 }
 
 .feed-action button:hover {
@@ -366,16 +453,20 @@
   padding: 0 5px;
 }
 
+.comment-body p {
+  white-space: pre-wrap;
+}
 
-.comment-form button {
-  display: block;
-  margin-left: auto;
-  padding: 5px;
-  background-color: #6d84b4;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 2px;
+.comment-input-wrapper {
+  display: flex;
+  gap: 5px;
+  align-items: flex-start;
+}
+
+.comment-input-wrapper textarea {
+  flex: 1;
+  resize: none;
+  overflow: hidden;
 }
 
 /* profile page */
@@ -403,8 +494,46 @@
   min-width: 25%;
 }
 
+.profile-friend-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile-friend-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+  gap: 3px;
+}
+
+.friend-item {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: #333;
+  overflow: hidden;
+}
+
+.friend-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.friend-item:hover span {
+  text-decoration: underline;
+}
+
 .profile-avatar {
   width: 100%;
+  border: 1px solid #ccc;
 }
 
 .profile-avatar img{
@@ -451,7 +580,7 @@
 }
 
 
-.profile-information > div:first-child{
+.profile-category {
   background-color: #dee3ed;
   border-top: 2px solid #395799;
   color: #395799;
@@ -470,13 +599,18 @@
   margin-bottom: 5px;
 }
 
+.info-row > small {
+  margin-bottom: -5px;
+}
+
 .info-section p {
   color: #395799;
   font-weight: bold;
+  margin-bottom: 3px;
 }
 
 .label {
-  width: 30%;
+  width: 20%;
   color: #8c8c8c;
 }
 
@@ -489,21 +623,49 @@
   width: 100%;
 }
 
+.chatbox a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
 .chatbox form {
   display: flex;
   gap: 5px;
 }
 
-.chatbox textarea {
-  border: none;
+.chat-input-wrapper {
+  display: flex;
+  align-items: center;
   border-top: 1px solid #cccccc;
+  padding: 4px 8px;
+  background-color: #fff;
+  flex: 1;
 }
 
-.chatbox button{
-  display: none;
-  background-color: #5086de;
-  border-color: #5086de;
-  color: #fff;
+.chatbox textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.chatbox button {
+  background: none;
+  border: none;
+  color: #5086de;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.chatbox button:disabled {
+  color: #cccccc;
+  cursor: default;
 }
 
 .chat-messages {
@@ -694,4 +856,63 @@
   font-weight: normal;
 }
 
+/* edit profile */
+.edit-profile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
+.edit-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  border: 1px solid #cccccc;
+}
+
+.edit-profile .info-section .info-row {
+  padding-left: 10px;
+}
+
+.edit-profile input, select{
+  border: 1px solid #b3b3b3;
+  outline: none;
+  color: #333;
+}
+
+.edit-profile-field a {
+  color: #395799;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.edit-profile-field a:hover {
+  text-decoration: underline;
+}
+
+.edit-profile-field textarea {
+  width: auto;
+  padding: 2px;
+}
+
+.info-section small {
+  border-color: gray;
+  background-color: #fff;
+}
+
+@media (max-width: 600px) {
+  /* profile view */
+  .profile-panel a, button {
+    font-size: 10px;
+  }
+
+  .info-row {
+    flex-direction: column;
+  }
+
+  .info-section p, .label, .value{
+    font-size: 12px;
+    width: 100%;
+  }
+}

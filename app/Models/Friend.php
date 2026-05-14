@@ -94,6 +94,28 @@ class Friend extends Model {
         return (bool) $stmt->fetchColumn();
     }
 
+    public function getFriends(string $user_id): array {
+        $stmt = $this->pdo->prepare("
+            SELECT
+                u.id,
+                u.username,
+                u.first_name,
+                u.middle_name,
+                u.last_name,
+                u.avatar
+            FROM {$this->table} f
+            JOIN users u ON u.id = CASE
+                WHEN f.requester_id = :user_id THEN f.recipient_id
+                ELSE f.requester_id
+            END
+            WHERE f.status = 'friends'
+            AND (f.requester_id = :user_id OR f.recipient_id = :user_id)
+        ");
+
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function isFriends(string $user_id, string $other_id): bool {
       $stmt = $this->pdo->prepare("
           select 1 from {$this->table} 

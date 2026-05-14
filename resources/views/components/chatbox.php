@@ -4,11 +4,13 @@
 <div class="chatbox">
   <a href="/u/<?= htmlspecialchars($recipient->username) ?>">
       <div class="chat-receiver-name">
-            <span class="value"><?= htmlspecialchars($recipient->first_name) ?></span>
+            <span class="value">
+            <?= htmlspecialchars($recipient->first_name) ?>
             <?php if ($recipient->middle_name): ?>
-                <span class="value"><?= htmlspecialchars($recipient->middle_name) ?></span>
+                <?= htmlspecialchars($recipient->middle_name) ?>
             <?php endif; ?>
-            <span class="value"><?= htmlspecialchars($recipient->last_name) ?></span>
+            <?= htmlspecialchars($recipient->last_name) ?>
+            </span>
       </div>
   </a>
 
@@ -22,8 +24,10 @@
 
   <form action="/sendMessage" method="POST">
     <input type="hidden" name="recipient_id" value="<?= htmlspecialchars($recipientId) ?>" />
-    <textarea id="message-input" name="message_content" rows="1" placeholder="Type a message"></textarea>
-    <button type="submit" id="send-btn">send</button>
+    <div class="chat-input-wrapper">
+        <textarea id="message-input" name="message_content" rows="1" placeholder="Type a message"></textarea>
+        <button type="submit" id="send-btn" disabled>&#10148;</button>
+    </div>
   </form>
 </div>
 

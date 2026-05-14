@@ -62,4 +62,39 @@ class PostController {
             'comments' => $comments
         ]);
     }
+
+    public function editPostHandler(): void {
+        if (!AuthService::check()) {
+            (new Response())->json(['message' => 'Forbidden']);
+            return;
+        }
+
+        $request = new Request();
+        $postId  = $request->post('post_id');
+        $content = $request->post('edit-content');
+
+        if (empty($postId)) {
+            (new Response())->json(['message' => 'Something went wrong.']);
+            return;
+        }
+
+        if (empty($content)) {
+            (new Response())->json(['message' => 'You must write something.'], 422);
+            return;
+        }
+
+        $data          = new \App\Dto\EditPostDto();
+        $data->id      = $postId;
+        $data->content = $content;
+
+        $user    = AuthService::user();
+        $success = (new PostService())->editPost($user->id, $data);
+
+        if (!$success) {
+            (new Response())->json(['message' => 'Forbidden'], 403);
+            return;
+        }
+
+        (new Response())->redirect('/feed');
+    }
 }

@@ -34,7 +34,8 @@ Router::get('/messages', [MessageController::class, 'index'])->middleware('Authe
 Router::post('/login', [AuthController::class, 'loginHandler']);
 Router::post('/logout', [AuthController::class, 'logout']);
 Router::post('/signup', [AuthController::class, 'signUpHandler']);
-Router::post('/createPost', [PostController::class, 'createPostHandler']);
+Router::post('/createPost', [PostController::class, 'createPostHandler'])->middleware('Authenticate');
+Router::post('/editPost', [PostController::class, 'editPostHandler'])->middleware('Authenticate');
 Router::post('/like', [LikeController::class, 'likePostHandler'])->middleware('Authenticate');
 Router::post('/postComment', [CommentController::class, 'postCommentHandler'])->middleware('Authenticate');
 Router::post('/sendMessage', [MessageController::class, 'sendMessageHandler'])->middleware('Authenticate');

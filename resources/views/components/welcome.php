@@ -8,7 +8,7 @@ $headTitle = str_contains($_SERVER['REQUEST_URI'], '/register') ? 'Registration'
 
     <div>
 
-    <?php if (str_contains($_SERVER['REQUEST_URI'], '/register')): ?>
+    <?php if ($_SERVER['REQUEST_URI'] === '/register'): ?>
     <main class="auth-signup">
     <p align="center">To register for socialnetwork, just fill in the four fields below. You will have a chance to enter additional information after submission.</p>
     <form action="/signup" method="POST">
@@ -31,6 +31,10 @@ $headTitle = str_contains($_SERVER['REQUEST_URI'], '/register') ? 'Registration'
         <div>
             <label>Password:</label>
             <input type="password" name="password" />
+        </div>
+        <div>
+            <label for="birthday">Birthday:</label>
+            <input type="date" name="birthday" />
         </div>
         <div class="gender">
             <label>Gender: </label>

@@ -4,10 +4,10 @@ const form = document.querySelector('form[action="/sendMessage"]');
 const messagesContainer = document.querySelector('.chat-messages');
 
 input.addEventListener('input', () => {
-    btn.style.display = input.value.trim() ? 'block' : 'none';
+    btn.disabled = !input.value.trim();
 });
 
-const chatSocket = io(CHAT.chatSocketUrl);
+const chatSocket = io(CHAT.socketUrl);
 
 chatSocket.on('connect', () => {
     chatSocket.emit('join', CHAT.currentUserId);
@@ -41,7 +41,7 @@ form.addEventListener('submit', async (e) => {
     });
 
     input.value = '';
-    btn.style.display = 'none';
+    btn.disabled = true;
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
 
