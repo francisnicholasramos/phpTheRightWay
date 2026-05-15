@@ -52,4 +52,15 @@ class ChatParticipant extends Model {
 
         return $row ? $row['user_id'] : null;
     }
+
+    public function isParticipant(string $chatId, string $userId): bool {
+        $stmt = $this->pdo->prepare("
+            select 1 from {$this->table} 
+            where chat_id = :chat_id AND user_id = :user_id
+        ");
+
+        $stmt->execute(['chat_id' => $chatId, 'user_id' => $userId]);
+
+        return (bool) $stmt->fetchColumn();
+    }
 }

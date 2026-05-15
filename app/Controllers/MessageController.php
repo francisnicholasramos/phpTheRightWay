@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Models\ChatParticipant;
 use App\Services\AuthService;
 use App\Services\MessageService;
 use Core\Request;
@@ -65,6 +66,14 @@ class MessageController {
         }
 
         $currentUserId = AuthService::user()->id;
+
+        $isChatParticipant = (new ChatParticipant())->isParticipant($chatId, $currentUserId);
+        if (!$isChatParticipant) {
+            http_response_code(403);
+            echo "403 Forbidden";
+            return;
+        }
+
         $messageService = new MessageService();
         $messages = $messageService->getMessages($chatId);
         $recipientId = $messageService->getRecipientId($chatId, $currentUserId);
