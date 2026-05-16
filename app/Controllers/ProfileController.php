@@ -61,6 +61,12 @@ class ProfileController {
     }
 
     public function viewEditProfile(string $user_id): void{
+        if (AuthService::user()->id !== $user_id) {
+          http_response_code(403);
+          echo "Forbidden";
+          return;
+        }
+
         $user = AuthService::user();
         $profile = (new UserProfile())->findByUserId($user_id);
         View::render('components/edit-profile', [
