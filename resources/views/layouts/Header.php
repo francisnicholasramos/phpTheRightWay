@@ -13,6 +13,9 @@
         <div class="niko">
             <img src="/assets/binary.png" class="binary-niko" loading="lazy" alt="logo"/>
         </div>
+        <div class="mobile-logo">
+            <p>[ socialnetwork ]</p>
+        </div>
         <div class="social-network">
             <img src="/assets/social_network.png" class="logo" loading="lazy" alt="logo"/>
             <nav class="nav-links">
@@ -20,12 +23,14 @@
                     <li><a href="/login">login</a></li>
                     <li><a href="/register">register</a></li>
                 <?php else: ?>
-                    <li><a href="/feed">home</a></li>
-                    <li>
-                        <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
-                    </li>
-                    <li><a href="/messages">messages</a></li>
-                    <li><a href="/notifications" id="notification-link">notifications</a></li>
+                    <div class="hide-on-mobile">
+                        <li><a href="/feed">home</a></li>
+                        <li>
+                            <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
+                        </li>
+                        <li><a href="/messages">messages</a></li>
+                        <li><a href="/notifications" id="notification-link">notifications</a></li>
+                    </div>
                     <form action="/logout" method="post">
                         <button type="submit">logout</button>
                     </form>
@@ -34,6 +39,20 @@
         </div>
     </header>
     
+    <div class="layout-container">
+    
+    <?php if (isset($_SESSION['user_id'])) : ?>
+    <div class="mobile-nav">
+        <li><a href="/feed">home</a></li>
+        <button id="mobile-search">search</button>
+        <li>
+            <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
+        </li>
+        <li><a href="/messages">messages</a></li>
+        <li><a href="/notifications" id="notification-link-mobile">notifications</a></li>
+    </div>
+    <?php endif; ?>
+
     <?php if (isset($_SESSION['user_id'])): ?>
         <script src="<?= rtrim($_ENV['SOCKET_URL'] ?? 'http://localhost:3000', '/') ?>/socket.io/socket.io.js"></script>
         <script>
@@ -42,7 +61,6 @@
                 socketUrl: '<?= $_ENV['SOCKET_URL'] ?? 'http://localhost:3000' ?>'
             };
         </script>
+        <script src="/js/mobile-search.js"></script>
         <script src="/js/notification-badge.js"></script>
     <?php endif; ?>
-
-    <div class="layout-container">

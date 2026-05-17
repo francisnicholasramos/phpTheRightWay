@@ -1,13 +1,35 @@
 .layout-container {
   display: flex;
   width: 100%;
+  flex: 1;
+}
+
+.mobile-logo {
+  display: none;
+  font-weight: bold;
+  color: #f2f2f2;
+}
+
+.hide-on-mobile {
+  display: flex;
+  gap: 10px;
+}
+
+.component-info-header, .mobile-nav{
+  background-color: #6d84b4;
+  color: #fff;
+  padding: 5px;
 }
 
 .component-info-header {
-  background-color: #6d84b4;
-  color: #fff;
   font-weight: bold;
-  padding: 5px;
+}
+
+.mobile-nav {
+  display: none;
+  list-style-type: none;
+  font-size: 12px;
+  gap: 10px;
 }
 
 .index {
@@ -126,6 +148,7 @@
 .auth-signup button {
   max-width: fit-content;
   margin: auto;
+  margin-bottom: 10px;
 }
 
 .auth-signup div {
@@ -204,15 +227,40 @@
 /* sidebar */
 .sidebar {
   display: flex;
+  background-color: transparent;
   flex-direction: column;
-  width: 15%;
+  gap: 5px;
+  padding: 3px 3px 0 0;
+  max-width: 15%;
+  width: 100%;
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  border: none;
+  color: #395799;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar-actions a {
+  width: 100%;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.sidebar-actions a:hover {
+  text-decoration: underline;
 }
 
 /* search  */
 .search-form {
   display: flex;
   flex-direction: column;
-  padding: 3px;
   gap: 5px;
 }
 
@@ -221,6 +269,10 @@
   outline: none;
   padding: 3px;
   color: inherit;
+}
+
+.search-form button {
+  display: none;
 }
 
 .search-form span {
@@ -239,13 +291,20 @@
   gap: 5px;
 }
 
-.user-results {
+.no-results {
+  color: #999999;
+  font-size: 13px;
   padding: 5px;
 }
 
-.user-results .user {
+.user-results, .post-results{
+  padding: 5px;
+}
+
+.user-results .user, .post {
   display: flex;
   gap: 5px;
+  padding-left: 10px;
 }
 
 .user-results a:hover {
@@ -413,6 +472,7 @@
 
 .feed-action button.liked{
   color: #395799;
+  background-color: #dee2ed;
 }
 
 .comments-section {
@@ -487,7 +547,7 @@
   gap: 5px;
 }
 
-.profile-panel {
+.profile-panel { 
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -581,7 +641,7 @@
 }
 
 
-.profile-category {
+.profile-category, .search-result-category {
   background-color: #dee3ed;
   border-top: 2px solid #395799;
   color: #395799;
@@ -903,13 +963,92 @@
 }
 
 @media (max-width: 600px) {
-  /* profile view */
-  .profile-panel a, button {
-    font-size: 10px;
+  /* header */
+  header {
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+  }
+  
+  .mobile-logo, .mobile-nav {
+    display: flex;
   }
 
-  .info-row {
+  .hide-on-mobile {
+    display: none;
+  }
+
+  .social-network {
+    margin: 0;
+  }
+
+  .niko, .logo {
+    display: none;
+  }
+
+  /* layout  structure */
+  .layout-container {
     flex-direction: column;
+  }
+
+  .welcome-page {
+    margin-left: 0;
+  }
+
+  .index, 
+  .notification, 
+  .conversations, 
+  .profile-container,
+  .sidebar {
+    padding: 5px;
+  }
+
+  .chatbox {
+    padding: 5px 0;
+  }
+
+  /* sidebar */
+  .sidebar {
+    display: none;
+    background-color: transparent;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sidebar form {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .sidebar form > input {
+    flex: 1;
+  }
+
+  .sidebar form > button {
+    background-color: #6d84b4;
+    color: #fff;
+    border: none;
+  }
+  .sidebar form > button:hover {
+    background-color: #687fb1;
+  }
+
+  .sidebar-panel {
+    display: none;
+  }
+
+  /* feed */
+  .feed-wrapper {
+    border: 1px solid #d9d9d9;
+  }
+
+  /* profile view */
+  .profile-panel a, button {
+    font-size: 12px;
+  }
+
+  .profile-actions, .profile-category{
+    font-size: 12px;
   }
 
   .info-section p, .label, .value{
@@ -917,3 +1056,4 @@
     width: 100%;
   }
 }
+

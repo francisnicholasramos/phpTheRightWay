@@ -1,5 +1,9 @@
 <?php 
-$headTitle = str_contains($_SERVER['REQUEST_URI'], '/register') ? 'Registration' : 'Welcome to Socialnetwork!';
+$headTitle = match(true) {
+      str_contains($_SERVER['REQUEST_URI'], '/register') => 'Registration',
+      /* str_contains($_SERVER['REQUEST_URI'], '/login')    => 'Login', */
+      default => 'Welcome to Socialnetwork!'
+  };
 ?>
 <main class="welcome-page">
     <div class="welcome-header">

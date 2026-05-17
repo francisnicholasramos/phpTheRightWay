@@ -13,7 +13,8 @@ header {
   max-width: 100%;
 }
 
-.social-network button {
+.social-network button, 
+.mobile-nav button {
   background-color: transparent;
   color: #fff;
   border: none;
@@ -21,7 +22,8 @@ header {
   padding: 0;
 }
 
-.social-network button:hover {
+.social-network button:hover, 
+.mobile-nav button:hover {
   text-decoration: underline;
   cursor: pointer;
 }

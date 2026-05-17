@@ -17,6 +17,6 @@ $action = "/search";
         value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
         placeholder="Search..."
     />
-    <ul id="search-suggestions"></ul>
+    <button type="submit">search</button>
 </form>
 </div>
