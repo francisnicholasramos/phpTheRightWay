@@ -192,4 +192,50 @@ class Post extends Model {
         }
         return $posts;
     }
+
+    public function search(string $query, ?string $currentUserId=null): array {
+        $likedByMeExpr = $currentUserId
+            ? 'MAX(CASE WHEN likes.user_id = :current_user_id THEN 1 ELSE 0 END) as liked_by_me'
+            : '0 as liked_by_me';
+        
+        $stmt = $this->pdo->prepare("
+            select
+                posts.id,
+                posts.user_id,
+                posts.content,
+                posts.created_at,
+                posts.visibility,
+                u.avatar,
+                u.username,
+                u.first_name,
+                u.middle_name,
+                u.last_name,
+                COUNT(likes.user_id) as likes_count,
+                {$likedByMeExpr}
+            from {$this->table}
+            JOIN users u ON posts.user_id = u.id
+            LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
+            WHERE posts.content ILIKE :query
+            AND posts.visibility = 'public'
+            GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
+            LIMIT 20
+        ");
+
+        $params = ['query' => '%' . $query . '%'];
+
+        if ($currentUserId) {
+            $params['current_user_id'] = $currentUserId;
+        }
+
+        $stmt->execute($params);
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $posts = [];
+
+        foreach ($rows as $row) {
+            $posts[] = $this->hydrate($row);
+        }
+
+        return $posts;
+    }
 }

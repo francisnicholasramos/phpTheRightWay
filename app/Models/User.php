@@ -127,13 +127,19 @@ class User extends Model {
      * @return self[]
      */
     public function search(string $query): array {
-
-        // just the users ONLY for a now
         $stmt = $this->pdo->prepare("
-            SELECT first_name, middle_name, last_name, username, avatar from {$this->table}
+            SELECT 
+                first_name, 
+                middle_name, 
+                last_name, 
+                username, 
+                avatar 
+            from {$this->table}
             WHERE first_name ILIKE :query
-            OR last_name ILIKE :query
             OR middle_name ILIKE :query
+            OR last_name ILIKE :query
+            OR CONCAT(first_name, ' ', last_name) ILIKE :query
+            OR CONCAT(first_name, ' ', middle_name, ' ', last_name) ILIKE :query
             LIMIT 20
         ");
 

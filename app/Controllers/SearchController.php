@@ -22,7 +22,7 @@ class SearchController {
 
         if ($query !== '') {
             $searchService = new SearchService();
-            $results = $searchService->searchParam($query);
+            $results = $searchService->searchParam($query, $_SESSION['user_id'] ?? null);
         }
 
         View::render('search/index', ['results' => $results]);
