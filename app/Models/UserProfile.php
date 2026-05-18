@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Dto\AboutMeDto;
 use App\Dto\EducationDto;
+use App\Dto\WorkDto;
 
 class UserProfile extends Model {
     protected string $table = 'user_profile';
@@ -11,6 +12,7 @@ class UserProfile extends Model {
     public array $hobbies;
     public array $favorite_music;
     public ?array $education;
+    public ?array $work;
 
     private function parseArray(?string $val): array {
         if (!$val || $val === '{}') return [];
@@ -30,6 +32,7 @@ class UserProfile extends Model {
         $profile->hobbies      = $this->parseArray($row['hobbies']);
         $profile->favorite_music = $this->parseArray($row['favorite_music']);
         $profile->education      = $row['education'] ? json_decode($row['education'], true) : null;
+        $profile->work           = $row['work'] ? json_decode($row['work'], true) : null;
 
         return $profile;
     }
@@ -62,6 +65,20 @@ class UserProfile extends Model {
         return $stmt->execute([
             'user_id'   => $userId,
             'education' => json_encode($data->education),
+        ]);
+    }
+
+    public function upsertWork(string $userId, WorkDto $data): bool {
+        $stmt = $this->pdo->prepare("
+            insert into {$this->table} (user_id, work)
+            values (:user_id, :work::JSONB)
+            ON CONFLICT (user_id) DO UPDATE SET
+                work = EXCLUDED.work
+        ");
+
+        return $stmt->execute([
+            'user_id' => $userId,
+            'work'    => json_encode($data->work),
         ]);
     }
 }

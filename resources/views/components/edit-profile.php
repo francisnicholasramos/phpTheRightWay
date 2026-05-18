@@ -121,20 +121,8 @@
                   <input type="text" name="education[school]" class="value" value="<?= htmlspecialchars($profile?->education['school'] ?? '') ?>" placeholder="e.g, Harvard"/>
               </div>
               <div class="info-row">
-                  <span class="label">Degree:</span>
-                  <input type="text" name="education[degree]" class="value" value="<?= htmlspecialchars($profile?->education['degree'] ?? '') ?>" placeholder="e.g, Bachelor's Degree"/>
-              </div>
-              <div class="info-row">
                   <span class="label">Field of Study:</span>
                   <input type="text" name="education[field]" class="value" value="<?= htmlspecialchars($profile?->education['field'] ?? '') ?>" placeholder="e.g, Computer Science"/>
-              </div>
-              <div class="info-row">
-                  <span class="label">From:</span>
-                  <input type="number" name="education[from_year]" class="value" value="<?= htmlspecialchars($profile?->education['from_year'] ?? '') ?>" min="1900" max="2099"/>
-              </div>
-              <div class="info-row">
-                  <span class="label">To:</span>
-                  <input type="number" name="education[to_year]" class="value" value="<?= htmlspecialchars($profile?->education['to_year'] ?? '') ?>" min="1900" max="2099" />
               </div>
               <div class="info-row">
                   <button type="submit">Save changes</button>
@@ -145,26 +133,21 @@
 
     <!-- work -->
     <?php if ($_SERVER['REQUEST_URI'] === '/profiles/' . htmlspecialchars($user->id) . '/work'): ?>
-      <form action="" method="">
-         <div class="info-section">
-                <p>Work Info</p>
-                <div class="info-row">
-                    <span class="label">Company:</span>
-                    <input type="text" name="work[company]" class="value" value="<?= htmlspecialchars($profile?->work['company'] ?? '') ?>" placeholder="Name of company"/>
-                </div>
-                <div class="info-row">
-                    <span class="label">Position:</span>
-                    <input type="text" name="work[position]" class="value" value="<?= htmlspecialchars($profile?->work['position'] ?? '') ?>" placeholder="role"/>
-                </div>
-                <div class="info-row">
-                    <span class="label">From:</span>
-                    <input type="number" name="work[from_year]" class="value" value="<?= htmlspecialchars($profile?->work['from_year'] ?? '') ?>" min="1900" max="2099" />
-                </div>
-                <div class="info-row">
-                    <span class="label">To:</span>
-                    <input type="number" name="work[to_year]" class="value" value="<?= htmlspecialchars($profile?->work['to_year'] ?? '') ?>" min="1900" max="2099" />
-                </div>
-            </div>
+      <form action="/profiles/<?= htmlspecialchars($user->id) ?>/work" method="POST">
+          <div class="info-section">
+              <p>Work Info</p>
+              <div class="info-row">
+                  <span class="label">Company:</span>
+                  <input type="text" name="work[company]" class="value" value="<?= htmlspecialchars($profile?->work['company'] ?? '') ?>" placeholder="e.g, Google"/>
+              </div>
+              <div class="info-row">
+                  <span class="label">Role:</span>
+                  <input type="text" name="work[position]" class="value" value="<?= htmlspecialchars($profile?->work['position'] ?? '') ?>" placeholder="e.g, Software Engineer"/>
+              </div>
+              <div class="info-row">
+                  <button type="submit">Save changes</button>
+              </div>
+          </div>
       </form>
     <?php endif; ?>
 

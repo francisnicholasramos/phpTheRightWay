@@ -9,6 +9,7 @@ use App\Dto\ChangeNameDto;
 use App\Dto\EditPersonalDetailsDto;
 use App\Dto\AboutMeDto;
 use App\Dto\EducationDto;
+use App\Dto\WorkDto;
 
 class ProfileService {
     private User $userModel;
@@ -61,5 +62,9 @@ class ProfileService {
 
     public function editEducation(EducationDto $data): bool {
         return (new UserProfile())->upsertEducation($data->id, $data);
+    }
+
+    public function editWork(WorkDto $data): bool {
+        return (new UserProfile())->upsertWork($data->id, $data);
     }
 }

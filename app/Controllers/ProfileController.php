@@ -13,6 +13,7 @@ use App\Dto\ChangeNameDto;
 use App\Dto\EditPersonalDetailsDto;
 use App\Dto\AboutMeDto;
 use App\Dto\EducationDto;
+use App\Dto\WorkDto;
 use Core\Response;
 use Core\Session;
 use Core\View;
@@ -208,5 +209,26 @@ class ProfileController {
         }
 
         (new Response())->redirect('/profiles/' . $user->id . '/education');
+    }
+
+    public function editWork(): void {
+        $user = AuthService::user();
+
+        $data       = new WorkDto();
+        $data->id   = $user->id;
+        $data->work = [
+            'company'  => trim($_POST['work']['company'] ?? '') ?: null,
+            'position' => trim($_POST['work']['position'] ?? '') ?: null,
+        ];
+
+        $result = (new ProfileService())->editWork($data);
+
+        if (!$result) {
+            (new Session())->flash('error', 'Something went wrong.');
+            (new Response())->redirect('/profiles/' . $user->id . '/work');
+            return;
+        }
+
+        (new Response())->redirect('/profiles/' . $user->id . '/work');
     }
 }
