@@ -34,8 +34,7 @@ class Router {
 
                 // if route is attached with midddleware check its authentication
                 if ($route->getMiddleware()) {
-                    $middlewareClass = "App\\Middleware\\" .
-                        $route->getMiddleware();
+                    $middlewareClass = "App\\Middleware\\" . $route->getMiddleware();
                     (new $middlewareClass())->handle();
                 }
 

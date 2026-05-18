@@ -3,6 +3,13 @@ const btn = document.getElementById('send-btn');
 const form = document.querySelector('form[action="/sendMessage"]');
 const messagesContainer = document.querySelector('.chat-messages');
 
+function scrollToBottom() {
+    requestAnimationFrame(() => {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+}
+scrollToBottom();
+
 input.addEventListener('input', () => {
     btn.disabled = !input.value.trim();
 });
@@ -42,7 +49,6 @@ form.addEventListener('submit', async (e) => {
 
     input.value = '';
     btn.disabled = true;
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
 
 function appendMessage(content, type) {
@@ -50,4 +56,5 @@ function appendMessage(content, type) {
     div.className = type;
     div.textContent = content;
     messagesContainer.appendChild(div);
+    scrollToBottom();
 }

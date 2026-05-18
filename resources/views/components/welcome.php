@@ -60,26 +60,35 @@ $headTitle = match(true) {
     </main>
     <?php else: ?>
         <div class="welcome">
-        <h3>
-          <b>
-            [ Welcome to Socialnetwork ]
-          </b>
-        </h3>
-        <p align="center">Socialnetwork is an online directory that connects people through shared connections</p>
-        <br/>
-        <p>You can use Socialnetwork to:</p>
-        <ul>
-        <li>Search for people in your community</li>
-        <li>Find out who you have in common</li>
-        <li>Explore connections through your friends' networks</li>
-        <li>See a visualization of your social circle</li>
-        </ul>
-        <br/>
-        <p align="center">To get started, click below to register. If you have already registered, you can log in.</p>
-        <span class="auth-btn">
-            <button type="button" class="universal-btn" onclick="window.location.href='/register'">register</button>
-            <button type="button" class="universal-btn" onclick="window.location.href='/login'">login</button>
-        </span>
+            <div>
+            <h3>
+              <b>
+                [ Welcome to Socialnetwork ]
+              </b>
+            </h3>
+            </div>
+
+            <div>
+              <p>Socialnetwork is an online directory that connects people through shared connections</p>
+            </div>
+
+            <div>
+                <p>You can use Socialnetwork to:</p>
+                <ul>
+                    <li>Search for people in your community</li>
+                    <li>Find out who you have in common</li>
+                    <li>Explore connections through your friends' networks</li>
+                    <li>See a visualization of your social circle</li>
+                </ul>
+            </div>
+
+            <div>
+            <p text-align="center">To get started, click below to register. If you have already registered, you can log in.</p>
+            <span class="auth-btn">
+                <button type="button" class="universal-btn" onclick="window.location.href='/register'">register</button>
+                <button type="button" class="universal-btn" onclick="window.location.href='/login'">login</button>
+            </span>
+            </div>
         </div>
     <?php endif; ?>
     </div>

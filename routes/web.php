@@ -19,6 +19,8 @@ Router::get('/feed', [FeedController::class, 'index'])->middleware('Authenticate
 Router::get('/notifications/count', [NotificationController::class, 'countHandler'])->middleware('Authenticate');
 Router::get('/search', [SearchController::class, 'searchHandler'])->middleware('Authenticate');
 Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);
+Router::get('/u/{username}/friends', [FriendController::class, 'friendList'])->middleware('Authenticate');
+Router::get('/u/{username}/friends/more', [FriendController::class, 'loadMoreFriends'])->middleware('Authenticate');
 Router::get('/messages/{chatId}', [MessageController::class, 'showChat'])->middleware('Authenticate');
 Router::get('/notifications', [NotificationController::class, 'index'])->middleware('Authenticate');
 Router::get('/post/{postId}', [PostController::class, 'viewPost'])->middleware('Authenticate');
@@ -27,6 +29,7 @@ Router::get('/profiles/{userId}/name', [ProfileController::class, 'viewEditProfi
 Router::get('/profiles/{userId}/personal_details', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/about_me', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/education', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/profiles/{userId}/work', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 
 Router::get('/chat/start/{userId}', [MessageController::class, 'startChatHandler'])->middleware('Authenticate');
 Router::get('/messages', [MessageController::class, 'index'])->middleware('Authenticate');
@@ -49,3 +52,4 @@ Router::post('/profiles/{userId}/name', [ProfileController::class, 'changeName']
 Router::post('/profiles/{userId}/personal_details', [ProfileController::class, 'editPersonalDetails'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/about_me', [ProfileController::class, 'editAboutMe'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/education', [ProfileController::class, 'editEducation'])->middleware('Authenticate');
+Router::post('/profiles/{userId}/work', [ProfileController::class, 'editWork'])->middleware('Authenticate');

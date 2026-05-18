@@ -4,8 +4,10 @@ namespace App\Controllers;
 
 use App\Services\FriendService;
 use App\Services\AuthService;
+use App\Models\User;
 use Core\Request;
 use Core\Response;
+use Core\View;
 
 class FriendController {
     private FriendService $friendService;
@@ -57,6 +59,36 @@ class FriendController {
         $result = $this->friendService->declineRequest($requester_id, $recipient_id);
 
         (new Response())->json(['success' => $result]);
+    }
+
+    public function friendList(string $username): void {
+        $user = (new User())->findByUsername($username);
+        if (!$user) {
+            http_response_code(404);
+            echo "User not found";
+            return;
+        }
+
+        $friends = $this->friendService->getFriends($user->id, 20, 0);
+
+        View::render('components/friend-list', [
+            'user' => $user,
+            'friends' => $friends
+        ]);
+    }
+
+    public function loadMoreFriends(string $username): void {
+        $offset = (int) ($_GET['offset'] ?? 0);
+        $user = (new User())->findByUsername($username);
+
+        if (!$user) {
+            (new Response())->json([], 404);
+            return;
+        }
+
+        $friends = $this->friendService->getFriends($user->id, 20, $offset);
+
+        (new Response())->json($friends);
     }
 
     public function cancelFriendRequest(): void {

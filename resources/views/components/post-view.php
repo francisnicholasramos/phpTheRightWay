@@ -5,57 +5,84 @@
     <div class="component-info-header">
         <p>View post</p>
     </div>
-    <a href="/u/<?= htmlspecialchars($post->username) ?>">
-    <div class="feed-user">
-        <div class="feed-item-avatar">
-            <img src="<?= htmlspecialchars($post->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
+    <div class="post-detail-wrapper">
+        <a href="/u/<?= htmlspecialchars($post->username) ?>">
+            <div class="feed-user">
+                <div class="feed-item-avatar">
+                    <img src="<?= htmlspecialchars($post->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
+                </div>
+                <div>
+                    <span>
+                        <?= htmlspecialchars($post->first_name) ?>
+                        <?= htmlspecialchars($post->middle_name ?? '') ?>
+                        <?= htmlspecialchars($post->last_name) ?>
+                    </span>
+                </div>
+            </div>
+        </a>
+
+        <div class="feed-content">
+            <?= htmlspecialchars($post->content) ?>
         </div>
-        <div>
-            <span>
-                <?= htmlspecialchars($post->first_name) ?>
-                <?= htmlspecialchars($post->middle_name ?? '') ?>
-                <?= htmlspecialchars($post->last_name) ?>
-            </span>
+
+        <div class="feed-action">
+            <div>
+                <button 
+                    id="like-btn-<?= htmlspecialchars($post->id) ?>"
+                    class="<?= $post->liked_by_me ? 'liked' : '' ?>" 
+                    data-post-id="<?= htmlspecialchars($post->id) ?>"
+                >
+                    Like
+                </button>
+                <span id="likes-<?= htmlspecialchars($post->id) ?>" class="likes-count">
+                    <?= $post->likes_count ? "{$post->likes_count}" : '' ?>
+                </span>
+            </div>
+
+            <a href="/post/<?= htmlspecialchars($post->id) ?>">Comment</a>
         </div>
     </div>
-    </a>
 
-    <div class="feed-content">
-        <?= htmlspecialchars($post->content) ?>
-    </div>
+    <div class="comment-detail-wrapper">
+        <h4>Comments</h4>
+        <div class="separator"></div>
 
-
-    <form class="comment-form" method="post" action="/postComment">
-    <h3>Comments</h3>
-        <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->id) ?>" />
-        <div class="comment-input-wrapper">
-            <textarea name="comment" placeholder="Write a comment..." rows="2"></textarea>
-            <button type="submit" class="universal-btn">Post</button>
+        <div class="comments-section">
+            <?php foreach ($comments as $comment): ?>
+            <div class="comment-item">
+                <div class="comment-avatar">
+                    <img src="<?= htmlspecialchars($comment->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
+                </div>
+                <div class="comment-body">
+                    <strong>
+                        <?= htmlspecialchars($comment->first_name ?? '') ?>
+                        <?= htmlspecialchars($comment->middle_name ?? '') ?>
+                        <?= htmlspecialchars($comment->last_name ?? '') ?>
+                    </strong>
+                    <p><?= htmlspecialchars($comment->content) ?></p>
+                </div>
+            </div>
+            <?php endforeach; ?>
         </div>
-    </form>
 
-    <div class="comments-section">
+        <form class="comment-form" method="post" action="/postComment">
+            <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->id) ?>" />
+            <div class="comment-input-wrapper">
+                <div class="comment-avatar">
+                    <img src="<?= htmlspecialchars(\App\Services\AuthService::user()->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
+                </div>
+                <textarea name="comment" placeholder="Write a comment..." rows="2"></textarea>
+                <button type="submit" class="universal-btn">Post</button>
+            </div>
+        </form>
         <?php if (!$comments): ?>
+            <div class="separator"></div>
             <p class="no-comments">No comments yet.</p>
         <?php endif; ?>
-        <?php foreach ($comments as $comment): ?>
-        <div class="comment-item">
-            <div class="comment-avatar">
-                <img src="<?= htmlspecialchars($comment->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
-            </div>
-            <div class="comment-body">
-                <strong>
-                    <?= htmlspecialchars($comment->first_name ?? '') ?>
-                    <?= htmlspecialchars($comment->middle_name ?? '') ?>
-                    <?= htmlspecialchars($comment->last_name ?? '') ?>
-                </strong>
-                <p><?= htmlspecialchars($comment->content) ?></p>
-            </div>
-        </div>
-        <?php endforeach; ?>
     </div>
 </div>
 
+<script src="/js/likepost.js"></script>
 <script>
     const textarea = document.querySelector('.comment-input-wrapper textarea');
     const button = document.querySelector('.comment-input-wrapper button');

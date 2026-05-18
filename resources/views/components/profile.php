@@ -12,7 +12,7 @@
         <?php if ($_SESSION['user_id'] === $user->id): ?>
             <div class="profile-actions">
                 <a href="/profiles/<?= htmlspecialchars($user->id) ?>" id="edit-profile">Edit Profile</a>
-                <a href="" id="view-friends">View all friends</a>
+                <a href="/u/<?= htmlspecialchars($user->username) ?>/friends" id="view-friends">View all friends</a>
             </div>
         <?php endif; ?>
         <!-- if user if logged-in and can't do action in your own profile -->
@@ -46,11 +46,16 @@
             </div>
             <div class="profile-friend-list">
                 <?php if (empty($friends)): ?>
-                    <p style="color: #808080; font-size: 13px;">No friends yet.</p>
+                    <p style="color: #808080; 
+                              font-size: 11px; 
+                              width: 100%; 
+                              white-space: nowrap;
+                              margin: auto;"
+                    >No friends yet.</p>
                 <?php else: ?>
                     <?php foreach ($friends as $friend): ?>
                     <a href="/u/<?= htmlspecialchars($friend['username']) ?>">
-                        <div 
+                        <div
                           class="friend-item"
                           title="<?= htmlspecialchars($friend['first_name']) ?> <?= htmlspecialchars($friend['middle_name']) ?> <?= htmlspecialchars($friend['last_name']) ?>"
                         >
@@ -63,6 +68,9 @@
                         </div>
                     </a>
                     <?php endforeach; ?>
+                    <?php if (count($friends) >= 5): ?>
+                        <a href="/u/<?= htmlspecialchars($user->username) ?>/friends" class="see-all-friends">See all...</a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -152,28 +160,39 @@
             <?php if ($profile?->education): ?>
               <div class="info-section">
                   <p>Education</p>
+                  <?php if ($profile->education['school']): ?>
+                      <div class="info-row">
+                          <span class="label">School:</span>
+                          <span class="value"><?= htmlspecialchars($profile->education['school'] ?? '') ?></span>
+                      </div>
+                  <?php endif; ?>
+                  <?php if ($profile->education['field']): ?>
                   <div class="info-row">
-                      <span class="label">School:</span>
-                      <span class="value"><?= htmlspecialchars($profile->education['school'] ?? '') ?></span>
-                  </div>
-                  <div class="info-row">
-                      <span class="label">Degree:</span>
-                      <span class="value"><?= htmlspecialchars($profile->education['degree'] ?? '') ?></span>
-                  </div>
-                  <div class="info-row">
-                      <span class="label">Field:</span>
+                      <span class="label">Field of study:</span>
                       <span class="value"><?= htmlspecialchars($profile->education['field'] ?? '') ?></span>
                   </div>
-                  <div class="info-row">
-                      <span class="label">From:</span>
-                      <span class="value"><?= htmlspecialchars($profile->education['from_year'] ?? '') ?></span>
-                  </div>
-                  <div class="info-row">
-                      <span class="label">To:</span>
-                      <span class="value"><?= htmlspecialchars($profile->education['to_year'] ?? '') ?></span>
-                  </div>
+                  <?php endif; ?>
               </div>
-              <?php endif; ?>
+            <?php endif; ?>
+
+            <!-- work -->
+            <?php if ($profile?->work): ?>
+              <div class="info-section">
+                  <p>Work</p>
+                  <?php if ($profile->work['company']): ?>
+                  <div class="info-row">
+                      <span class="label">Company:</span>
+                      <span class="value"><?= htmlspecialchars($profile->work['company'] ?? '') ?></span>
+                  </div>
+                  <?php endif; ?>
+                  <?php if ($profile->work['position']): ?>
+                  <div class="info-row">
+                      <span class="label">Role:</span>
+                      <span class="value"><?= htmlspecialchars($profile->work['position'] ?? '') ?></span>
+                  </div>
+                  <?php endif; ?>
+              </div>
+            <?php endif; ?>
 
         <?php endif; ?>
     </div>

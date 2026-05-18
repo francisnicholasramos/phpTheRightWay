@@ -31,6 +31,7 @@
                         <li><a href="/messages">messages</a></li>
                         <li><a href="/notifications" id="notification-link">notifications</a></li>
                     </div>
+                    <button id="mobile-search">search</button>
                     <form action="/logout" method="post">
                         <button type="submit">logout</button>
                     </form>
@@ -44,7 +45,6 @@
     <?php if (isset($_SESSION['user_id'])) : ?>
     <div class="mobile-nav">
         <li><a href="/feed">home</a></li>
-        <button id="mobile-search">search</button>
         <li>
             <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
         </li>

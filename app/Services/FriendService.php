@@ -73,4 +73,8 @@ class FriendService {
 
         return $result;
     }
+
+    public function getFriends(string $user_id, int $count = 20, int $offset = 0): array {
+        return $this->friendModel->getFriends($user_id, $count, $offset);
+    }
 }

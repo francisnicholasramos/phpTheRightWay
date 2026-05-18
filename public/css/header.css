@@ -2,6 +2,8 @@ header {
   background-color: #395799;
   color: #fff;
   display: flex;
+  position: sticky;
+  top: 0;
 }
 
 .social-network {

@@ -94,25 +94,33 @@ class Friend extends Model {
         return (bool) $stmt->fetchColumn();
     }
 
-    public function getFriends(string $user_id): array {
+    /**
+     * 1st query: YOU sent the request — friend is in recipient_id
+     * 2nd query: YOU received the request — friend is in requester_id
+     * UNION merges both into one complete friend list
+     */
+    public function getFriends(string $user_id, int $count=5, int $offset=0): array {
         $stmt = $this->pdo->prepare("
-            SELECT
-                u.id,
-                u.username,
-                u.first_name,
-                u.middle_name,
-                u.last_name,
-                u.avatar
+            SELECT u.id, u.username, u.first_name, u.middle_name, u.last_name, u.avatar
             FROM {$this->table} f
-            JOIN users u ON u.id = CASE
-                WHEN f.requester_id = :user_id THEN f.recipient_id
-                ELSE f.requester_id
-            END
-            WHERE f.status = 'friends'
-            AND (f.requester_id = :user_id OR f.recipient_id = :user_id)
+            JOIN users u ON u.id = f.recipient_id
+            WHERE f.requester_id = :user_id1 AND f.status = 'friends'
+
+            UNION
+
+            SELECT u.id, u.username, u.first_name, u.middle_name, u.last_name, u.avatar
+            FROM {$this->table} f
+            JOIN users u ON u.id = f.requester_id
+            WHERE f.recipient_id = :user_id2 AND f.status = 'friends'
+
+            LIMIT :count OFFSET :offset
         ");
 
-        $stmt->execute(['user_id' => $user_id]);
+        $stmt->bindValue(':user_id1', $user_id);
+        $stmt->bindValue(':user_id2', $user_id);
+        $stmt->bindValue(':count', $count, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
