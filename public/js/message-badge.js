@@ -24,11 +24,13 @@ function updateBadge(count) {
     }
 }
 
-messageSocket.on('message', () => {
-    const source = messageLink || messageLinkMobile;
-    const match = source ? source.textContent.match(/\((\d+)\)/) : null; // look for a number inside the parenthesis
-    const current = match ? parseInt(match[1]) : 0; // grab the current count
-    updateBadge(current + 1);
+messageSocket.on('message', async () => {
+    try {
+        const res = await fetch('/messages/count', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        updateBadge(data.count);
+    } catch (_) {}
 });
 
 (async () => {
