@@ -86,7 +86,7 @@ class Chat extends Model {
                 WHEN m.message_content IS NOT NULL
                     AND m.sender_id != cp.user_id
                     AND (cp.last_read_at IS NULL OR m.created_at > cp.last_read_at) 
-                THEN TRUE ELSE FALSE
+                THEN 1 ELSE 0
             END AS has_unread
         from {$this->table} c
         JOIN chat_participants cp ON cp.chat_id = c.id AND cp.user_id = :user_id
