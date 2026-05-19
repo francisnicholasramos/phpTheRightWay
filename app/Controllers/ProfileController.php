@@ -194,10 +194,7 @@ class ProfileController {
         $data->id         = $user->id;
         $data->education  = [
             'school'     => trim($_POST['education']['school'] ?? '') ?: null,
-            'degree'     => trim($_POST['education']['degree'] ?? '') ?: null,
             'field'      => trim($_POST['education']['field'] ?? '') ?: null,
-            'from_year'  => $_POST['education']['from_year'] ? (int) $_POST['education']['from_year'] : null,
-            'to_year'    => $_POST['education']['to_year'] ? (int) $_POST['education']['to_year'] : null,
         ];
 
         $arr_data = (new ProfileService())->editEducation($data);
