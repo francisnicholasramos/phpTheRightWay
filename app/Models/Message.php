@@ -54,4 +54,19 @@ class Message extends Model {
         $stmt->execute(['chat_id' => $chatId]);
         return array_map(fn($row) => $this->hydrate($row), $stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
+
+    public function getUnreadChatCount(string $userId): int{
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(DISTINCT m.chat_id) from {$this->table} m
+            JOIN chat_participants cp ON cp.chat_id = m.chat_id AND cp.user_id = :user_id
+            WHERE m.sender_id != :sender_id
+            AND (cp.last_read_at IS NULL OR m.created_at > cp.last_read_at) 
+        ");
+
+        $stmt->execute([
+            'user_id' => $userId,
+            'sender_id' => $userId
+        ]);
+        return (int) $stmt->fetchColumn();
+    }
 }

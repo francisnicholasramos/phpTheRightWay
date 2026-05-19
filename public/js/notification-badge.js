@@ -11,8 +11,19 @@ window.notifSocket = socket;
 
 function updateBadge(count) {
     const text = count > 0 ? `notifications(${count})` : 'notifications';
-    if (notifLink) notifLink.textContent = text;
-    if (notifLinkMobile) notifLinkMobile.textContent = text;
+    const color = count > 0 ? '#fffc6d' : '';
+    const fontWeight = count > 0 ? 'bold' : 'normal';
+    if (notifLink) {
+        notifLink.textContent = text;
+        notifLink.style.color = color;
+        notifLink.style.fontWeight = fontWeight;
+    }
+
+    if (notifLinkMobile) {
+        notifLinkMobile.textContent = text;
+        notifLinkMobile.style.color = color;
+        notifLinkMobile.style.fontWeight = fontWeight;
+    }
 }
 
 socket.on('notification', () => {

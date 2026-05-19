@@ -175,9 +175,10 @@ $sql = <<<SQL
     );
     
     CREATE TABLE IF NOT EXISTS "chat_participants" (
-        "chat_id"   UUID           NOT NULL,
-        "user_id"   UUID           NOT NULL,
-        "joined_at" TIMESTAMP(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "chat_id"          UUID           NOT NULL,
+        "user_id"          UUID           NOT NULL,
+        "joined_at"        TIMESTAMP(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "last_read_at"     TIMESTAMP(3),
 
         FOREIGN KEY ("chat_id") REFERENCES "chats"("id") ON DELETE CASCADE,
         FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE,

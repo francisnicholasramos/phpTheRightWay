@@ -8,24 +8,24 @@
         </div>
       <?php else: ?>
           <?php foreach ($conversations as $convo): ?>
-              <a href="/messages/<?= htmlspecialchars($convo['chat_id']) ?>" class="conversation-item">
+              <a href="/messages/<?= htmlspecialchars($convo['chat_id']) ?>" class="conversation-item <?= $convo['has_unread'] ? 'unread' : '' ?>">
                   <div class="conversation-name">
                       <div class="conversation-avatar">
                           <img src="<?= htmlspecialchars($convo['avatar'] ?: '/assets/default_profile.svg') ?>" loading="lazy" />
                       </div>
                     
-                      <div>
-                      <?= htmlspecialchars($convo['first_name']) ?>
-                      <?php if ($convo['middle_name']): ?>
-                      <?= htmlspecialchars($convo['middle_name']) ?>
-                      <?php endif; ?>
-                      <?= htmlspecialchars($convo['last_name']) ?>
+                      <div class="convo-name <?= $convo['has_unread'] ? 'unread' : ''?>">
+                          <?= htmlspecialchars($convo['first_name']) ?>
+                          <?php if ($convo['middle_name']): ?>
+                          <?= htmlspecialchars($convo['middle_name']) ?>
+                          <?php endif; ?>
+                          <?= htmlspecialchars($convo['last_name']) ?>
 
-                      <?php if ($convo['last_message']): ?>
-                          <div class="conversation-preview">
-                              <?= htmlspecialchars($convo['last_message']) ?>
-                          </div>
-                      <?php endif; ?>
+                          <?php if ($convo['last_message']): ?>
+                              <div class="conversation-preview">
+                                  <?= htmlspecialchars($convo['last_message']) ?>
+                              </div>
+                          <?php endif; ?>
                       </div>
                   </div>
               </a>

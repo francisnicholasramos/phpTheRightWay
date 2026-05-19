@@ -64,4 +64,8 @@ class MessageService {
     public function getUserConversations(string $user_id): array {
         return $this->chatModel->getChatList($user_id);
     }
+
+    public function getUnreadChat(string $userId): int {
+        return $this->messageModel->getUnreadChatCount($userId);
+    }
 }

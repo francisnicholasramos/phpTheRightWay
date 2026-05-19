@@ -910,6 +910,14 @@
   padding: 5px;
 }
 
+.convo-name.unread {
+  font-weight: bold;
+}
+
+.conversation-item.unread {
+  background-color: #eff1f6;
+}
+
 .conversation-name {
   display: flex;
   justify-items: center;

@@ -81,13 +81,19 @@ class Chat extends Model {
             c.id AS chat_id, c.chat_type, c.created_at,
             u.id AS other_user_id,
             u.first_name, u.middle_name, u.last_name, u.avatar,
-            m.message_content AS last_message, m.created_at AS last_message_at
+            m.message_content AS last_message, m.created_at AS last_message_at,
+            CASE
+                WHEN m.message_content IS NOT NULL
+                    AND m.sender_id != cp.user_id
+                    AND (cp.last_read_at IS NULL OR m.created_at > cp.last_read_at) 
+                THEN TRUE ELSE FALSE
+            END AS has_unread
         from {$this->table} c
         JOIN chat_participants cp ON cp.chat_id = c.id AND cp.user_id = :user_id
         JOIN chat_participants cp2 ON cp2.chat_id = c.id AND cp2.user_id != :user_id
         JOIN users u ON u.id = cp2.user_id
         LEFT JOIN LATERAL (
-            select message_content, created_at FROM messages    
+            select message_content, created_at, sender_id FROM messages    
             where chat_id = c.id
             ORDER BY created_at DESC
             LIMIT 1 

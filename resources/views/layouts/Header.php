@@ -28,7 +28,7 @@
                         <li>
                             <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
                         </li>
-                        <li><a href="/messages">messages</a></li>
+                        <li><a href="/messages" id="message-link">messages</a></li>
                         <li><a href="/notifications" id="notification-link">notifications</a></li>
                     </div>
                     <button id="mobile-search">search</button>
@@ -48,7 +48,7 @@
         <li>
             <a href="/u/<?= \App\Services\AuthService::user()->username ?>">profile</a>
         </li>
-        <li><a href="/messages">messages</a></li>
+        <li><a href="/messages" id="message-link-mobile">messages</a></li>
         <li><a href="/notifications" id="notification-link-mobile">notifications</a></li>
     </div>
     <?php endif; ?>
@@ -60,7 +60,13 @@
                 userId: '<?= htmlspecialchars($_SESSION['user_id']) ?>',
                 socketUrl: '<?= $_ENV['SOCKET_URL'] ?? 'http://localhost:3000' ?>'
             };
+
+            window.MESSAGE = {
+                userId: '<?= htmlspecialchars($_SESSION['user_id']) ?>',
+                socketUrl: '<?= $_ENV['SOCKET_URL'] ?? 'http://localhost:3000' ?>'
+            };
         </script>
         <script src="/js/mobile-search.js"></script>
         <script src="/js/notification-badge.js"></script>
+        <script src="/js/message-badge.js"></script>
     <?php endif; ?>

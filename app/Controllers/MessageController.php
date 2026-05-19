@@ -67,12 +67,16 @@ class MessageController {
 
         $currentUserId = AuthService::user()->id;
 
-        $isChatParticipant = (new ChatParticipant())->isParticipant($chatId, $currentUserId);
+        $chatParticipant = new ChatParticipant();
+
+        $isChatParticipant = $chatParticipant->isParticipant($chatId, $currentUserId);
         if (!$isChatParticipant) {
             http_response_code(403);
             echo "403 Forbidden";
             return;
         }
+
+        $chatParticipant->updateLastRead($chatId, $currentUserId);
 
         $messageService = new MessageService();
         $messages = $messageService->getMessages($chatId);
@@ -94,5 +98,16 @@ class MessageController {
         $chat = $messageService->findOrCreateChat($currentUserId, $userId);
 
         (new Response())->redirect('/messages/' . $chat);
+    }
+
+    public function getUnreadChatHandler(): void {
+        $userId = $_SESSION['user_id'];
+        if (!$userId) {
+            (new Response())->json(['message' => 'Unauthorized'], 401);
+            return;
+        }
+
+        $count = (new MessageService())->getUnreadChat($userId);
+        (new Response())->json(['count' => $count]);
     }
 }

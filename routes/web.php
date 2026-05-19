@@ -21,6 +21,7 @@ Router::get('/search', [SearchController::class, 'searchHandler'])->middleware('
 Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);
 Router::get('/u/{username}/friends', [FriendController::class, 'friendList'])->middleware('Authenticate');
 Router::get('/u/{username}/friends/more', [FriendController::class, 'loadMoreFriends'])->middleware('Authenticate');
+Router::get('/messages/count', [MessageController::class, 'getUnreadChatHandler'])->middleware('Authenticate');
 Router::get('/messages/{chatId}', [MessageController::class, 'showChat'])->middleware('Authenticate');
 Router::get('/notifications', [NotificationController::class, 'index'])->middleware('Authenticate');
 Router::get('/post/{postId}', [PostController::class, 'viewPost'])->middleware('Authenticate');

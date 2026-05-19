@@ -63,4 +63,12 @@ class ChatParticipant extends Model {
 
         return (bool) $stmt->fetchColumn();
     }
+
+    public function updateLastRead(string $chatId, string $userId): void {
+        $stmt = $this->pdo->prepare("
+          UPDATE {$this->table} SET last_read_at = NOW()
+          WHERE chat_id = :chat_id AND user_id = :user_id
+        ");
+        $stmt->execute(['chat_id' => $chatId, 'user_id' => $userId]);
+    }
 }
