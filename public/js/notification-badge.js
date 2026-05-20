@@ -9,7 +9,7 @@ socket.on('connect', () => {
 
 window.notifSocket = socket;
 
-function updateBadge(count) {
+function updateNotifBadge(count) {
     const text = count > 0 ? `notifications(${count})` : 'notifications';
     const color = count > 0 ? '#fffc6d' : '';
     const fontWeight = count > 0 ? 'bold' : 'normal';
@@ -30,7 +30,7 @@ socket.on('notification', () => {
     const source = notifLink || notifLinkMobile;
     const match = source ? source.textContent.match(/\((\d+)\)/) : null;
     const current = match ? parseInt(match[1]) : 0;
-    updateBadge(current + 1);
+    updateNotifBadge(current + 1);
 });
 
 (async () => {
@@ -38,6 +38,6 @@ socket.on('notification', () => {
         const res = await fetch('/notifications/count', { cache: 'no-store' });
         if (!res.ok) return;
         const data = await res.json();
-        updateBadge(data.count);
+        updateNotifBadge(data.count);
     } catch (_) {}
 })();
