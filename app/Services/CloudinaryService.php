@@ -24,7 +24,8 @@ class CloudinaryService {
 
     public function upload(string $filePath, string $folder): string {
         $result = $this->cloudinary->uploadApi()->upload($filePath, [
-            'folder' => 'socialnetwork/' . $folder
+            'folder' => 'socialnetwork/' . $folder,
+            'format' => 'webp'
         ]);
 
         return $result['secure_url'];
