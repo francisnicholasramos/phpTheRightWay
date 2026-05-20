@@ -76,6 +76,18 @@ class User extends Model {
         return $stmt->execute((array) $data);
     }
 
+    public function updateAvatar(string $userId, string $avatarUrl): bool {
+        $stmt = $this->pdo->prepare("
+            update {$this->table} set avatar = :avatar
+            where id = :user_id
+        ");
+
+        return $stmt->execute([
+            ':user_id' => $userId, 
+            ':avatar' => $avatarUrl, 
+        ]);
+    }
+
     public function updatePersonalDetails(EditPersonalDetailsDto $data): bool {
         $stmt = $this->pdo->prepare("
             update {$this->table} 

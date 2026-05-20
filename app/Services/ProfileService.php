@@ -67,4 +67,39 @@ class ProfileService {
     public function editWork(WorkDto $data): bool {
         return (new UserProfile())->upsertWork($data->id, $data);
     }
+
+    /**
+     * @param string $userId
+     * @param array $file
+     * @return string|null
+     */
+    public function changeAvatar(string $userId, array $file): ?string {
+        $format = [
+            'image/jpeg', 
+            'image/jpg', 
+            'image/png', 
+            'image/webp', 
+            'image/heic', 
+            'image/heif'
+        ];
+
+         // reads the actual file bytes instead of trusting the browser-supplied type, which can be spoofed
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mimetype = $finfo->file($file['tmp_name']);
+
+        if (!in_array($mimetype, $format)) {
+            return 'Only JPEG, PNG, WebP, HEIC, HEIF images are allowed.';
+        }
+
+        if ($file['size'] > 10 * 1024 * 1024) {
+            return 'Image must be under 10MB.';
+        }
+
+        $url = (new CloudinaryService())->upload($file['tmp_name'], 'avatars');
+
+        (new \App\Models\UserPhoto())->insertPhoto($userId, $url, 'avatar');
+        $this->userModel->updateAvatar($userId, $url);
+
+        return null;
+    }
 }

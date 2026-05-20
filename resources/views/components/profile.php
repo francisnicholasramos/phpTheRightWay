@@ -6,9 +6,11 @@
     </div>
     <div class="profile-wrapper">
     <div class="profile-panel">
-        <div class="profile-avatar">
-            <img src="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" loading="lazy"/>
-        </div>
+        <a href="/profiles/<?= htmlspecialchars($user->id) ?>/avatar">
+          <div class="profile-avatar">
+              <img src="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" loading="lazy"/>
+          </div>
+        </a>
         <?php if ($_SESSION['user_id'] === $user->id): ?>
             <div class="profile-actions">
                 <a href="/profiles/<?= htmlspecialchars($user->id) ?>" id="edit-profile">Edit Profile</a>

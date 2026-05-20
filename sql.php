@@ -42,6 +42,12 @@ $sql = <<<SQL
         WHEN duplicate_object THEN NULL;
     END $$;
 
+    DO $$ BEGIN
+        CREATE TYPE "photo_type" AS ENUM ('avatar', 'photo', 'post');
+    EXCEPTION 
+        WHEN duplicate_object THEN NULL;
+    END $$;
+
     CREATE TABLE IF NOT EXISTS "users" (
         "id"            UUID          NOT NULL DEFAULT gen_random_uuid(),
         "first_name"    TEXT          NOT NULL,
@@ -115,6 +121,23 @@ $sql = <<<SQL
 
     CREATE INDEX IF NOT EXISTS "posts_user_id_idx" ON "posts"("user_id");
     CREATE INDEX IF NOT EXISTS "posts_created_at_idx" ON "posts"("created_at" DESC);
+
+    CREATE TABLE IF NOT EXISTS "user_photos" (
+        "id"            UUID          NOT NULL DEFAULT gen_random_uuid(),
+        "user_id"       UUID          NOT NULL,
+        "post_id"       UUID,
+        "url"           TEXT          NOT NULL,
+        "type"          photo_type    NOT NULL DEFAULT 'photo',
+        "created_at"    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE,
+        FOREIGN KEY ("post_id") REFERENCES "posts"("id") ON DELETE CASCADE,
+
+        CONSTRAINT "user_photos_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE INDEX IF NOT EXISTS "user_photos_post_id_idx" ON "user_photos"("post_id");
+    CREATE INDEX IF NOT EXISTS "user_photos_user_id_idx" ON "user_photos"("user_id");
 
     CREATE TABLE IF NOT EXISTS "comments" (
         "id"        UUID        NOT NULL DEFAULT gen_random_uuid(),

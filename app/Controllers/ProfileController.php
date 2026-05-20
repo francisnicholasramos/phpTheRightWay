@@ -228,4 +228,30 @@ class ProfileController {
 
         (new Response())->redirect('/profiles/' . $user->id . '/work');
     }
+
+    public function changeAvatar(string $userId): void {
+        $user = AuthService::user();
+
+        if ($user->id !== $userId) {
+            http_response_code(403);
+            echo 'Forbidden.';
+            return;
+        }
+
+        if (empty($_FILES['avatar']) || $_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
+            (new Session())->flash('error', 'Something went wrong.');
+            (new Response())->redirect('/profiles/' . $userId . '/avatar');
+            return;
+        }
+
+        $error = (new ProfileService())->changeAvatar($userId, $_FILES['avatar']);
+
+        if ($error) {
+            (new Session())->flash('error', $error); // return handling message
+            (new Response())->redirect('/profiles/' . $userId . '/avatar');
+            return;
+        }
+
+        (new Response())->redirect('/u/' . $user->username);
+    }
 }

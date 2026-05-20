@@ -9,6 +9,8 @@
 
     <?php if ($_SERVER['REQUEST_URI'] === '/profiles/' . htmlspecialchars($user->id)): ?>
         <a href="/profiles/<?= htmlspecialchars($user->id) ?>/name">Name</a>
+        <a href="/profiles/<?= htmlspecialchars($user->id) ?>/avatar">Change avatar</a>
+        <a href="/profiles/<?= htmlspecialchars($user->id) ?>/password">Password</a>
         <a href="/profiles/<?= htmlspecialchars($user->id) ?>/about_me">About me</a>
         <a href="/profiles/<?= htmlspecialchars($user->id) ?>/personal_details">Personal details</a>
         <a href="/profiles/<?= htmlspecialchars($user->id) ?>/education">Education</a>
@@ -47,6 +49,36 @@
               </div>
           </div>
       </form>
+    <?php endif; ?>
+    
+    <!-- avatar -->
+    <?php if ($_SERVER['REQUEST_URI'] === '/profiles/' . htmlspecialchars($user->id) . '/avatar'): ?>
+        <form action="/profiles/<?= htmlspecialchars($user->id) ?>/avatar" method="POST" enctype="multipart/form-data">
+            <div class="change-avatar-container">
+
+                <div class="avatar-split">
+                    <div class="avatar-preview">
+                        <img id="avatar-preview" src="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" loading="lazy" />
+                    </div>
+                    <div class="avatar-info">
+                        <p>Change avatar</p>
+                        <div class="avatar-guide-info">
+                            <p>- JPG, PNG, WebP, HEIC, HEIF only</p> 
+                            <p>- Max file size: is 10MB</p> 
+                            <p>- Square images work best</p> 
+                        </div>
+                        <?php include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+                        <input type="file" id="avatar-input" class="change-avatar" name="avatar" accept="image/*" />
+                    </div>
+                </div>
+                <button type="submit">Save</button>
+            </div>
+        </form>
+        <script>
+            document.getElementById('avatar-input')?.addEventListener('change', function () {
+                document.getElementById('avatar-preview').src = URL.createObjectURL(this.files[0]);
+            });
+        </script>
     <?php endif; ?>
 
     <!-- personail details -->

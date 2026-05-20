@@ -27,6 +27,7 @@ Router::get('/notifications', [NotificationController::class, 'index'])->middlew
 Router::get('/post/{postId}', [PostController::class, 'viewPost'])->middleware('Authenticate');
 Router::get('/profiles/{userId}', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/name', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/profiles/{userId}/avatar', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/personal_details', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/about_me', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/education', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
@@ -54,3 +55,4 @@ Router::post('/profiles/{userId}/personal_details', [ProfileController::class, '
 Router::post('/profiles/{userId}/about_me', [ProfileController::class, 'editAboutMe'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/education', [ProfileController::class, 'editEducation'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/work', [ProfileController::class, 'editWork'])->middleware('Authenticate');
+Router::post('/profiles/{userId}/avatar', [ProfileController::class, 'changeAvatar'])->middleware('Authenticate');
