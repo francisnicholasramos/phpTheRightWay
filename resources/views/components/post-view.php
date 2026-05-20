@@ -44,7 +44,7 @@
     </div>
 
     <div class="comment-detail-wrapper">
-        <h4>Comments</h4>
+        <h3>Comments</h3>
         <div class="separator"></div>
 
         <div class="comments-section">
