@@ -170,5 +170,17 @@ class User extends Model {
         }, $stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
 
+    public function updatePassword(string $userId, string $password): bool {
+        $stmt = $this->pdo->prepare("
+            update {$this->table} set password = :password 
+            where id = :id
+        ");
+
+        return $stmt->execute([
+            'id'       => $userId,
+            'password' => $password,
+        ]);
+    }
+
 }
 

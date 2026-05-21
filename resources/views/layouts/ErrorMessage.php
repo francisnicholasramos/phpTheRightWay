@@ -1,8 +1,10 @@
 <?php 
 
 $session = new \Core\Session();
-$message = $session->flash('error');
+$_fk = $flashKey ?? 'error';
+$message = $session->flash($_fk);
 
 if ($message) {
-    echo "<div class='message'>" . htmlspecialchars($message) . "</div>";
+    $class = $_fk === 'success' ? 'message success' : 'message';
+    echo "<div class='{$class}'>" . htmlspecialchars($message) . "</div>";
 }

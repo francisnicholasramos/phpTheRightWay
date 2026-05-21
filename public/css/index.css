@@ -76,6 +76,10 @@
   color: red;
 }
 
+.message.success {
+  color: green;
+}
+
 /* welcome page */
 .welcome-page {
   display: flex;
@@ -85,6 +89,8 @@
   width: 100%;
   background-color: #fff;
   border: 1px solid #cccccc;
+  border-top: none;
+  border-bottom: 1px solid #395799;
   color: #000;
   height: fit-content;
 }
@@ -119,13 +125,38 @@
   margin: 10px auto;
 }
 
+.welcome-page a {
+  color:#395799;
+}
 
-/* login */
+.welcome-page a:hover {
+  text-decoration: underline;
+}
+
+/* side login */
 .auth {
   height: fit-content;
   border: 1px dashed #808080;
   margin-top: 1px;
   padding: 5px;
+  max-width: 21%;
+  width: 100%;
+}
+
+.auth-nav {
+  display: flex;
+  flex-direction: column !important;
+  width: 100%;
+}
+
+.auth-nav a {
+  font-size: 14px;
+  color: #395799;
+  border-bottom: 1px solid #ccc;
+}
+
+.auth a:hover {
+  text-decoration: underline;
 }
 
 .auth div{
@@ -158,11 +189,46 @@
 }
 
 /* auth-signup */
-.auth-signup {
+.auth-signup, .login-form{
   display: flex;
   flex-direction: column;
   margin: auto;
   gap: 5px;
+}
+
+.login-form div:last-of-type{
+  flex-direction: row;
+}
+
+.login-form input, .reset-form input{
+  border: 1px solid #bfbfbf;
+  outline: none;
+}
+
+.reset-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  margin: auto;
+}
+
+.reset-form p {
+  font-size: 13px;
+  color: #666666;
+}
+
+.reset-form input {
+  border: 1px solid #bfbfbf;
+  outline: none;
+  padding: 5px;
+}
+
+.reset-form button {
+  margin-left: auto;
+  background-color: #6d84b4;
+  border-color: #6d84b4;
+  color: #fff;
 }
 
 .auth-signup form {
@@ -178,8 +244,19 @@
   margin-bottom: 10px;
 }
 
-.auth-signup div {
+.auth-signup div, .login-form div{
   display: flex;
+}
+
+.login-form label {
+  min-width: 80px;
+  font-size: 15px;
+  color: #808080;
+}
+
+.login-form span {
+  font-size: 12px;
+  margin-bottom: 10px;
 }
 
 .auth-signup label {
@@ -205,8 +282,7 @@
 }
 
 .auth-signup input {
-
-  border: 1px solid #808080;
+  border: 1px solid #bfbfbf;
   outline: none;
 }
 
@@ -1212,6 +1288,10 @@
 
   .component-info-header {
     border-top: 1px solid #395799;
+  }
+
+  .auth {
+    display: none;
   }
   
   .mobile-logo, .mobile-nav {

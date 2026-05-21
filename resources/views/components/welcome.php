@@ -1,7 +1,9 @@
 <?php 
 $headTitle = match(true) {
       str_contains($_SERVER['REQUEST_URI'], '/register') => 'Registration',
-      /* str_contains($_SERVER['REQUEST_URI'], '/login')    => 'Login', */
+      str_contains($_SERVER['REQUEST_URI'], '/reset-password') => 'Reset password',
+      str_contains($_SERVER['REQUEST_URI'], '/forgot-password') => 'Forgot password',
+      str_contains($_SERVER['REQUEST_URI'], '/login') => 'Login',
       default => 'Welcome to Socialnetwork!'
   };
 ?>
@@ -58,6 +60,56 @@ $headTitle = match(true) {
         <div>
     </form>
     </main>
+    <?php elseif ($_SERVER['REQUEST_URI'] === '/login'): ?>
+        <form class="login-form" action="/login" method="POST">
+            <div>
+                <label>Email:</label>
+                <input type="text" name="email" />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" />
+            </div>
+
+            <?php $flashKey = 'login_error'; include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+
+            <span class="auth-btn">
+                <button type="submit" class="universal-btn">login</button>
+                <button type="button" class="universal-btn" onclick="window.location.href='/register'">register</button>
+            </span>
+            <span>
+                If you have forgotten your password,
+                <a href="/forgot-password">click</a>
+                to reset it.
+            </span>
+        </form>
+    <?php elseif (str_contains($_SERVER['REQUEST_URI'], '/reset-password')): ?>
+        <form class="reset-form" action="/reset-password" method="POST">
+            <p>Enter your new password below.</p>
+            <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>" />
+            <div>
+                <label>New password:</label>
+                <input type="password" name="password" />
+            </div>
+            <div>
+                <label>Confirm password:</label>
+                <input type="password" name="password_confirm" />
+            </div>
+
+            <?php $flashKey = 'error'; include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+
+            <button type="submit" class="universal-btn">Reset password</button>
+        </form>
+    <?php elseif ($_SERVER['REQUEST_URI'] === '/forgot-password'): ?>
+        <form class="reset-form" action="/forgot-password" method="POST">
+            <p>Enter your email and we'll send you a link to reset your password.</p>
+            <input type="text" id="email" name="email" placeholder="Email address" />
+
+            <?php $flashKey = 'error'; include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+            <?php $flashKey = 'success'; include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+
+            <button type="submit" class="universal-btn">Send reset link</button>
+        </form>
     <?php else: ?>
         <div class="welcome">
             <div>

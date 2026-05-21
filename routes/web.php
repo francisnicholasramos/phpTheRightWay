@@ -13,8 +13,11 @@ use App\Controllers\FriendController;
 use App\Controllers\PokeController;
 use Core\Router;
 
+Router::get('/', [AuthController::class, 'index']);
 Router::get('/login', [AuthController::class, 'loginPage']);
 Router::get('/register', [AuthController::class, 'signUpPage']);
+Router::get('/forgot-password', [AuthController::class, 'forgotPasswordPage']);
+Router::get('/reset-password', [AuthController::class, 'resetPasswordPage']);
 Router::get('/feed', [FeedController::class, 'index'])->middleware('Authenticate');
 Router::get('/notifications/count', [NotificationController::class, 'countHandler'])->middleware('Authenticate');
 Router::get('/search', [SearchController::class, 'searchHandler'])->middleware('Authenticate');
@@ -32,6 +35,8 @@ Router::get('/profiles/{userId}/personal_details', [ProfileController::class, 'v
 Router::get('/profiles/{userId}/about_me', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/education', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
 Router::get('/profiles/{userId}/work', [ProfileController::class, 'viewEditProfile'])->middleware('Authenticate');
+Router::get('/forgot-password', [AuthController::class, 'forgotPasswordPage']);
+Router::get('/reset-password', [AuthController::class, 'resetPasswordPage']);
 
 Router::get('/chat/start/{userId}', [MessageController::class, 'startChatHandler'])->middleware('Authenticate');
 Router::get('/messages', [MessageController::class, 'index'])->middleware('Authenticate');
@@ -39,6 +44,8 @@ Router::get('/messages', [MessageController::class, 'index'])->middleware('Authe
 Router::post('/login', [AuthController::class, 'loginHandler']);
 Router::post('/logout', [AuthController::class, 'logout']);
 Router::post('/signup', [AuthController::class, 'signUpHandler']);
+Router::post('/forgot-password', [AuthController::class, 'forgotPasswordHandler']);
+Router::post('/reset-password', [AuthController::class, 'resetPasswordHandler']);
 Router::post('/createPost', [PostController::class, 'createPostHandler'])->middleware('Authenticate');
 Router::post('/editPost', [PostController::class, 'editPostHandler'])->middleware('Authenticate');
 Router::post('/like', [LikeController::class, 'likePostHandler'])->middleware('Authenticate');
@@ -56,3 +63,5 @@ Router::post('/profiles/{userId}/about_me', [ProfileController::class, 'editAbou
 Router::post('/profiles/{userId}/education', [ProfileController::class, 'editEducation'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/work', [ProfileController::class, 'editWork'])->middleware('Authenticate');
 Router::post('/profiles/{userId}/avatar', [ProfileController::class, 'changeAvatar'])->middleware('Authenticate');
+Router::post('/forgot-password', [AuthController::class, 'forgotPasswordHandler']);
+Router::post('/reset-password', [AuthController::class, 'resetPasswordHandler']);

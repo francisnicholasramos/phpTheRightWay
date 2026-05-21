@@ -1,5 +1,3 @@
-<?php $title = "Sign Up"; ?>
-
 <?php require_once __DIR__ . '/../layouts/Header.php'; ?>
 
 <main class="auth">

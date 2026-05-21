@@ -229,6 +229,17 @@ $sql = <<<SQL
     CREATE INDEX IF NOT EXISTS "messages_chat_id_idx" ON "messages"("chat_id", "created_at" DESC);
     CREATE INDEX IF NOT EXISTS "messages_sender_id_idx" ON "messages"("sender_id");
 
+    CREATE TABLE IF NOT EXISTS "password_reset" (
+        "token"         VARCHAR(64)        NOT NULL,
+        "email"         TEXT               NOT NULL,
+        "created_at"    TIMESTAMP          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "expires_at"    TIMESTAMP          NOT NULL,
+
+        CONSTRAINT "password_reset_pkey" PRIMARY KEY ("token")
+    );
+
+    CREATE INDEX IF NOT EXISTS "password_reset_email_idx" ON "password_reset"("email");
+
 SQL;
 
 try {
