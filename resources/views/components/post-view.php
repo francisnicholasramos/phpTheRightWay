@@ -23,6 +23,15 @@
 
         <div class="feed-content">
             <?= htmlspecialchars($post->content) ?>
+            <?php if (!empty($post->photos)): ?>
+                <div class="post-photos post-photos--<?= count($post->photos) ?>">
+                    <?php foreach ($post->photos as $photo): ?>
+                        <a href="<?= htmlspecialchars($photo) ?>" class="post-photo-wrap glightbox" data-gallery="post-<?= htmlspecialchars($post->id) ?>">
+                            <img src="<?= htmlspecialchars($photo) ?>" loading="lazy" class="post-photo" crossorigin="anonymous" />
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
 
         <div class="feed-action">
@@ -83,6 +92,7 @@
 </div>
 
 <script src="/js/likepost.js"></script>
+<script src="/js/post-photo-bg.js"></script>
 <script>
     const textarea = document.querySelector('.comment-input-wrapper textarea');
     const button = document.querySelector('.comment-input-wrapper button');

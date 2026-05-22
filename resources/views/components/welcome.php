@@ -53,7 +53,7 @@ $headTitle = match(true) {
                 <input type="radio" id="female" name="gender" value="female"/>
             </div>
         </div>
-        <?php include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
+        <?php $flashKey = 'error'; include __DIR__ . '/../layouts/ErrorMessage.php'; ?>
 
         <div>
           <button type="submit">Register Now!</button>

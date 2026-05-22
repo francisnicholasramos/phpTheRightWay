@@ -6,7 +6,7 @@
     </div>
     <div class="profile-wrapper">
     <div class="profile-panel">
-        <a href="/profiles/<?= htmlspecialchars($user->id) ?>/avatar">
+        <a href="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" class="glightbox" data-gallery="profile-avatar">
           <div class="profile-avatar">
               <img src="<?= htmlspecialchars($user->avatar ?: '/assets/default_profile.png') ?>" loading="lazy"/>
           </div>
@@ -15,6 +15,7 @@
             <div class="profile-actions">
                 <a href="/profiles/<?= htmlspecialchars($user->id) ?>" id="edit-profile">Edit Profile</a>
                 <a href="/u/<?= htmlspecialchars($user->username) ?>/friends" id="view-friends">View all friends</a>
+                <a href="/u/<?= htmlspecialchars($user->username) ?>/photos">Photos</a>
             </div>
         <?php endif; ?>
         <!-- if user if logged-in and can't do action in your own profile -->
@@ -36,6 +37,7 @@
             <?php if ($existingChatId): ?>
                 <a href="/messages/<?= htmlspecialchars($existingChatId) ?>">Send a message</a>
             <?php else: ?>       
+                <a href="/u/<?= htmlspecialchars($user->username) ?>/photos">View all photos</a>
                 <a href="#" onclick="document.getElementById('chat-window').style.display='flex'">Send a message</a>
             <?php endif; ?>
                 <button id="poke-btn" data-to-user-id="<?= htmlspecialchars($user->id) ?>">Poke!</button>
@@ -213,10 +215,67 @@
         </div>
    </div>
    </div>
+
+    <div class="profile-posts-section <?= empty($posts) ? 'posts-empty' : 'posts-filled' ?>">
+        <div class="profile-category">
+            <p class="info-header">Posts</p>
+        </div>
+        <?php if (empty($posts)): ?>
+            <p class="profile-no-posts">No posts available.</p>
+        <?php else: ?>
+            <?php foreach ($posts as $post): ?>
+            <div class="feed-item">
+                <div class="feed-item-header">
+                    <a href="/u/<?= htmlspecialchars($post->username) ?>">
+                        <div class="feed-user">
+                            <div class="feed-item-avatar">
+                                <img src="<?= htmlspecialchars($post->avatar ?: '/assets/default_profile.svg') ?>" loading="lazy" />
+                            </div>
+                            <div>
+                                <span>
+                                    <?= htmlspecialchars($post->first_name) ?>
+                                    <?= htmlspecialchars($post->middle_name ?? '') ?>
+                                    <?= htmlspecialchars($post->last_name) ?>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="feed-content" data-post-id="<?= htmlspecialchars($post->id) ?>">
+                    <span class="post-text"><?= htmlspecialchars($post->content) ?></span>
+                    <?php if (!empty($post->photos)): ?>
+                        <div class="post-photos post-photos--<?= count($post->photos) ?>">
+                            <?php foreach ($post->photos as $photo): ?>
+                                <a href="<?= htmlspecialchars($photo) ?>" class="post-photo-wrap glightbox" data-gallery="post-<?= htmlspecialchars($post->id) ?>">
+                                    <img src="<?= htmlspecialchars($photo) ?>" loading="lazy" class="post-photo" crossorigin="anonymous" />
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="feed-action">
+                    <div>
+                        <button
+                            id="like-btn-<?= htmlspecialchars($post->id) ?>"
+                            class="<?= $post->liked_by_me ? 'liked' : '' ?>"
+                            data-post-id="<?= htmlspecialchars($post->id) ?>"
+                        >Like</button>
+                        <span id="likes-<?= htmlspecialchars($post->id) ?>" class="likes-count">
+                            <?= $post->likes_count ? "{$post->likes_count}" : '' ?>
+                        </span>
+                    </div>
+                    <a href="/post/<?= htmlspecialchars($post->id) ?>">Comment</a>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 </main>
 
 <script src="/js/friend-request.js"></script>
 <script src="/js/chat-window.js"></script>
 <script src="/js/poke.js"></script>
+<script src="/js/likepost.js"></script>
+<script src="/js/post-photo-bg.js"></script>
 
 <?php require_once __DIR__ . '/../layouts/Footer.php'; ?>

@@ -7,15 +7,18 @@
         <link href="/css/main.css" rel="stylesheet">
         <link href="/css/header.css" rel="stylesheet">
         <link href="/css/index.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/glightbox.min.css" />
     </head>
     <body>
     <header>
         <div class="niko">
             <img src="/assets/binary.png" class="binary-niko" loading="lazy" alt="logo"/>
         </div>
+        <a href="/">
         <div class="mobile-logo">
             <p>[ socialnetwork ]</p>
         </div>
+        </a>
         <div class="social-network">
             <img src="/assets/social_network.png" class="logo" loading="lazy" alt="logo"/>
             <nav class="nav-links">

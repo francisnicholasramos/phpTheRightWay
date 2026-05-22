@@ -20,6 +20,7 @@ class Post extends Model {
     public readonly string $first_name;
     public readonly ?string $middle_name;
     public readonly string $last_name;
+    public readonly array $photos;
 
     /**
      * @param array $row
@@ -38,6 +39,7 @@ class Post extends Model {
         $post->first_name    = $row['first_name'];
         $post->middle_name   = $row['middle_name'] ?? null;
         $post->last_name     = $row['last_name'];
+        $post->photos        = json_decode($row['photos'] ?? '[]', true) ?: []; // json_decode() set to true to return associative array
 
         return $post;
     }
@@ -62,11 +64,19 @@ class Post extends Model {
                 u.first_name,
                 u.middle_name,
                 u.last_name,
+
+                COALESCE (
+                    json_agg(up.url ORDER BY up.created_at)
+                    FILTER (where up.id IS NOT NULL),
+                    '[]'
+                ) AS photos,
+
                 count(likes.user_id) as likes_count,
                 {$likedByMeExpr}
             from {$this->table}
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
+            LEFT JOIN user_photos up ON posts.id = up.post_id AND up.type = 'post'
             GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
             ORDER BY posts.created_at DESC";
 
@@ -113,11 +123,19 @@ class Post extends Model {
                 u.first_name,
                 u.middle_name,
                 u.last_name,
+
+                COALESCE (
+                    json_agg(up.url ORDER BY up.created_at)
+                    FILTER (where up.id IS NOT NULL),
+                    '[]'
+                ) AS photos,
+
                 COUNT(likes.user_id) as likes_count,
                 {$likedByMeExpr}
             FROM {$this->table}
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
+            LEFT JOIN user_photos up ON posts.id = up.post_id AND up.type = 'post'
             WHERE posts.id = :id
             GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
         ";
@@ -138,13 +156,18 @@ class Post extends Model {
 
     /** 
      * @param array{user_id: string, content: string, visibility: string} $data
-     * @return bool
+     * @return string|null
      */
-    public function createPost(array $data): bool {
-        $stmt = $this->pdo->prepare("insert into {$this->table}
+    public function createPost(array $data): ?string {
+        $stmt = $this->pdo->prepare("
+            insert into {$this->table}
             (user_id, content, visibility)
-            values (:user_id, :content, :visibility)");
-        return $stmt->execute($data);
+            values (:user_id, :content, :visibility)
+            RETURNING id
+        ");
+        $stmt->execute($data);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row['id'] ?? null;
     }
 
     public function getOwnerId(string $id): ?PostDto {
@@ -174,10 +197,18 @@ class Post extends Model {
                 u.first_name,
                 u.middle_name,
                 u.last_name,
+
+                COALESCE (
+                    json_agg(up.url ORDER BY up.created_at)
+                    FILTER (where up.id IS NOT NULL),
+                    '[]'
+                ) AS photos,
+
                 COUNT(l.user_id) AS likes_count
             FROM {$this->table} p
             JOIN users u ON p.user_id = u.id
             LEFT JOIN likes l ON p.id = l.entity_id AND l.entity_type = 'post'
+            LEFT JOIN user_photos up ON p.id = up.post_id AND up.type = 'post'
             WHERE p.user_id = :user_id
             GROUP BY p.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
             ORDER BY p.created_at DESC
@@ -210,11 +241,19 @@ class Post extends Model {
                 u.first_name,
                 u.middle_name,
                 u.last_name,
+
+                COALESCE (
+                    json_agg(up.url ORDER BY up.created_at)
+                    FILTER (where up.id IS NOT NULL),
+                    '[]'
+                ) AS photos,
+
                 COUNT(likes.user_id) as likes_count,
                 {$likedByMeExpr}
             from {$this->table}
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
+            LEFT JOIN user_photos up ON posts.id = up.post_id AND up.type = 'post'
             WHERE posts.content ILIKE :query
             AND posts.visibility = 'public'
             GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name

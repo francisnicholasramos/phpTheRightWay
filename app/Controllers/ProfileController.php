@@ -53,6 +53,7 @@ class ProfileController {
         View::render('components/profile', [
             'user' => $user,
             'profile' => $profile,
+            'posts' => $posts,
             'friends' => $friends,
             'existingChatId' => $existingChatId,
             'isPending' => $isPending,

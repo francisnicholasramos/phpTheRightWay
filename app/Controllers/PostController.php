@@ -31,7 +31,8 @@ class PostController {
 
         $user = AuthService::user();
         $postService = new PostService();
-        $postService->post($user->id, $content, $audience);
+        $files = $_FILES['images'] ?? [];
+        $postService->post($user->id, $content, $audience, $files);
 
         (new Response())->redirect('/feed');
     }

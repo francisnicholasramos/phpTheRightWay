@@ -10,6 +10,7 @@ use App\Controllers\MessageController;
 use App\Controllers\ProfileController;
 use App\Controllers\SearchController;
 use App\Controllers\FriendController;
+use App\Controllers\PhotoController;
 use App\Controllers\PokeController;
 use Core\Router;
 
@@ -23,6 +24,7 @@ Router::get('/notifications/count', [NotificationController::class, 'countHandle
 Router::get('/search', [SearchController::class, 'searchHandler'])->middleware('Authenticate');
 Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);
 Router::get('/u/{username}/friends', [FriendController::class, 'friendList'])->middleware('Authenticate');
+Router::get('/u/{username}/photos', [PhotoController::class, 'photoList'])->middleware('Authenticate');
 Router::get('/u/{username}/friends/more', [FriendController::class, 'loadMoreFriends'])->middleware('Authenticate');
 Router::get('/messages/count', [MessageController::class, 'getUnreadChatHandler'])->middleware('Authenticate');
 Router::get('/messages/{chatId}', [MessageController::class, 'showChat'])->middleware('Authenticate');

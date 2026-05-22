@@ -42,6 +42,16 @@
 
    <div class="feed-content" data-post-id="<?= htmlspecialchars($post->id) ?>">
       <span class="post-text"><?= htmlspecialchars($post->content) ?></span>
+       <?php if (!empty($post->photos)): ?>
+           <div class="post-photos post-photos--<?= count($post->photos) ?>">
+               <?php foreach ($post->photos as $photo): ?>
+                   <a href="<?= htmlspecialchars($photo) ?>" class="post-photo-wrap glightbox" data-gallery="post-<?= htmlspecialchars($post->id) ?>">
+                       <img src="<?= htmlspecialchars($photo) ?>" loading="lazy" class="post-photo" crossorigin="anonymous" />
+                   </a>
+               <?php endforeach; ?>
+           </div>
+       <?php endif; ?>
+
       <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $post->user_id): ?>
           <form action="/editPost" method="POST">
               <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->id) ?>" />
@@ -76,6 +86,7 @@
 
 <script src="/js/likepost.js"></script>
 <script src="/js/edit-post.js"></script>
+<script src="/js/post-photo-bg.js"></script>
 
 </main>
 

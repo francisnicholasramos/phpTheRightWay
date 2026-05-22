@@ -6,7 +6,7 @@
             <div class="sidebar-actions">
                 <a href="/u/<?= \App\Services\AuthService::user()->username ?>">My Profile</a>
                 <a href="/u/<?= \App\Services\AuthService::user()->username ?>/friends">My Friends</a>
-                <a href="">My Photos</a>
+                <a href="/u/<?= \App\Services\AuthService::user()->username ?>/photos">My Photos</a>
             </div>
         </div>
     </aside>
