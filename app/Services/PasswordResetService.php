@@ -81,8 +81,8 @@ class PasswordResetService {
             $mail->SMTPAuth   = true;
             $mail->Username   = $_ENV['MAIL_USERNAME'];
             $mail->Password   = $_ENV['MAIL_PASSWORD'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port       = (int) $_ENV['MAIL_PORT'];
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
 
             $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
             $mail->addAddress($toEmail);
