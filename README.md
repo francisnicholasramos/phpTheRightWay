@@ -1,5 +1,3 @@
-# 24hrs of PHP 
+# The Socialnetwork
 
-24 hours of attempting to fix my skill issue.
-
-Touching grass is for people who don't have skill issues.
+Live: https://socialnetwork-g0pl.onrender.com
