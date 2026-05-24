@@ -39,11 +39,20 @@ class AuthService {
         string $password,
         string $birthday,
         string $gender
-    ): bool {
+    ): string|bool {
         $userModel = new User();
 
         if ($userModel->findByEmail($email)) {
-            return false;
+            return 'Email is already in use.';
+        }
+
+        if (!in_array($gender, ['male', 'female'])) {
+            return 'Invalid gender';
+        }
+
+        $birthdayDate = new \DateTime($birthday);
+        if ($birthdayDate > new \DateTime()) {
+            return 'Birthday cannot be a future date.';
         }
 
         $baseUsername = strtolower(str_replace(' ', '', $firstname) . '.' . str_replace(' ', '', $lastname));

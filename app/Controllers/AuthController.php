@@ -61,6 +61,14 @@ class AuthController {
             return;
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $session = new \Core\Session();
+            $session->flash('error', 'Invalid email address.');
+
+            (new Response())->redirect('/register');
+            return;
+        }
+
         if (empty($password)) {
             $session = new \Core\Session();
             $session->flash('error' , 'Password is required.');
@@ -85,11 +93,17 @@ class AuthController {
             return;
         }
 
-        if (AuthService::signup($first_name, $middle_name, $last_name, $email, $password, $birthday, $gender)) {
-            (new Response())->redirect('/login');
+        $result = AuthService::signup($first_name, $middle_name, $last_name, $email, $password, $birthday, $gender);
+
+        if ($result !== true) {
+            $session = new \Core\Session();
+            $session->flash('error', $result);
+
+            (new Response())->redirect('/register');
+            return;
         }
 
-        (new Response())->redirect('/register');
+        (new Response())->redirect('/');
     }
 
     public function loginHandler(): void {

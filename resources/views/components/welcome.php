@@ -19,28 +19,28 @@ $headTitle = match(true) {
     <p align="center">To register for socialnetwork, just fill in the four fields below. You will have a chance to enter additional information after submission.</p>
     <form action="/signup" method="POST">
         <div>
-            <label>First name:</label>
-            <input type="text" name="firstname" />
+            <label for="first" >First name:</label>
+            <input type="text" id="first" name="firstname" />
         </div>
         <div>
-            <label>Middlename:</label>
-            <input type="text" name="middlename"  placeholder="(optional)" />
+            <label for="middle">Middlename:</label>
+            <input type="text" id="middle" name="middlename" placeholder="(optional)" />
         </div>
         <div>
-            <label>Last name:</label>
-            <input type="text" name="lastname" />
+            <label for="lastname">Last name:</label>
+            <input type="text" id="lastname" name="lastname" />
         </div>
         <div>
-            <label>Email:</label>
-            <input type="email" name="email" placeholder="example@gmail.com" />
+            <label for="email-sign">Email:</label>
+            <input type="email" id="email-sign" name="email" placeholder="example@gmail.com" />
         </div>
         <div>
-            <label>Password:</label>
-            <input type="password" name="password" />
+            <label for="password-sign">Password:</label>
+            <input type="password" id="password-sign" name="password" />
         </div>
         <div>
             <label for="birthday">Birthday:</label>
-            <input type="date" name="birthday" />
+            <input type="date" id="birthday" name="birthday" />
         </div>
         <div class="gender">
             <label>Gender: </label>
