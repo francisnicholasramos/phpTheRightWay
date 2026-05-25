@@ -37,9 +37,9 @@
             <?php if ($existingChatId): ?>
                 <a href="/messages/<?= htmlspecialchars($existingChatId) ?>">Send a message</a>
             <?php else: ?>       
-                <a href="/u/<?= htmlspecialchars($user->username) ?>/photos">View all photos</a>
                 <a href="#" onclick="document.getElementById('chat-window').style.display='flex'">Send a message</a>
             <?php endif; ?>
+                <a href="/u/<?= htmlspecialchars($user->username) ?>/photos">View photos</a>
                 <button id="poke-btn" data-to-user-id="<?= htmlspecialchars($user->id) ?>">Poke!</button>
         </div>
         <?php endif; ?>

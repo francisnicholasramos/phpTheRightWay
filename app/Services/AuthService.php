@@ -64,6 +64,10 @@ class AuthService {
             $counter++;
         }
 
+        if (strlen($password) < 8) {
+            return 'Password must be at least 8 characters.';
+        }
+
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
         return $userModel->createUser([
