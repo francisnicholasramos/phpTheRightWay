@@ -32,7 +32,8 @@ class ProfileController {
         $profile = (new UserProfile())->findByUserId($user->id);
 
         $postModel = new Post();
-        $posts = $postModel->getByUserId($user->id);
+        $currentUserId = AuthService::check() ? AuthService::user()->id : null;
+        $posts = $postModel->getByUserId($user->id, $currentUserId);
 
         $existingChatId = null; // check if this user has already convo with current logged-user 
         $isPending = false; // for the user who triggers the event 
