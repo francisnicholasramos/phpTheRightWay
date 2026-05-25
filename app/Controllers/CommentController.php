@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\AuthService;
-use App\Models\Comment;
+use App\Services\CommentService;
 use Core\Request;
 use Core\Response;
 
@@ -21,20 +21,21 @@ class CommentController {
         $postId = $request->post('post_id');
 
         if (empty($data)) {
-            $session = new \Core\Session();
-            $session->flash('error' , 'You must write something.');
-
-            (new Response())->redirect('/post/' . $postId);
+            (new Response())->json(['error' => 'You must write something.'], 422);
             return;
         }
 
-        $comment = new Comment();
-        $comment->createComment([
-            'user_id' => $user->id,
-            'post_id' => $postId,
-            'content' => $data
-        ]);
+        $comment = new CommentService();
+        $result = $comment->postComment(
+            $user->id,
+            $postId,
+            $data
+        );
 
-        (new Response())->redirect('/post/' . $postId);
+        (new Response())->json([
+            'success' => true,
+            'comment' => $result['comment'],
+            'recipientId' => $result['recipientId']
+        ]);
     }
 }

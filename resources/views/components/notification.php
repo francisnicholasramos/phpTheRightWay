@@ -12,7 +12,7 @@
     <?php else: ?>
     <?php foreach ($notifications as $notification): ?>
         <?php
-            if ($notification['entity_type'] === 'like') {
+            if ($notification['entity_type'] === 'like' || $notification['entity_type'] === 'comment') {
                 $redirectionPage = '/post/' . htmlspecialchars($notification['entity_id']);
             } elseif ($notification['entity_type'] === 'poke' || $notification['entity_type'] === 'friend_request') {
                 $redirectionPage = '/u/' . htmlspecialchars($notification['username']);

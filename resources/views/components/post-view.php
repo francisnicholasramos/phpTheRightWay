@@ -74,7 +74,7 @@
             <?php endforeach; ?>
         </div>
 
-        <form class="comment-form" method="post" action="/postComment">
+        <form id="comment-form" class="comment-form" method="post" action="/postComment">
             <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->id) ?>" />
             <div class="comment-input-wrapper">
                 <div class="comment-avatar">
@@ -92,6 +92,7 @@
 </div>
 
 <script src="/js/likepost.js"></script>
+<script src="/js/post-comment.js"></script>
 <script src="/js/post-photo-bg.js"></script>
 <script>
     const textarea = document.querySelector('.comment-input-wrapper textarea');
