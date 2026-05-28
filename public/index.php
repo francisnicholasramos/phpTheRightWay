@@ -2,8 +2,14 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Dotenv\Dotenv;
 use Core\Router;
 use Core\Session;
+
+if (file_exists(__DIR__ . '/../.env')) {
+    $dotenv = Dotenv::createMutable(__DIR__ . '/..');
+    $dotenv->load();
+}
 
 new Session();
 

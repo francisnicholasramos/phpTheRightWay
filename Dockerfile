@@ -1,7 +1,9 @@
 FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y libpq-dev git curl supervisor && \
-    docker-php-ext-install pdo pdo_pgsql
+    docker-php-ext-install pdo pdo_pgsql && \
+    pecl install igbinary redis && \
+    docker-php-ext-enable igbinary redis
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \

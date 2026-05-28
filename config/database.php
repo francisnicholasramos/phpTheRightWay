@@ -1,15 +1,5 @@
 <?php
 
-require __DIR__. '/../vendor/autoload.php';
-
-use Dotenv\Dotenv;
-
-// load only in local environment
-if (file_exists(__DIR__ . '/../.env')) {
-    $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
-    $dotenv->load();
-}
-
 try {
     $dbhost = $_ENV['DB_HOST'] ?? '';
     $dbname = $_ENV['DB_DATABASE'] ?? '';
