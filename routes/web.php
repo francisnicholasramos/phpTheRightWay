@@ -20,6 +20,7 @@ Router::get('/register', [AuthController::class, 'signUpPage']);
 Router::get('/forgot-password', [AuthController::class, 'forgotPasswordPage']);
 Router::get('/reset-password', [AuthController::class, 'resetPasswordPage']);
 Router::get('/feed', [FeedController::class, 'index'])->middleware('Authenticate');
+Router::get('/feed/more', [FeedController::class, 'loadMore'])->middleware('Authenticate');
 Router::get('/notifications/count', [NotificationController::class, 'countHandler'])->middleware('Authenticate');
 Router::get('/search', [SearchController::class, 'searchHandler'])->middleware('Authenticate');
 Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);

@@ -16,6 +16,7 @@ async function likePost(postId) {
     }
 }
 
-document.querySelectorAll('.feed-action [data-post-id]').forEach(btn => {
-    btn.addEventListener("click", () => likePost(btn.dataset.postId));
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.feed-action button[data-post-id]');
+    if (btn) likePost(btn.dataset.postId);
 });

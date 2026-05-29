@@ -486,6 +486,9 @@
   padding: 5px;
   margin: 5px;
   border: 1px solid #ccc;
+  border-top: none;
+  border-left: none;
+  border-right: none;
   background-color: #fff;
 }
 
@@ -494,6 +497,9 @@
   flex-direction: column;
   margin: 5px;
   border: 1px solid #ccc;
+  border-top: none;
+  border-left: none;
+  border-right: none;
   background-color: #fff;
 }
 
@@ -726,19 +732,20 @@
   color: #999999;
   text-align: center;
   font-style: italic;
+  margin-bottom: 5px;
 }
 
 .comments-section, .comment-form {
   margin: 5px;
 }
 
-.comment-form {
-  padding-bottom: 10px;
-}
-
 .comment-form h3 {
   color: #808080;
   margin-bottom: 5px;
+}
+
+.comment-form textarea {
+  border: 1px solid #d9d9d9;
 }
 
 .comment-item {
@@ -1326,6 +1333,16 @@
 }
 
 .friend-list-item:hover span {
+  text-decoration: underline;
+}
+
+#load-more-posts-btn {
+  border: none;
+  color: #395799;
+}
+
+#load-more-posts-btn:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 

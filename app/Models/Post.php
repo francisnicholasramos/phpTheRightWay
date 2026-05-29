@@ -47,7 +47,7 @@ class Post extends Model {
     /**
      * @return Post[]
      * */
-    public function getAllPosts(?string $currentUserId = null): array {
+    public function getAllPosts(?string $currentUserId = null, int $limit=10, int $offset=0): array {
         $likedByMeExpr = $currentUserId
             ? 'MAX(CASE WHEN likes.user_id = :current_user_id THEN 1 ELSE 0 END) as liked_by_me'
             : '0 as liked_by_me';
@@ -77,7 +77,8 @@ class Post extends Model {
                 GROUP BY post_id
             ) up ON posts.id = up.post_id
             GROUP BY posts.id, u.avatar, u.username, u.first_name, u.middle_name, u.last_name
-            ORDER BY posts.created_at DESC";
+            ORDER BY posts.created_at DESC
+            LIMIT {$limit} OFFSET {$offset}";
 
         if ($currentUserId) {
             $stmt = $this->pdo->prepare($sql);

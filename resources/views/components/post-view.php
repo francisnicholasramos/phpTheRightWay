@@ -85,7 +85,6 @@
             </div>
         </form>
         <?php if (!$comments): ?>
-            <div class="separator"></div>
             <p class="no-comments">No comments yet.</p>
         <?php endif; ?>
     </div>
