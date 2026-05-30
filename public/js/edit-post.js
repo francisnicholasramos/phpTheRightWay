@@ -48,4 +48,22 @@ document.addEventListener('click', function (e) {
   });
 });
 
+// delete post
+document.addEventListener('click', function (e) {
+  if (!e.target.classList.contains('delete-post-btn')) return;
 
+  const postId = e.target.dataset.postId;
+
+  if (!confirm('Delete this post?')) return;
+
+  fetch('/deletePost', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'post_id=' + encodeURIComponent(postId)
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Forbidden');
+    e.target.closest('.feed-item').remove();
+  })
+  .catch(() => alert('Something went wrong.'));
+});

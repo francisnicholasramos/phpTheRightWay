@@ -52,6 +52,7 @@ Router::post('/reset-password', [AuthController::class, 'resetPasswordHandler'])
 Router::post('/createPost', [PostController::class, 'createPostHandler'])->middleware('Authenticate');
 Router::post('/editPost', [PostController::class, 'editPostHandler'])->middleware('Authenticate');
 Router::post('/deletePostPhoto', [PostController::class, 'deletePostPhotoHandler'])->middleware('Authenticate');
+Router::post('/deletePost', [PostController::class, 'deletePostHandler'])->middleware('Authenticate');
 Router::post('/like', [LikeController::class, 'likePostHandler'])->middleware('Authenticate');
 Router::post('/postComment', [CommentController::class, 'postCommentHandler'])->middleware('Authenticate');
 Router::post('/sendMessage', [MessageController::class, 'sendMessageHandler'])->middleware('Authenticate');

@@ -23,6 +23,7 @@
             <button class="options-btn" data-post-id="<?= htmlspecialchars($post->id) ?>">&#8943;</button>
             <div class="options-dropdown" id="dropdown-<?= htmlspecialchars($post->id) ?>">
                 <button class="edit-post-btn" data-post-id="<?= htmlspecialchars($post->id) ?>">Edit</button>
+                <button class="delete-post-btn" data-post-id="<?= htmlspecialchars($post->id) ?>">Delete</button>
             </div>
         </div>
     <?php endif; ?>

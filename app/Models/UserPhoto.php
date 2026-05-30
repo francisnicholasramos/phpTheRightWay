@@ -35,6 +35,15 @@ class UserPhoto extends Model {
         ]);
     }
 
+    public function getByPostId(string $postId): array {
+        $stmt = $this->pdo->prepare("
+            SELECT id, url FROM {$this->table}
+            WHERE post_id = :post_id AND type = 'post'
+        ");
+        $stmt->execute([':post_id' => $postId]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function deleteById(string $photoId, string $userId): ?string {
         $stmt = $this->pdo->prepare("
             DELETE FROM {$this->table}

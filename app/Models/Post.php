@@ -284,4 +284,16 @@ class Post extends Model {
 
         return $posts;
     }
+
+    public function deletePost(string $id, string $user_id): bool {
+        $stmt = $this->pdo->prepare("
+            DELETE from {$this->table} 
+            WHERE id = :id 
+            AND user_id = :user_id
+        ");
+        return $stmt->execute([
+            'id' => $id,
+            'user_id' => $user_id
+        ]);
+    }
 }

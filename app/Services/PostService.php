@@ -74,5 +74,19 @@ class PostService {
         return $this->postModel->updatePost($data);
     }
 
+    public function deletePost(string $id, string $user_id): bool {
+        $owner = $this->postModel->getOwnerId($id);
+
+        if (!$owner || $owner->user_id !== $user_id) return false;
+
+        $photos = (new \App\Models\UserPhoto())->getByPostId($id);
+
+        foreach ($photos as $photo) {
+            (new CloudinaryService())->delete($photo['url']);
+        }
+
+        return $this->postModel->deletePost($id, $user_id);
+    }
+
 }
 

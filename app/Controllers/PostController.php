@@ -105,6 +105,27 @@ class PostController {
         (new Response())->redirect('/feed');
     }
 
+    public function deletePostHandler(): void {
+        if (!AuthService::check()) {
+            (new Response())->json(['message' => 'Forbidden'], 403);
+            return;
+        }
+
+        $request = new Request();
+        $postId  = $request->post('post_id');
+
+        $owner = AuthService::user()->id;
+        $postService = new PostService();
+        $deletePost = $postService->deletePost($postId, $owner);
+
+        if (!$deletePost) {
+            (new Response())->json(['message' => 'Forbidden'], 403);
+            return;
+        }
+
+        (new Response())->redirect('/feed');
+    }
+
     public function deletePostPhotoHandler(): void {
         if (!AuthService::check()) {
             (new Response())->json(['message' => 'Forbidden'], 403);
