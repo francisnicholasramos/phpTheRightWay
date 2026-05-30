@@ -88,14 +88,47 @@ class PostController {
         $data->id      = $postId;
         $data->content = $content;
 
-        $user    = AuthService::user();
-        $success = (new PostService())->editPost($user->id, $data);
+        $user        = AuthService::user();
+        $postService = new PostService();
+        $success     = $postService->editPost($user->id, $data);
 
         if (!$success) {
             (new Response())->json(['message' => 'Forbidden'], 403);
             return;
         }
 
+        $files = $_FILES['images'] ?? [];
+        if (!empty($files['tmp_name'])) {
+            $postService->attachPhotos($user->id, $postId, $files);
+        }
+
         (new Response())->redirect('/feed');
+    }
+
+    public function deletePostPhotoHandler(): void {
+        if (!AuthService::check()) {
+            (new Response())->json(['message' => 'Forbidden'], 403);
+            return;
+        }
+
+        $request = new Request();
+        $photoId = $request->post('photo_id');
+
+        if (empty($photoId)) {
+            (new Response())->json(['message' => 'Missing photo_id'], 422);
+            return;
+        }
+
+        $user = AuthService::user();
+        $url  = (new \App\Models\UserPhoto())->deleteById($photoId, $user->id);
+
+        if (!$url) {
+            (new Response())->json(['message' => 'Not found or forbidden'], 403);
+            return;
+        }
+
+        (new \App\Services\CloudinaryService())->delete($url);
+
+        (new Response())->json(['message' => 'ok']);
     }
 }

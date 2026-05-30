@@ -71,7 +71,7 @@ class Post extends Model {
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
             LEFT JOIN (
-                SELECT post_id, json_agg(url ORDER BY created_at) AS photos
+                SELECT post_id, json_agg(json_build_object('id', id, 'url', url) ORDER BY created_at) AS photos
                 FROM user_photos
                 WHERE type = 'post'
                 GROUP BY post_id
@@ -130,7 +130,7 @@ class Post extends Model {
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
             LEFT JOIN (
-                SELECT post_id, json_agg(url ORDER BY created_at) AS photos
+                SELECT post_id, json_agg(json_build_object('id', id, 'url', url) ORDER BY created_at) AS photos
                 FROM user_photos
                 WHERE type = 'post'
                 GROUP BY post_id
@@ -207,7 +207,7 @@ class Post extends Model {
             JOIN users u ON p.user_id = u.id
             LEFT JOIN likes l ON p.id = l.entity_id AND l.entity_type = 'post'
             LEFT JOIN (
-                SELECT post_id, json_agg(url ORDER BY created_at) AS photos
+                SELECT post_id, json_agg(json_build_object('id', id, 'url', url) ORDER BY created_at) AS photos
                 FROM user_photos
                 WHERE type = 'post'
                 GROUP BY post_id
@@ -256,7 +256,7 @@ class Post extends Model {
             JOIN users u ON posts.user_id = u.id
             LEFT JOIN likes ON posts.id = likes.entity_id AND likes.entity_type = 'post'
             LEFT JOIN (
-                SELECT post_id, json_agg(url ORDER BY created_at) AS photos
+                SELECT post_id, json_agg(json_build_object('id', id, 'url', url) ORDER BY created_at) AS photos
                 FROM user_photos
                 WHERE type = 'post'
                 GROUP BY post_id

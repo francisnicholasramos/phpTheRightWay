@@ -30,4 +30,9 @@ class CloudinaryService {
 
         return $result['secure_url'];
     }
+
+    public function delete(string $url): void {
+        $publicId = preg_replace('/^.+\/upload\/(?:v\d+\/)?(.+)\.[a-z]+$/', '$1', $url);
+        $this->cloudinary->uploadApi()->destroy($publicId);
+    }
 }

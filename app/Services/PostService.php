@@ -11,7 +11,7 @@ class PostService {
         $this->postModel = new Post();
     }
 
-    private function attachPhotos(string $userId, string $postId, array $files): void {
+    public function attachPhotos(string $userId, string $postId, array $files): void {
         $allowedFormat = [
             'image/jpeg', 
             'image/jpg', 

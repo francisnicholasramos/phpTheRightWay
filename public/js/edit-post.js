@@ -30,4 +30,22 @@ document.addEventListener('click', function (e) {
   }
 });
 
+// delete photo in edit mode
+document.addEventListener('click', function (e) {
+  if (!e.target.classList.contains('delete-photo-btn')) return;
+
+  const photoId = e.target.dataset.photoId;
+  const item    = document.querySelector('.edit-photo-item[data-photo-id="' + photoId + '"]');
+
+  fetch('/deletePostPhoto', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'photo_id=' + encodeURIComponent(photoId)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.message === 'ok') item.remove();
+  });
+});
+
 

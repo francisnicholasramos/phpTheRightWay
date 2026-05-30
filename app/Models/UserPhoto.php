@@ -28,10 +28,21 @@ class UserPhoto extends Model {
         ");
 
         return $stmt->execute([
-            ':user_id' => $userId, 
-            ':url' => $url, 
+            ':user_id' => $userId,
+            ':url' => $url,
             ':type' => $type,
             ':post_id' => $postId
         ]);
+    }
+
+    public function deleteById(string $photoId, string $userId): ?string {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM {$this->table}
+            WHERE id = :id AND user_id = :user_id
+            RETURNING url
+        ");
+        $stmt->execute([':id' => $photoId, ':user_id' => $userId]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $row['url'] ?? null;
     }
 }
