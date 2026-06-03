@@ -23,6 +23,7 @@ Router::get('/feed', [FeedController::class, 'index'])->middleware('Authenticate
 Router::get('/feed/more', [FeedController::class, 'loadMore'])->middleware('Authenticate');
 Router::get('/notifications/count', [NotificationController::class, 'countHandler'])->middleware('Authenticate');
 Router::get('/search', [SearchController::class, 'searchHandler'])->middleware('Authenticate');
+Router::get('/search/suggest', [SearchController::class, 'suggestHandler'])->middleware('Authenticate');
 Router::get('/u/{username}', [ProfileController::class, 'viewProfile']);
 Router::get('/u/{username}/friends', [FriendController::class, 'friendList'])->middleware('Authenticate');
 Router::get('/u/{username}/photos', [PhotoController::class, 'photoList'])->middleware('Authenticate');

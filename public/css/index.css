@@ -11,6 +11,11 @@
   scrollbar-width: none;
 }
 
+#search-suggestions {
+  list-style-type: none;
+  padding: 0;
+}
+
 .main-content::-webkit-scrollbar {
   display: none;
 }
